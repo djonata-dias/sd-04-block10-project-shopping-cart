@@ -38,7 +38,7 @@ plugins:
   editorconfig:
     enabled: true
   eslint:
-    enabled: false
+    enabled: true
     checks:
       no-undef:
         enabled: false
