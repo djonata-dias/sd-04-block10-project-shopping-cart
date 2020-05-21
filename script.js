@@ -1,4 +1,20 @@
-window.onload = function onload() { };
+//window.onload = function onload() { };
+
+function buscarElemento(chave) {
+  let product = {};
+  fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${chave}`)
+    .then(response => response.json())
+    .then(data => data.results.map((elem) => {
+      product.sku = elem.id;
+      product.name = elem.title;
+      product.salePrice = elem.price;
+      product.image = elem.thumbnail;
+    }))
+    .catch(console.error)
+  return product
+}
+
+console.log(buscarElemento('motorola'))
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -41,3 +57,6 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+
+// criando a chamada do função que busca o elemento.
+
