@@ -14,9 +14,9 @@ let SHOPPING_CART_ARRAY = getShoppingCartLocalStorage() || [];
 function getShoppingCartLocalStorage() {
   const shoppingCart = JSON.parse(localStorage.getItem('SHOPPING_CART'));
 
-  const items = shoppingCart.map((item) => createCartItemElement(item));
+  const items = shoppingCart.map(item => createCartItemElement(item));
   setTimeout(() => {
-    items.forEach((item) => {
+    items.forEach(item => {
       const cart = document.getElementById('cart');
       cart.appendChild(item);
     });
@@ -62,7 +62,7 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(
-    createCustomButton(sku, 'item__add', 'Adicionar ao carrinho!')
+    createCustomButton(sku, 'item__add', 'Adicionar ao carrinho!'),
   );
 
   return section;
@@ -76,7 +76,7 @@ async function cartItemClickListener(event) {
   const cartElement = document.querySelector('ol.cart__items');
   cartElement.removeChild(event.target);
   const newShoppingArray = SHOPPING_CART_ARRAY.filter(
-    (item) => event.target.id !== item.sku
+    item => event.target.id !== item.sku,
   );
   SHOPPING_CART_ARRAY = newShoppingArray;
 
@@ -101,9 +101,9 @@ async function fetchAPI(url) {
 
 async function listItems() {
   const items = await fetchAPI(
-    'https://api.mercadolibre.com/sites/MLB/search?q=computador'
+    'https://api.mercadolibre.com/sites/MLB/search?q=computador',
   );
-  const formattedItems = items.results.map((item) => ({
+  const formattedItems = items.results.map(item => ({
     sku: item.id,
     name: item.title,
     image: item.thumbnail,
@@ -112,7 +112,7 @@ async function listItems() {
   const sectionItems = document.getElementsByClassName('items')[0];
   sectionItems.innerHTML = '';
 
-  formattedItems.forEach((formattedItem) => {
+  formattedItems.forEach(formattedItem => {
     const sectionItem = createProductItemElement(formattedItem);
     sectionItems.appendChild(sectionItem);
   });
@@ -122,11 +122,11 @@ function handleButton(event) {
   addItemToCart(event.target.id);
 }
 
-async function updateTotalPrice(item, add = true) {
+async function updateTotalPrice() {
   const totalPriceElement = document.getElementById('total-price');
   const total = SHOPPING_CART_ARRAY.reduce(
     (acc, item) => acc + item.salePrice,
-    0
+    0,
   );
   totalPriceElement.innerText = total.toFixed(2);
 }
