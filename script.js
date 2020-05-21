@@ -1,4 +1,3 @@
-/* eslint-disable arrow-parens */
 window.onload = function onload() {};
 const queryButton = document.querySelector('.query-button');
 const mainSection = document.querySelector('.items');
