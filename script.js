@@ -18,7 +18,7 @@ async function fetchAPI(url) {
   return responseJSON;
 }
 
-function getShoppingCartLocalStorage(){
+function getShoppingCartLocalStorage() {
   const shoppingCart = JSON.parse(localStorage.getItem('SHOPPING_CART'));
 
   return shoppingCart;
