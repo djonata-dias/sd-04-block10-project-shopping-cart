@@ -1,3 +1,11 @@
+window.onload = function onload() {
+  const query = 'computador';
+  fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${query}`)
+  .then(data => data.json())
+  .then(dadosEmFormatoJson => tratarRetornoDaApi(dadosEmFormatoJson.results))
+  .catch(error => console.log(error));
+};
+
 function tratarRetornoDaApi(dados) {
   dados.map(product => document.getElementsByClassName('items')[0]
   .appendChild(createProductItemElement({
@@ -7,14 +15,6 @@ function tratarRetornoDaApi(dados) {
   })));
 }
 
-window.onload = function onload() {
-  let query = 'computador';
-  
-  fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${query}`)
-  .then((data) => data.json())
-  .then((dadosEmFormatoJson) => tratarRetornoDaApi(dadosEmFormatoJson.results))
-  .catch((error) => console.log(error));
-};
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
