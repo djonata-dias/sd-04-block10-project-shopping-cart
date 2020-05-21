@@ -36,7 +36,7 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createProductImageElement(image));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
 
-  return mainSection.appendChild(section);
+  return section;
 }
 
 const productsFetch = () => {
@@ -45,7 +45,7 @@ const productsFetch = () => {
     .then(data => data.json())
     .then(json => json.results)
     .then(products => productInfo(products)
-      .forEach(product => createProductItemElement(product)));
+      .forEach(product => mainSection.appendChild(createProductItemElement(product))));
 };
 productsFetch();
 queryButton.addEventListener('click', () => productsFetch());
