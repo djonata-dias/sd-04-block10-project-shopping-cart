@@ -55,16 +55,14 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-const pegaObjetaoEItera = (obj) => {
-  obj.forEach((prod) => {
-    const { id: sku, title: name, thumbnail: image } = prod;
-    secItems.append(createProductItemElement({ sku, name, image }));
-  });
-};
-
 window.onload = function onload() {
   fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
   .then(responsta => responsta.json())
-  .then(json => pegaObjetaoEItera(json.results))
+  .then((json) => {
+    json.results.forEach(prod => {
+      const { id: sku, title: name, thumbnail: image } = prod;
+      secItems.append(createProductItemElement({ sku, name, image }));
+    });
+  })
   .catch(error => console.log(error));
 };
