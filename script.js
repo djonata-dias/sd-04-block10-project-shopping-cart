@@ -50,7 +50,10 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  if (localStorage.products) {
+  element = event.target;
+  if (element) {
+    element.parentNode.removeChild(element);
+
     const products = JSON.parse(localStorage.getItem('products'));
     const ProductId = products.findIndex(product => product.id === event.target.id);
     const filteredProducts = products.slice(0, ProductId)
@@ -58,10 +61,8 @@ function cartItemClickListener(event) {
     localStorage.setItem('products', JSON.stringify(filteredProducts));
     asyncSum();
 
-    element = event.target;
-    element.parentNode.removeChild(element);
   } else {
-    console.log('Sem localStorage.products');
+    console.log('Sem produtos para remover');
   }
 }
 
