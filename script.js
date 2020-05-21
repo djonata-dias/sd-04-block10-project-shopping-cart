@@ -111,10 +111,10 @@ function createProductItemElement({ id = 'teste', title = 'teste', thumbnail = '
 
 const appendToItems = (data) => {
   const items = document.querySelector('.items');
-  data.results.forEach(product => {
+  data.results.forEach((product) => {
     items.appendChild(createProductItemElement(product));
   });
-}
+};
 
 window.onload = () => {
   const cart = document.querySelector('.cart__items');
