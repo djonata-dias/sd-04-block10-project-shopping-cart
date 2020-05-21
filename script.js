@@ -1,5 +1,4 @@
 /* eslint-disable arrow-parens */
-const queryButton = document.querySelector('.query-button');
 const mainSection = document.querySelector('.items');
 
 const productInfo = products => products
