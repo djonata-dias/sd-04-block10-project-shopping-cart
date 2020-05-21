@@ -4,16 +4,16 @@ window.onload = function onload() {
   .then(data => data.json())
   .then(dadosEmFormatoJson => tratarRetornoDaApi(dadosEmFormatoJson.results))
   .catch(error => console.log(error));
+  function tratarRetornoDaApi(dados) {
+    dados.map(product => document.getElementsByClassName('items')[0]
+    .appendChild(createProductItemElement({
+      sku: product.id,
+      name: product.title,
+      image: product.thumbnail,
+    })));
+  };
 };
 
-function tratarRetornoDaApi(dados) {
-  dados.map(product => document.getElementsByClassName('items')[0]
-  .appendChild(createProductItemElement({
-    sku: product.id,
-    name: product.title,
-    image: product.thumbnail,
-  })));
-}
 
 
 function createProductImageElement(imageSource) {
