@@ -1,23 +1,6 @@
 const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
 const myObj = { method: 'GET' };
-
-const creatList = (dados) => {
-  const arrayList = [];
-  dados.results.forEach((element) => {
-    arrayList.push(element);
-  });
-  //  console.log(arrayList)
-  const arrayProducts = [];
-  arrayList.forEach((e) => {
-    arrayProducts.push({
-      ski: e.id,
-      name: e.title,
-      image: e.thumbnail,
-    });
-    console.log(arrayProducts);
-  });
-  return arrayProducts;
-};
+const sectionItems = document.getElementsByClassName('items');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -61,9 +44,33 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
+const createList = (dados) => {
+  const arrayList = [];
+  dados.results.forEach((element) => {
+    arrayList.push(element);
+  });
+  //  console.log(arrayList)
+  const arrayProducts = [];
+  arrayList.forEach((e) => {
+    arrayProducts.push({
+      ski: e.id,
+      name: e.title,
+      image: e.thumbnail,
+    });
+    //  console.log(arrayProducts);
+  });
+  return arrayProducts;
+};
+
+const printList = arr => {
+  arr.forEach((e) => {sectionItems.appendChild(createProductItemElement(e));
+  })
+}
+
+
 window.onload = function onload() {
   fetch(API_URL, myObj)
     .then(data => data.json())
-    .then(dados => creatList(dados))
+    .then(dados => createList(dados))
     .catch(error => console.log(error));
 };
