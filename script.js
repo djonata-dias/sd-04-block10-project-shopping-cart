@@ -5,8 +5,13 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
-function createCustomElement(element, className, innerText) {
+function createCustomElement(element, className, innerText, id = null) {
   const e = document.createElement(element);
+  if (element === 'button') {
+    e.addEventListener('click', () => {
+      addToCart(id);
+    }); // added this line
+  }
   e.className = className;
   e.innerText = innerText;
   return e;
@@ -15,14 +20,12 @@ function createCustomElement(element, className, innerText) {
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
-
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(
-    createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'),
+    createCustomElement('button', 'item__add', 'Adicionar ao carrinho!', sku),
   );
-
   return section;
 }
 
@@ -42,14 +45,14 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-const listItems = (array) => {
+function listItems(array) {
   const sectionItems = document.querySelector('section.items');
   array.forEach((computerObj) => {
     const { id: sku, title: name, thumbnail: image } = computerObj;
     const newObj = { sku, name, image };
     sectionItems.appendChild(createProductItemElement(newObj));
   });
-};
+}
 
 const fetchList = () => {
   const myObj = {
@@ -60,6 +63,19 @@ const fetchList = () => {
     .then(response => response.json())
     .then(data => data.results)
     .then(listItems);
+};
+
+function addToCartObj(obj) {
+  const { id: sku, title: name, price: salePrice } = obj;
+  console.log({ sku, name, salePrice });
+  return { sku, name, salePrice };
+}
+
+function addToCart(id) {
+  fetch(`https://api.mercadolibre.com/items/${id}`)
+    .then(response => response.json())
+    .then(data => data)
+    .then(addToCartObj);
 };
 
 window.onload = function onload() {
