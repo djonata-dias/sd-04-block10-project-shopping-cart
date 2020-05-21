@@ -157,7 +157,6 @@ window.onload = function onload() {
   insertShoppingCart();
   const clearButton = document.getElementById('empty-cart');
   clearButton.addEventListener('click', clearCart);
-
   const loading = document.createElement('p');
   loading.className = 'loading';
   loading.innerHTML = 'loading...';
