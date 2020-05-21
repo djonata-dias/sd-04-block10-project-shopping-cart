@@ -42,9 +42,9 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-const listItems = array => {
+const listItems = (array) => {
   const sectionItems = document.querySelector('section.items');
-  array.forEach(computerObj => {
+  array.forEach((computerObj) => {
     const { id: sku, title: name, thumbnail: image } = computerObj;
     const newObj = { sku, name, image };
     sectionItems.appendChild(createProductItemElement(newObj));
