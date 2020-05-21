@@ -24,8 +24,7 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
+function cartItemClickListener(event) {
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -37,7 +36,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-function cartItemClickListener(event) {
+function getSkuFromProductItem(event) {
   const eventPai = event.target.parentNode;
   const numeroSku = eventPai.children[0].innerText;
   fetch(`https://api.mercadolibre.com/items/${numeroSku}`)
@@ -62,7 +61,7 @@ function buscarElemento(result) {
     return product;
   });
   const clickCart = document.querySelectorAll('.item__add');
-  clickCart.forEach(index => index.addEventListener('click', event => cartItemClickListener(event)));
+  clickCart.forEach(index => index.addEventListener('click', event => getSkuFromProductItem(event)));
 }
 
 window.onload = function onload() {
