@@ -1,5 +1,5 @@
 const secItems = document.querySelector('.items'); // Manipula section items.
-const API_END = "https://api.mercadolibre.com/sites/MLB/search?q=computador"; 
+const API_END = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -44,8 +44,8 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 const pegaObjetaoEItera = (obj) => {
-  obj.forEach(prod => {
-    const { id:sku, title:name, thumbnail:image } = prod;
+  obj.forEach((prod) => {
+    const { id :sku, title :name, thumbnail :image } = prod;
     secItems.append(createProductItemElement({ sku, name, image }));
   });
 };
