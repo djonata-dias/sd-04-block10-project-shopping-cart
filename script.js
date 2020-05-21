@@ -38,6 +38,8 @@ async function produtItemCLickListener(event) {
     const jsonResult = await fetched.json();
     await cartList.appendChild(
       getElementWithCallback(jsonResult, createCartItemElement));
+  } catch {
+
   }
 }
 
@@ -71,5 +73,7 @@ window.onload = async () => {
     await jsonResult.results.forEach((product) =>
       itemsList.appendChild(getElementWithCallback(product, createProductItemElement))
     );
+  } catch {
+    
   }
 };
