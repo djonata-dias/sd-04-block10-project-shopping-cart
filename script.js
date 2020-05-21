@@ -68,7 +68,7 @@ function createProductItemElement({ sku, name, image }) {
 
 // function getSkuFromProductItem(item) {
 //   return item.querySelector('span.item__sku').innerText;
-// }
+// }Bora cypress
 
 const clearCart = () => {
   document.querySelector('.empty-cart').addEventListener('click', () => {
