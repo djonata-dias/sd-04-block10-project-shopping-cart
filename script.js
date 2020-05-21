@@ -47,7 +47,7 @@ const productsFetch = () => {
     .then(products => productInfo(products)
       .forEach(product => createProductItemElement(product)));
 };
-
+productsFetch();
 queryButton.addEventListener('click', () => productsFetch());
 
 
