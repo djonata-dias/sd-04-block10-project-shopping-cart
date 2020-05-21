@@ -1,7 +1,7 @@
 window.onload = function onload() {
   const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   fetch(API_URL)
-  .then(resultado => resultado.json())
+  .then(resultado => resultado.json());
   // console.log(resultado);
 };
 
