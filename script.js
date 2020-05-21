@@ -1,3 +1,5 @@
+// Boraaaaaaaaaaaaaaaaaa
+
 window.onload = function onload() { };
 
 function createProductImageElement(imageSource) {
