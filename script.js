@@ -1,8 +1,19 @@
+function tratarRetornoDaApi(dados) {
+  dados.map(product => document.getElementsByClassName('items')[0]
+  .appendChild(createProductItemElement({
+    sku: product.id,
+    name: product.title,
+    image: product.thumbnail,
+  })));
+}
+
 window.onload = function onload() {
-  const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
-  fetch(API_URL)
-  .then(resultado => resultado.json());
-  // console.log(resultado);
+  let query = 'computador';
+  
+  fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${query}`)
+  .then((data) => data.json())
+  .then((dadosEmFormatoJson) => tratarRetornoDaApi(dadosEmFormatoJson.results))
+  .catch((error) => console.log(error));
 };
 
 function createProductImageElement(imageSource) {
