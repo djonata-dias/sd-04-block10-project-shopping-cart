@@ -1,4 +1,26 @@
-window.onload = function onload() { };
+window.onload = function onload() {
+// ### Fetch para buscar informações na API do mercadolivre
+const $QUERY = 'computador'; // Variavel para buscar produto, que no futuro pode ser um input.
+const URL_TO_FETCH = `https://api.mercadolibre.com/sites/MLB/search?q=${$QUERY}`; // constante com api de busca de produtos
+fetch(URL_TO_FETCH) // Busca os produtos e retorna uma promise.
+  .then(response => response.json()) // Pega o retorno da API e transforma em um JSON
+  .then(data => productInfo(data.results)); // coleta dentro do json a chave result, contendo id, title e thumbnail.
+                                           //  Executa a função, productInfo.
+
+// ### Gera os displays, com os produtos.
+const productInfo = (productArray) => {
+  const items = document.getElementsByClassName('items');
+  console.log(items);
+
+  productArray.forEach((product) => {
+    const { id, title, thumbnail } = product;
+    const item = {
+      sku: id,
+      name: title,
+      image: thumbnail,
+    };
+    items[0].appendChild(createProductItemElement(item));
+})};
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -30,8 +52,9 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -41,3 +64,4 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+};
