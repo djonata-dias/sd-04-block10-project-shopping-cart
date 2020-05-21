@@ -1,4 +1,4 @@
-const getProductsFromLocalStorage = () => JSON.parse(localStorage.getItem('products'))
+const getProductsFromLocalStorage = () => JSON.parse(localStorage.getItem('products'));
 
 const sumCartPrices = () =>
   new Promise((resolve, reject) => {
@@ -15,8 +15,7 @@ const displaySum = (sum) => {
     if (sum) {
       prices.innerText = sum;
       resolve();
-    }
-    else {
+    } else {
       prices.innerText = 0.00;
       reject('Deu ruim não tinha soma dos preços');
     }
@@ -33,7 +32,7 @@ const asyncSum = async () => {
 };
 
 const clearCart = () => {
-  let cart = document.querySelector('.cart__items');
+  const cart = document.querySelector('.cart__items');
   cart.innerHTML = '';
   localStorage.setItem('products', JSON.stringify([]));
   asyncSum();
@@ -44,6 +43,19 @@ function createProductImageElement(imageSource) {
   img.className = 'item__image';
   img.src = imageSource;
   return img;
+}
+
+function getSkuFromProductItem(item) {
+  return item.querySelector('span.item__sku').innerText;
+}
+
+function createCartItemElement({ id, title, price }) {
+  const li = document.createElement('li');
+  li.id = id;
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${id} | NAME: ${title} | PRICE: $${price}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
 }
 
 function createCustomElement(element, className, innerText) {
@@ -81,10 +93,6 @@ function createProductItemElement({ id = 'teste', title = 'teste', thumbnail = '
   return section;
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
-
 function cartItemClickListener(event) {
   const products = JSON.parse(localStorage.getItem('products'));
   const ProductId = products.findIndex(product => product.id === event.target.id);
@@ -95,15 +103,6 @@ function cartItemClickListener(event) {
 
   element = event.target;
   element.parentNode.removeChild(element);
-}
-
-function createCartItemElement({ id, title, price }) {
-  const li = document.createElement('li');
-  li.id = id;
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${id} | NAME: ${title} | PRICE: $${price}`;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
 }
 
 window.onload = () => {
