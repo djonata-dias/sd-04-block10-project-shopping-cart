@@ -59,7 +59,7 @@ window.onload = function onload() {
   fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
   .then(responsta => responsta.json())
   .then((json) => {
-    json.results.forEach(prod => {
+    json.results.forEach((prod) => {
       const { id: sku, title: name, thumbnail: image } = prod;
       secItems.append(createProductItemElement({ sku, name, image }));
     });
