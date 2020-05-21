@@ -60,7 +60,7 @@ function cartItemClickListener(event) {
 
     element = event.target;
     element.parentNode.removeChild(element);
-  } else{
+  } else {
     console.log('Sem localStorage.products');
   }
 }
