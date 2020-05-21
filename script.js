@@ -1,3 +1,4 @@
+/* eslint-disable arrow-parens */
 window.onload = function onload() {};
 const queryButton = document.querySelector('.query-button');
 const mainSection = document.querySelector('.items');
@@ -33,9 +34,7 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
-  section.appendChild(
-    createCustomElement('button', 'item__add', 'Adicionar ao carrinho!')
-  );
+  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
 
   return mainSection.appendChild(section);
 }
@@ -46,7 +45,7 @@ const productsFetch = () => {
     .then(data => data.json())
     .then(json => json.results)
     .then(products => productInfo(products)
-      .forEach((product) => createProductItemElement(product)));
+      .forEach(product => createProductItemElement(product)));
 };
 
 queryButton.addEventListener('click', () => console.log(productsFetch()));
