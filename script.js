@@ -37,7 +37,7 @@ async function updateTotalPrice() {
     (acc, item) => acc + item.salePrice,
     0,
   );
-  totalPriceElement.innerText = total.toFixed(2);
+  totalPriceElement.innerText = total;
 }
 
 async function cartItemClickListener(event) {
