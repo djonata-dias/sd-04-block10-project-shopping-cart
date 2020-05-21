@@ -5,6 +5,12 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+function addToCartObj(obj) {
+  const { id: sku, title: name, price: salePrice } = obj;
+  console.log({ sku, name, salePrice });
+  return { sku, name, salePrice };
+}
+
 function addToCart(id) {
   fetch(`https://api.mercadolibre.com/items/${id}`)
     .then(response => response.json())
@@ -71,12 +77,6 @@ const fetchList = () => {
     .then(data => data.results)
     .then(listItems);
 };
-
-function addToCartObj(obj) {
-  const { id: sku, title: name, price: salePrice } = obj;
-  console.log({ sku, name, salePrice });
-  return { sku, name, salePrice };
-}
 
 window.onload = function onload() {
   fetchList();
