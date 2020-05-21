@@ -38,17 +38,14 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-const productsFetch = () => {
+
+window.onload = function onload() {
   const queryInput = document.querySelector('.query-input').value;
   return fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${queryInput}`)
     .then(data => data.json())
     .then(json => json.results)
     .then(products => productInfo(products)
       .forEach(product => mainSection.appendChild(createProductItemElement(product))));
-};
-window.onload = function onload() {
-  productsFetch();
-  queryButton.addEventListener('click', () => productsFetch());
 };
 
 
