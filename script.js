@@ -1,3 +1,4 @@
+/* eslint-disable arrow-parens */
 window.onload = function onload() {};
 const queryButton = document.querySelector('.query-button');
 const mainSection = document.querySelector('.items');
@@ -47,7 +48,7 @@ const productsFetch = () => {
       .forEach(product => createProductItemElement(product)));
 };
 
-queryButton.addEventListener('click', () => console.log(productsFetch()));
+queryButton.addEventListener('click', () => productsFetch());
 
 
 // function getSkuFromProductItem(item) {
