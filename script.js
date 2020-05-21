@@ -78,5 +78,4 @@ window.onload = async function onload() {
     const itemAdded = await createCartItemElement(clickado);
     await cartItems.appendChild(itemAdded);
   }));
-  // cartItems.addEventListener('click', cartItemClickListener);
 };
