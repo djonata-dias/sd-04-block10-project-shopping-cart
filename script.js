@@ -1,5 +1,7 @@
 window.onload = function onload() { };
 
+const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -31,7 +33,7 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  // coloque seu código aqui blz
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
