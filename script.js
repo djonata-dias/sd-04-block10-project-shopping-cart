@@ -66,8 +66,6 @@ const printList = array => array.forEach((e) => {
   sectionItems.appendChild(createProductItemElement(e));
 });
 
-
-
 window.onload = function onload() {
   fetch(API_URL, myObj)
     .then(data => data.json())
