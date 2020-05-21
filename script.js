@@ -49,6 +49,18 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+function cartItemClickListener(event) {
+  const products = JSON.parse(localStorage.getItem('products'));
+  const ProductId = products.findIndex(product => product.id === event.target.id);
+  const filteredProducts = products.slice(0, ProductId)
+    .concat(products.slice(ProductId + 1, products.lenght));
+  localStorage.setItem('products', JSON.stringify(filteredProducts));
+  asyncSum();
+
+  element = event.target;
+  element.parentNode.removeChild(element);
+}
+
 function createCartItemElement({ id, title, price }) {
   const li = document.createElement('li');
   li.id = id;
@@ -91,18 +103,6 @@ function createProductItemElement({ id = 'teste', title = 'teste', thumbnail = '
   section.appendChild(createProductImageElement(thumbnail));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
   return section;
-}
-
-function cartItemClickListener(event) {
-  const products = JSON.parse(localStorage.getItem('products'));
-  const ProductId = products.findIndex(product => product.id === event.target.id);
-  const filteredProducts = products.slice(0, ProductId)
-    .concat(products.slice(ProductId + 1, products.lenght));
-  localStorage.setItem('products', JSON.stringify(filteredProducts));
-  asyncSum();
-
-  element = event.target;
-  element.parentNode.removeChild(element);
 }
 
 window.onload = () => {
