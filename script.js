@@ -39,6 +39,16 @@ function cartItemClickListener(event) {
   // coloque seu código aqui
 }
 
+const addToCart = (e) => {
+  const code = event.target.parentNode.firstChild.innerText;
+  fetch(`https://api.mercadolibre.com/items/${code}`)
+  .then(responsta => responsta.json())
+  .then(({ id, title, thumbnail }) => {
+    carrinho.append(createCartItemElement({ sku: id, name: title, image: thumbnail }));
+  })
+  .catch(error => console.log(error));
+};
+
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -46,17 +56,6 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
-
-const addToCart = (e) => {
-  const id = event.target.parentNode.firstChild.innerText;
-  apiItem = `https://api.mercadolibre.com/items/${id}`;
-  fetch(apiItem)
-  .then((responsta) => responsta.json())
-  .then(({ id, title, thumbnail }) => {
-    carrinho.append(createCartItemElement({ sku: id, name: title, image: thumbnail }));
-  })
-  .catch((error) => console.log(error));
-};
 
 const pegaObjetaoEItera = (obj) => {
   obj.forEach(({ id, title, thumbnail }) => {
