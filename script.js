@@ -76,7 +76,7 @@ function addToCart(id) {
     .then(response => response.json())
     .then(data => data)
     .then(addToCartObj);
-};
+}
 
 window.onload = function onload() {
   fetchList();
