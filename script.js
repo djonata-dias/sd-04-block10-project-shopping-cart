@@ -45,7 +45,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 const pegaObjetaoEItera = (obj) => {
   obj.forEach((prod) => {
-    const { id :sku, title :name, thumbnail :image } = prod;
+    const { id: sku, title: name, thumbnail: image } = prod;
     secItems.append(createProductItemElement({ sku, name, image }));
   });
 };
