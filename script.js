@@ -21,10 +21,10 @@ async function fetchAPI(url) {
 function getShoppingCartLocalStorage() {
   const shoppingCart = JSON.parse(localStorage.getItem('SHOPPING_CART'));
 
-  return shoppingCart;
+  return shoppingCart || [];
 }
 
-let SHOPPING_CART_ARRAY = getShoppingCartLocalStorage() || [];
+let SHOPPING_CART_ARRAY = getShoppingCartLocalStorage();
 
 function updateShoppingCartLocalStorage() {
   console.log(SHOPPING_CART_ARRAY);
