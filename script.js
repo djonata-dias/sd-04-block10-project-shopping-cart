@@ -51,6 +51,17 @@ const listItems = (array) => {
   });
 };
 
+const fetchList = () => {
+  const myObj = {
+    method: 'GET',
+    headers: { Accept: 'application/json' },
+  };
+  fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador', myObj)
+    .then((response) => response.json())
+    .then((data) => data.results)
+    .then(listItems);
+};
+
 window.onload = function onload() {
   fetchList();
 };
