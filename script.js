@@ -56,7 +56,7 @@ function buscarElemento(result) {
 }
 
 window.onload = function onload() {
-  fetch(`https://api.mercadolibre.com/sites/MLB/search?q=computador`)
+  fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
     .then(response => response.json())
     .then(data => buscarElemento(data.results))
     .catch(console.error);
