@@ -60,6 +60,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener("click", cartItemClickListener);
   return li;
 }
+<<<<<<< HEAD
 
 window.onload = function onload() {
   fetch(API_URL, myObj)
@@ -67,3 +68,5 @@ window.onload = function onload() {
     .then((dados) => creatList(dados))
     .catch((error) => console.log(error));
 };
+=======
+>>>>>>> e30d22594af86155ae51f19674609fe5f911b02e
