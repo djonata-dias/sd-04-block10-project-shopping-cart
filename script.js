@@ -41,12 +41,12 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 const trataDadosJson = (data) => {
-  data.results.forEach(product => {
+  data.results.forEach((product) => {
     const sku = product.id;
     const name = product.title;
     const image = product.thumbnail;
-    const ol = document.querySelector('.cart__items');
-    ol.appendChild(createProductItemElement({sku, name, image}));
+    const ol = document.querySelector('.items');
+    ol.appendChild(createProductItemElement({ sku, name, image }));
   });
   // const obj = {
   //   sku: data.results[0].id,
@@ -63,5 +63,5 @@ window.onload = function onload() {
   fetch(API_URL)
     .then(data => data.json())
     .then(dataJson => trataDadosJson(dataJson))
-    .catch((error) => console.log(error));
+    .catch(error => console.log(error));
 };
