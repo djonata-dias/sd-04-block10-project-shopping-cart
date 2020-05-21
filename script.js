@@ -28,6 +28,7 @@ const getProductsFromLocalStorage = () => JSON.parse(localStorage.getItem('produ
 const clearCart = (cart) => {
   cart.innerHTML = ''
   localStorage.setItem("products", JSON.stringify([]));
+  asyncSum();
 }
 
 function createProductImageElement(imageSource) {
@@ -55,6 +56,7 @@ function createCustomElement(element, className, innerText) {
           products.push({ id, title, price });
           localStorage.setItem('products', JSON.stringify(products));
         })
+        .then(() => asyncSum());
     })
   }
   return e;
@@ -111,11 +113,11 @@ const displaySum = (sum) => {
   const prices = document.querySelector('.total-price')
   return new Promise((resolve,reject) => {
     if(sum){
-      prices.innerText = `R$: ${sum}`
+      prices.innerText = sum
       resolve()
     }
     else{
-      prices.innerText = `R$: 0.00`
+      prices.innerText = 0.00
       reject("Deu ruim não tinha soma dos preços")
     }
   })
@@ -125,9 +127,8 @@ const displaySum = (sum) => {
 const asyncSum = async () => {
   try{
     const sumCartPricesResponse = await sumCartPrices()
-    console.log(sumCartPricesResponse)
     const displaySumResponde = await displaySum(sumCartPricesResponse);
   } catch(erro){
-    console.log(erro)
+    console.log(erro);
   }
 }
