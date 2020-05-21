@@ -1,20 +1,25 @@
-//window.onload = function onload() { };
+window.onload = function onload() {
+  createProductItemElement(produtos)
+};
 
 function buscarElemento(chave) {
-  let product = {};
+  let product = {sku: [], name: [], salePrice: [], image: []};
+  let [sku, name, salePrice, image] = [];
   fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${chave}`)
     .then(response => response.json())
     .then(data => data.results.map((elem) => {
-      product.sku = elem.id;
-      product.name = elem.title;
-      product.salePrice = elem.price;
-      product.image = elem.thumbnail;
-    }))
+      product.sku.push(elem.id);
+      product.name.push(elem.title);
+      product.salePrice.push(elem.price);
+      product.image.push(elem.thumbnail);
+      }))
     .catch(console.error)
   return product
 }
 
-console.log(buscarElemento('motorola'))
+const produtos = buscarElemento('computador');
+
+
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
