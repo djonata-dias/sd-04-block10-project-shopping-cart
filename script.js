@@ -28,11 +28,12 @@ function cartItemClickListener(event) {
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
+  const ol = document.getElementsByClassName('cart__items')[0];
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
-  console.log(li);
+  ol.appendChild(li);
   return li;
 }
 
