@@ -31,8 +31,8 @@ const addToCart = (e) => {
   const code = event.target.parentNode.firstChild.innerText;
   fetch(`https://api.mercadolibre.com/items/${code}`)
   .then(responsta => responsta.json())
-  .then(({ id, title, thumbnail }) => {
-    carrinho.append(createCartItemElement({ sku: id, name: title, image: thumbnail }));
+  .then(({ id, title, price }) => {
+    carrinho.append(createCartItemElement({ sku: id, name: title, salePrice: price }));
   })
   .catch(error => console.log(error));
 };
