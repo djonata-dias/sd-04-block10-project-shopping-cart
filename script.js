@@ -117,7 +117,7 @@ window.onload = () => {
 
   fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
     .then(object => object.json())
-    .then(data => data.results.forEach(product => {
+    .then((data) => data.results.forEach(product => {
       items.appendChild(createProductItemElement({
         sku: product.id,
         name: product.title,
