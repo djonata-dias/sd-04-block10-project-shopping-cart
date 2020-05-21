@@ -71,9 +71,9 @@ window.onload = async () => {
   try {
     const fetched = await fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador');
     const jsonResult = await fetched.json();
-    await jsonResult.results.forEach(product => {
-      itemsList.appendChild(getElementWithCallback(product, createProductItemElement))
-    })
+    await jsonResult.results.forEach((product) => {
+      itemsList.appendChild(getElementWithCallback(product, createProductItemElement));
+    });
   } catch (error) {
     console.log(error);
   }
