@@ -53,14 +53,12 @@ function cartItemClickListener(event) {
   element = event.target;
   if (element) {
     element.parentNode.removeChild(element);
-
     const products = JSON.parse(localStorage.getItem('products'));
     const ProductId = products.findIndex(product => product.id === event.target.id);
     const filteredProducts = products.slice(0, ProductId)
       .concat(products.slice(ProductId + 1, products.lenght));
     localStorage.setItem('products', JSON.stringify(filteredProducts));
     asyncSum();
-
   } else {
     console.log('Sem produtos para remover');
   }
