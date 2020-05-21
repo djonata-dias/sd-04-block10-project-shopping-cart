@@ -28,25 +28,25 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-function cartItemClickListener(event) {
-  const eventPai = event.target.parentNode;
-  const numeroSku = eventPai.children[0].innerText;
-  fetch(`https://api.mercadolibre.com/items/${numeroSku}`)
-  .then(resolve => resolve.json())
-  .then(data => {
-    const parameter = { sku: data.id, name: data.title, salePrice: data.price};
-    createCartItemElement(parameter)
-  })
-  console.log(eventPai)
-}
-
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
-  console.log(li)
+  console.log(li);
   return li;
+}
+
+function cartItemClickListener(event) {
+  const eventPai = event.target.parentNode;
+  const numeroSku = eventPai.children[0].innerText;
+  fetch(`https://api.mercadolibre.com/items/${numeroSku}`)
+  .then(resolve => resolve.json())
+  .then((data) => {
+    const parameter = { sku: data.id, name: data.title, salePrice: data.price };
+    createCartItemElement(parameter);
+  });
+  console.log(eventPai);
 }
 
 // criando a chamada do função que busca o elemento.
@@ -62,7 +62,7 @@ function buscarElemento(result) {
     return product;
   });
   const clickCart = document.querySelectorAll('.item__add');
-  clickCart.forEach(index => index.addEventListener('click', (event) => cartItemClickListener(event)));
+  clickCart.forEach(index => index.addEventListener('click', event => cartItemClickListener(event)));
 }
 
 window.onload = function onload() {
