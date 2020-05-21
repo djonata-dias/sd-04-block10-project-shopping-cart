@@ -22,7 +22,6 @@ function cartItemClickListener(event) {
   // coloque seu código aqui
   saveCart(event.target.id, false);
   event.target.remove();
-
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
