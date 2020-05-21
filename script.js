@@ -42,4 +42,11 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-// START PROJETO!
+window.onload = function onload() {
+  const query = 'computador';
+
+  fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${query}`)
+    .then((data) => data.json())
+    .then((corrigido) => createProductItemElement(corrigido.result))
+    .catch((erro) => this.console.log(erro))
+}
