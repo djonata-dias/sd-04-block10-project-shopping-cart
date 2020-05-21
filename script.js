@@ -29,7 +29,20 @@ function createProductItemElement({ sku, name, image }) {
 // }
 
 // function cartItemClickListener(event) {
+//   const button = document.querySelectorAll('.item__add');
+//   // console.log(button)
 
+//   button[0].addEventListener('click', (event) => {
+//     const clickedItem = event.target.parentNode;
+//     const clickedItemSku = clickedItem.firstChild.innerText;
+
+//     fetch(`https://api.mercadolibre.com/items/${clickedItemSku}`)
+//     .then(response => response.json())
+//     .then(json => console.log(json))
+
+//   })
+
+//   createCartItemElement(product)
 // }
 
 // function createCartItemElement({ sku, name, salePrice }) {
@@ -42,7 +55,6 @@ function createProductItemElement({ sku, name, image }) {
 
 const productInfo = (productArray) => {
   const items = document.getElementsByClassName('items');
-  // const productList = [];
 
   productArray.forEach((product) => {
     const { id, title, thumbnail } = product;
@@ -53,19 +65,32 @@ const productInfo = (productArray) => {
     };
 
     items[0].appendChild(createProductItemElement(item));
-    // productList.push(item);
+
+    // const button = document.querySelectorAll('.item__add');
+    // // console.log(button)
+
+    // button[0].addEventListener('click', (event) => {
+    //   const clickedItem = event.target.parentNode;
+    //   const clickedItemSku = clickedItem.firstChild.innerText;
+
+    //   fetch(`https://api.mercadolibre.com/items/${clickedItemSku}`)
+    //   .then(response => response.json())
+    //   .then(json => console.log(json))
+
+    // })
+
+    // cartItemClickListener(event);
   });
-  // console.log(productList)
-  // return productList;
 };
 
-window.onload = function onload() { };
+const firstFetch = () => {
+  const $QUERY = 'computador';
+  fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${$QUERY}`)
+    .then(response => response.json())
+    .then(json => productInfo(json.results));
+    // .catch(err => console.log("err"))
+};
 
-
-const $QUERY = 'computador';
-
-fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${$QUERY}`)
-  .then(response => response.json())
-  .then(json => productInfo(json.results));
-
-  // .catch(err => console.log("err"))
+window.onload = function onload() {
+  firstFetch();
+};
