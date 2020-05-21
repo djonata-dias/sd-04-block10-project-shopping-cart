@@ -63,7 +63,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 window.onload = function onload() {
   fetch(API_URL, myObj)
-    .then((data) => data.json())
-    .then((dados) => creatList(dados))
-    .catch((error) => console.log(error));
+    .then(data => data.json())
+    .then(dados => creatList(dados))
+    .catch(error => console.log(error));
 };
