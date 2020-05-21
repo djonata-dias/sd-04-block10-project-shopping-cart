@@ -1,6 +1,4 @@
 /* eslint-disable arrow-parens */
-window.onload = function onload() {};
-const queryButton = document.querySelector('.query-button');
 const mainSection = document.querySelector('.items');
 
 const productInfo = products => products
@@ -39,7 +37,7 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-const productsFetch = () => {
+window.onload = function onload() {
   const queryInput = document.querySelector('.query-input').value;
   return fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${queryInput}`)
     .then(data => data.json())
@@ -47,9 +45,6 @@ const productsFetch = () => {
     .then(products => productInfo(products)
       .forEach(product => mainSection.appendChild(createProductItemElement(product))));
 };
-productsFetch();
-queryButton.addEventListener('click', () => productsFetch());
-
 
 // function getSkuFromProductItem(item) {
 //   return item.querySelector('span.item__sku').innerText;
