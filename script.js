@@ -15,6 +15,10 @@ function createCustomElement(element, className, innerText) {
 
 function cartItemClickListener(event) {
   event.target.remove();
+  localStorage.setItem(
+    'Cart-items',
+    document.querySelector('.cart__items').innerHTML,
+);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -28,6 +32,22 @@ function createCartItemElement({ sku, name, salePrice }) {
 const appendElement = (parentClass, callback, obj) =>
   document.getElementsByClassName(parentClass)[0].appendChild(callback(obj));
 
+const addToCart = async ({ sku }) => {
+  await fetch(`https://api.mercadolibre.com/items/${sku}`)
+    .then(data => data.json())
+    .then(product =>
+      appendElement('cart__items', createCartItemElement, {
+        sku: product.id,
+        name: product.title,
+        salePrice: product.price,
+      }),
+    );
+  await localStorage.setItem(
+    'Cart-items',
+    document.querySelector('.cart__items').innerHTML,
+  );
+};
+
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -40,14 +60,7 @@ function createProductItemElement({ sku, name, image }) {
     'Adicionar ao carrinho!',
   );
   btnAddProduct.addEventListener('click', () => {
-    fetch(`https://api.mercadolibre.com/items/${sku}`)
-      .then(data => data.json())
-      .then(product =>
-        appendElement('cart__items', createCartItemElement, {
-          sku: product.id,
-          name: product.title,
-          salePrice: product.price,
-        }));
+    addToCart({ sku });
   });
   section.appendChild(btnAddProduct);
   return section;
@@ -57,12 +70,12 @@ function createProductItemElement({ sku, name, image }) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
 
-const clearCart = () =>
-  document
-    .querySelector('.empty-cart')
-    .addEventListener(
-      'click',
-      () => (document.querySelector('.cart__items').innerHTML = ''));
+const clearCart = () => {
+  document.querySelector('.empty-cart').addEventListener('click', () => {
+    document.querySelector('.cart__items').innerHTML = '';
+    localStorage.setItem('Cart-items', '');
+  });
+};
 
 window.onload = function onload() {
   fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
@@ -78,4 +91,9 @@ window.onload = function onload() {
       });
     });
   clearCart();
+  document.querySelector('.cart__items').innerHTML = localStorage.getItem(
+    'Cart-items');
+  document
+    .querySelectorAll('li')
+    .forEach(li => li.addEventListener('click', cartItemClickListener));
 };
