@@ -91,7 +91,9 @@ const createList = async () => {
         );
       });
     });
-  document.getElementsByClassName('loading')[0].remove();
+  setTimeout(() => {
+    document.getElementsByClassName('loading')[0].remove();
+  }, 500);
 };
 
 //  Requeriment 3, 4 and 6
