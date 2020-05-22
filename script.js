@@ -65,7 +65,7 @@ function cartItemClickListener(e) {
 }
 
 function clearCart() {
-  const cartItems = document.querySelector('.cart__items');
+  const cartItems = document.querySelector('.cart__items', 2000);
   cartItems.innerHTML = '';
   storageUpdate();
 }
