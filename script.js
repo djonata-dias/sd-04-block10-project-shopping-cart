@@ -1,5 +1,9 @@
 const query = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
 
+function cartItemClickListener(event) {
+  // coloque seu código aqui
+}
+
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -48,10 +52,6 @@ function createProductItemElement({ sku, name, image }) { // usada
 
 function getSkuFromProductItem(item) { // !!!
   return item.querySelector('span.item__sku').innerText; // retorna o id
-}
-
-function cartItemClickListener(event) {
-  // coloque seu código aqui
 }
 
 const fFetch = (q) => {
