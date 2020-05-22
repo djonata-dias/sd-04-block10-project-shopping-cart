@@ -128,7 +128,7 @@ window.onload = () => {
     .then(asyncSum())
     .catch(erro => console.log(erro));
 
-  // .then(loading.parentNode.removeChild(loading)) retirado para colocar setTimeOut 
+  //.then(loading.parentNode.removeChild(loading)) retirado para colocar setTimeOut
 
   if (localStorage.products) {
     const products = JSON.parse(localStorage.getItem('products'));
@@ -140,6 +140,6 @@ window.onload = () => {
   emptyCart.addEventListener('click', () => clearCart());
 
   setTimeout(() => {
-    document.querySelector('.loading').remove();
+    loading.remove();
   }, 2000);
 };
