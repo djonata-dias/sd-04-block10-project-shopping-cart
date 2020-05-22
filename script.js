@@ -1,4 +1,5 @@
 const query = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
+const queryItem = 'https://api.mercadolibre.com/items/';
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
@@ -14,13 +15,13 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 const addCart = (e) => {
   const id = e.target.parentNode.firstChild.innerText;
-  fetch(`https://api.mercadolibre.com/items/${id}`)
+  fetch(queryItem + id)
     .then(res => res.json())
     .then((resTreat) => {
       const { id: sku, title: name, price: salePrice } = resTreat;
       const o = { sku, name, salePrice };
-      document.querySelector('ol.cart__items').appendChild(createCartItemElement(o));
-    });
+      document.querySelector('ol.cart__items').appendChild(createCartItemElement(o));})
+    .catch(() => console.log('res item error'));
 };
 
 function createProductImageElement(imageSource) {
@@ -54,21 +55,24 @@ function getSkuFromProductItem(item) { // !!!
   return item.querySelector('span.item__sku').innerText; // retorna o id
 }
 
-const fFetch = (q) => {
+// refatoração com fFetch() pq CC apontava duplicação de código
+const addProd = (pds) => {
+  pds.results.forEach((result) => {
+    const { id: sku, title: name, thumbnail: image } = result;
+    const o = { sku, name, image };
+    document.querySelector('section.items').appendChild(createProductItemElement(o));
+  });
+};
+
+const fFetch = (q, call) => {
   fetch(q)
     .then(res => res.json())
-    .then((resTreat) => {
-      resTreat.results.forEach((result) => {
-        const { id: sku, title: name, thumbnail: image } = result;
-        const o = { sku, name, image };
-        document.querySelector('section.items').appendChild(createProductItemElement(o));
-      });
-    })
+    .then(resTreat => call(resTreat))
     .catch(() => console.log('res error'));
 };
 
 window.onload = function onload() {
-  fFetch(query); // Chama a API e adiciona os items nos componentes depois q todo html for carregado
+  fFetch(query, addProd); // Chama a API e adiciona os items nos componentes depois q todo html for carregado
   // const el1 = document.querySelector('.items').childNodes.length;
   // console.log(el1)
 };
