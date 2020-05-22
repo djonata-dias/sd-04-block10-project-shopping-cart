@@ -1,5 +1,3 @@
-window.onload = function onload() { };
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -41,12 +39,38 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+// feitos
 
-window.onload = function onload() {
-  const query = 'computador';
+const query = 'computador';
 
-  fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${query}`)
-    .then((data) => data.json())
-    .then((corrigido) => createProductItemElement(corrigido.result))
-    .catch((erro) => this.console.log(erro))
+const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q='
+
+const pegaInfos = ({ id, title, thumbnail }, callback) => {
+  const obj = {
+    sku: id,
+    name: title,
+    image: thumbnail
+  }
+  return callback(obj)
 }
+
+const criaList = async () => {
+  const listItens = document.querySelector('.items');
+  try {
+    const response = await fetch(`${API_URL}${query}`)
+    const responseJson = await response.json()
+    const products = responseJson.results;
+    await products.forEach((e) => {
+      listItens.appendChild(pegaInfos(e, createProductItemElement))
+    });
+  } catch (error) {
+    console.log(`ERROR: ${error}`)
+  }
+}
+
+window.onload = () => {
+
+  criaList()
+
+}
+
