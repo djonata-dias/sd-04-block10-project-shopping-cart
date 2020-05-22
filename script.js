@@ -1,7 +1,7 @@
 const query = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
 const queryItem = 'https://api.mercadolibre.com/items/';
 
-const fFetch = (q, call) => {
+const fFetch = (q, call) => { // c
   fetch(q)
     .then(res => res.json())
     .then(resTreat => call(resTreat))
@@ -11,6 +11,8 @@ const fFetch = (q, call) => {
 function cartItemClickListener(event) {
   // coloque seu código aqui
   event.target.parentNode.removeChild(event.target);
+  const id = event.target.innerText.substring(5, 18);
+  localStorage.removeItem(id);
 }
 
 function createCartItemElement({ sku, name, salePrice }) { // usada
@@ -18,11 +20,12 @@ function createCartItemElement({ sku, name, salePrice }) { // usada
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  localStorage.setItem(sku, li.innerText);
   return li;
 }
 
 // refatoração com fFetch() pq CC apontava duplicação de código
-const addCart = (its) => {
+const addCart = (its) => { // c
   const o = {
     sku: its.id,
     name: its.title,
@@ -32,7 +35,7 @@ const addCart = (its) => {
 };
 
 // refatoração com fFetch() pq CC apontava duplicação de código
-const evAddCart = (e) => {
+const evAddCart = (e) => { // c
   const id = e.target.parentNode.firstChild.innerText;
   fFetch(queryItem + id, addCart);
 };
@@ -69,7 +72,7 @@ function getSkuFromProductItem(item) { // !!!
 }
 
 // refatoração com fFetch() pq CC apontava duplicação de código
-const addProd = (pds) => {
+const addProd = (pds) => { // c
   pds.results.forEach((result) => {
     const { id: sku, title: name, thumbnail: image } = result;
     const o = { sku, name, image };
@@ -77,9 +80,19 @@ const addProd = (pds) => {
   });
 };
 
+const verifyLocalStorage = () => { // c
+  const elOl = document.querySelector('ol.cart__items');
+  for (let i = 0; i < localStorage.length; i += 1) {
+    const li = document.createElement('li');
+    let item = localStorage.getItem(localStorage.key(i));
+    li.addEventListener('click', cartItemClickListener);
+    li.innerText = item;
+    elOl.appendChild(li);
+  }
+};
+
 // Chama a API e adiciona os items nos componentes depois q todo html for carregado
 window.onload = function onload() {
   fFetch(query, addProd);
-  // const el1 = document.querySelector('.items').childNodes.length;
-  // console.log(el1)
+  verifyLocalStorage();
 };
