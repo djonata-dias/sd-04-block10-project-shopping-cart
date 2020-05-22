@@ -1,17 +1,4 @@
 const query = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
-const fFetch = (q) => {
-  fetch(q)
-    .then(res => res.json()) // res ok
-    .then((resTreat) => {
-      resTreat.results.forEach(result => {
-        const {id: sku, title: name, thumbnail: image} = result;
-        const o = {sku, name, image};
-        document.querySelector('section .items').appendChild(createProductItemElement(o));
-        // console.log(result)
-      })
-    }) // resTreat.results ok
-    .catch(() => console.log('res error'));
-};
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -30,7 +17,7 @@ function createCustomElement(element, className, innerText) {
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
-  
+
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
@@ -54,6 +41,20 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+
+const fFetch = (q) => {
+  fetch(q)
+    .then(res => res.json()) // res ok
+    .then((resTreat) => {
+      resTreat.results.forEach((result) => {
+        const { id: sku, title: name, thumbnail: image } = result;
+        const o = { sku, name, image };
+        document.querySelector('section .items').appendChild(createProductItemElement(o));
+        // console.log(result)
+      })
+    }) // resTreat.results ok
+    .catch(() => console.log('res error'));
+};
 
 window.onload = function onload() {
   fFetch(query);
