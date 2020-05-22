@@ -74,3 +74,36 @@
   font-size: 16pt;
   text-align: center;
 }
+
+.loading {
+  animation: load 2s alternate infinite linear;
+  display: none;
+  font-size: 18pt;
+  font-weight: 700;
+  margin-top: 25px;
+}
+
+@keyframes load {
+
+  0% {
+    color: yellow;
+    font-size: 18pt;
+    text-shadow: 12px 0 8px black;
+  }
+
+  25% {
+    color: blue;
+    text-shadow: 0 -12px 3px black;
+  }
+
+  50% {
+    color: lime;
+    font-size: 10pt;
+    text-shadow: -12px 0 8px black;
+  }
+
+  100% {
+    font-size: 18pt;
+    text-shadow: 0 12px 3px black;
+  }
+}

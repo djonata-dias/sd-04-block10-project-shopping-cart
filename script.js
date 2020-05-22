@@ -1,6 +1,7 @@
 const secItems = document.querySelector('.items'); // Manipula section items.
 const carrinho = document.querySelector('.cart__items');
 const btnLimpa = document.querySelector('.empty-cart'); // Manipula o botão que limpa ista.
+const loading = document.querySelector('.loading'); // Maniluça o loading.
 let cart = []; // Array para os ids de cada produto.
 
 const saveToStorage = () => {
@@ -93,4 +94,6 @@ window.onload = function onload() {
   if (localStorage.itens_carrinho) {
     salvos.forEach(code => addToCart(code));
   }
+  loading.style.display = 'block';
+  setTimeout(() => loading.style.display = 'none', 2000);
 };
