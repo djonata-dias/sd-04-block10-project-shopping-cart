@@ -9,6 +9,8 @@ function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  li.style.cursor = 'pointer';
   return li;
 }
 
@@ -23,7 +25,12 @@ function addToCart(id) {
     .then(data => data)
     .then(addToCartObj)
     .then(createCartItemElement)
-    .then(item => document.querySelector('ol.cart__items').appendChild(item));
+    .then((item) => {
+      const itemsList = document.querySelector('ol.cart__items');
+      itemsList.appendChild(item);
+      return itemsList;
+    })
+    .then(list => (localStorage.list = list.innerHTML));
 }
 
 function createCustomElement(element, className, innerText, id = null) {
@@ -55,7 +62,9 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  const itemsList = document.querySelector('ol.cart__items');
+  itemsList.removeChild(event.target);
+  localStorage.list = itemsList.innerHTML;
 }
 
 function listItems(array) {
@@ -79,5 +88,8 @@ const fetchList = () => {
 };
 
 window.onload = function onload() {
+  if (typeof Storage !== 'undefined') {
+    document.querySelector('ol.cart__items').innerHTML = localStorage.list;
+  }
   fetchList();
 };
