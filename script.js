@@ -50,14 +50,14 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 //  Requirement 1
 
-const createList = (dados) => {
+const createList = dados => {
   const arrayList = [];
-  dados.results.forEach((element) => {
+  dados.results.forEach(element => {
     arrayList.push(element);
   });
   //  console.log(arrayList)
   const arrayProducts = [];
-  arrayList.forEach((e) => {
+  arrayList.forEach(e => {
     arrayProducts.push({
       sku: e.id,
       name: e.title,
@@ -69,13 +69,13 @@ const createList = (dados) => {
 };
 
 const printList = array =>
-  array.forEach((e) => {
+  array.forEach(e => {
     sectionItems[0].appendChild(createProductItemElement(e));
   });
 
 //  Requirement 2
 
-const addCartElements = (data) => {
+const addCartElements = data => {
   const objAddCartElem = {
     sku: data.id,
     name: data.title,
@@ -86,7 +86,7 @@ const addCartElements = (data) => {
   ol.appendChild(li);
 };
 
-const fetchItemSelected = (id) => {
+const fetchItemSelected = id => {
   const ID_URL = `https://api.mercadolibre.com/items/${id}`;
   fetch(ID_URL)
     .then(data => data.json())
@@ -94,7 +94,7 @@ const fetchItemSelected = (id) => {
     .catch(error => console.log(error));
 };
 
-const idElementsClick = (event) => {
+const idElementsClick = event => {
   const parentNodeSection = event.target.parentNode;
   const firstId = parentNodeSection.firstChild.innerText;
   fetchItemSelected(firstId);
@@ -102,7 +102,7 @@ const idElementsClick = (event) => {
 
 const requestButtons = () => {
   const btns = document.getElementsByClassName('item__add');
-  btns.forEach((element) => {
+  btns.forEach(element => {
     element.addEventListener('click', idElementsClick);
   });
 };
