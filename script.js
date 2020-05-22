@@ -106,12 +106,16 @@ function loadCart() {
   const cartListOl = document.getElementsByClassName('cart__items');
   cartListOl[0].innerHTML = localStorage.getItem('cartItem');
 }
-
+const query = 'computador';
+const sectionItems = document.getElementsByClassName('items');
+const containerElement = document.getElementsByClassName('cart');
+const span = document.createElement('span');
+span.innerText = 'loading';
+span.className = 'loading...';
 window.onload = function onload() {
   loadCart();
   sumPrice();
-  const query = 'computador';
-  const sectionItems = document.getElementsByClassName('items');
+  containerElement[0].appendChild(span);
   fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${query}`)
     .then(response => response.json())
     .then((data) => {
@@ -120,10 +124,10 @@ window.onload = function onload() {
           createProductItemElement({
             sku: result.id, name: result.title, image: result.thumbnail }));
       });
+      span.innerText = '-';
     })
     .catch(error => console.log(error));
-  // find the Id of the clicked add to cart button
-  document.body.addEventListener('click', function (event) {
+  document.body.addEventListener('click', function (event) {  // find the Id of the clicked add to cart button
     console.log(event.target.className); // to remove
     if (event.target.className === 'item__add') {
       createCartAsync(
