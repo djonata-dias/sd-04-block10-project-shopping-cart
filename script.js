@@ -82,14 +82,15 @@ const addProductToCart = async (productElement) => {
     .then((response) => response.json())
     .then((data) => {
       const productData = { sku: data.id, name: data.title, salePrice: data.price };
+      updateCart(productData);
+      return productData;
+    })
+    .then((productData) => {
+      calculateTotal();
       document.querySelector('.loading').hidden = true;
       document.querySelector('.cart__items').appendChild(
         createCartItemElement(productData),
       );
-      updateCart(productData);
-    })
-    .then(() => {
-      calculateTotal();
     });
 };
 
