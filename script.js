@@ -38,16 +38,6 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item_sku').innerText;
 }
 
-function saveProductsCart(produto) {
-  somaProdutos(produto);
-  let carrinho = [];
-  if (localStorage.carrinho) {
-    carrinho = JSON.parse(localStorage.getItem('carrinho'));
-  }
-  carrinho.push(produto);
-  localStorage.setItem('carrinho', JSON.stringify(carrinho));
-}
-
 async function somaProdutos({ salePrice }) {
   let valorTotal = 0;
   const prices = document.getElementsByClassName('total-price')[0];
@@ -56,14 +46,24 @@ async function somaProdutos({ salePrice }) {
     prices.removeChild(prices.firstChild);
   }
   if (localStorage.valorTotal) {
-    const valorStorage = parseInt(localStorage.getItem('valorTotal'));
-    valorTotal = valorStorage + parseInt(salePrice);
+    const valorStorage = localStorage.getItem('valorTotal');
+    valorTotal = +valorStorage + +salePrice;
   } else {
     valorTotal = salePrice;
   }
   price.innerText = `Valor Total: $${valorTotal}`;
   prices.appendChild(price);
   localStorage.setItem('valorTotal', valorTotal);
+}
+
+function saveProductsCart(produto) {
+  somaProdutos(produto);
+  let carrinho = [];
+  if (localStorage.carrinho) {
+    carrinho = JSON.parse(localStorage.getItem('carrinho'));
+  }
+  carrinho.push(produto);
+  localStorage.setItem('carrinho', JSON.stringify(carrinho));
 }
 
 function cartItemClickListener(event) {
@@ -93,7 +93,7 @@ function getProductForCarItem(event) {
   const numeroSku = eventPai.children[0].innerText;
   fetch(`https://api.mercadolibre.com/items/${numeroSku}`)
     .then(resolve => resolve.json())
-    .then(data => {
+    .then((data) => {
       const parameter = {
         sku: data.id,
         name: data.title,
@@ -109,7 +109,7 @@ function getProductForCarItem(event) {
 function buscarElemento(result) {
   const product = { sku: '', name: '', image: '' };
   const produtos = result;
-  produtos.map(elem => {
+  produtos.map((elem) => {
     product.sku = elem.id;
     product.name = elem.title;
     product.image = elem.thumbnail;
