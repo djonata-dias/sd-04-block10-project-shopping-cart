@@ -12,25 +12,25 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-// function getSkuFromProductItem(item) {
-//   return item.querySelector('span.item__sku').innerText;
-// }
-
-const toLocalStorage = () => { // Function to send products list to local storage
+const toLocalStorage = () => { // Function to send products list and total price to local storage
   const list = document.querySelector('.cart__items').innerHTML;
+  const totalSection = document.querySelector('section.total-price').innerHTML;
 
   localStorage.setItem('cart_products', list);
+  localStorage.setItem('total_price', totalSection);
 };
 
 function cartItemClickListener(event) { // Removing cart item by clicking it
-  const cart = document.querySelector('.cart__items');
-  cart.removeChild(event.target);
+  event.target.remove();
   toLocalStorage();
 }
 
-const toGetLocalStorage = () => { // Get saved listo from local storage
+const toGetLocalStorage = () => { // Get saved list and total price from local storage
   const getList = localStorage.getItem('cart_products');
-  document.querySelector('.cart__items').innerHTML = getList; // Adding saved items to current list
+  const getTotalPrice = localStorage.getItem('total_price');
+
+  document.querySelector('.cart__items').innerHTML = getList; // Adding items to current list
+  document.querySelector('section.total-price').innerHTML = getTotalPrice; // Adding total price to 'total-price' section
 
   const cart = document.querySelector('.cart__items'); // Making the items clickable again
   cart.addEventListener('click', cartItemClickListener);
@@ -52,6 +52,15 @@ function createCartItemElement({ sku, name, salePrice }) { // Function to insert
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+
+// const totalPrice = (price) => {
+//   let total = 0;
+
+//   const totalSection = document.querySelector('section.total-price');
+//   const totalSpan = document.querySelector('.total-span')
+//   totalSpan.innerHTML = price;
+//   totalSection.appendChild()
+// }
 
 // Function to create the item object as required, with sku, name and salePrice
 const newCartItem = (itemObj) => {
@@ -112,4 +121,5 @@ window.onload = function onload() {
   firstFetch();
   emptyCart();
   toGetLocalStorage();
+  // addValues();
 };
