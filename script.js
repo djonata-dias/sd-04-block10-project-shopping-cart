@@ -98,6 +98,6 @@ window.onload = async function onload() {
     localStorage.setItem('cartItemsKey', (cartItems.innerHTML));
   }));
 
-  const buttonClear = document.querySelector('.empty-car');
+  const buttonClear = document.querySelector('.empty-cart');
   buttonClear.onclick = clearCart;
 };
