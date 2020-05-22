@@ -82,7 +82,8 @@ const addCartElements = (data) => {
     salePrice: data.price,
   };
   const li = createCartItemElement(objAddCartElem);
-  const ol = document.getElementsByClassName('cart_items').appendChild(li);
+  const ol = document.getElementsByClassName('cart_items');
+  ol.appendChild(li);
 };
 
 const fetchItemSelected = (id) => {
