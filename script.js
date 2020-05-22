@@ -1,13 +1,17 @@
+/* eslint-disable object-curly-newline */
+/* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable arrow-parens */
 const mainSection = document.querySelector('.items');
+const cartSection = document.querySelector('.cart__items');
 
-const productInfo = products => products
-  .map((product) => {
-    const obj = {};
-    const { id, title, thumbnail } = product;
-    obj.sku = id;
-    obj.name = title;
-    obj.image = thumbnail;
+const productInfo = (products) =>
+  products.map(({ id, title, thumbnail, price }) => {
+    const obj = {
+      sku: id,
+      name: title,
+      image: thumbnail,
+      salePrice: price,
+    };
     return obj;
   });
 
@@ -37,16 +41,31 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
+function createCartItemElement({ id, title, price }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${id} | NAME: ${title} | PRICE: $${price}`;
+  // li.addEventListener('click', cartItemClickListener);
+  return li;
+}
 
 window.onload = function onload() {
   const queryInput = document.querySelector('.query-input').value;
   return fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${queryInput}`)
-    .then(data => data.json())
-    .then(json => json.results)
-    .then(products => productInfo(products)
-      .forEach(product => mainSection.appendChild(createProductItemElement(product))));
+    .then((data) => data.json())
+    .then((json) => json.results)
+    .then((products) => productInfo(products)
+      .forEach((product) => mainSection.appendChild(createProductItemElement(product))));
 };
 
+document.body.addEventListener('click', function (event) {
+  if (event.target.classList.contains('item__add')) {
+    const itemID = event.target.parentNode.firstChild.innerText;
+    fetch(`https://api.mercadolibre.com/items/${itemID}`)
+      .then((data) => data.json())
+      .then((products) => cartSection.appendChild(createCartItemElement(products)));
+  }
+});
 
 // function getSkuFromProductItem(item) {
 //   return item.querySelector('span.item__sku').innerText;
@@ -54,12 +73,4 @@ window.onload = function onload() {
 
 // function cartItemClickListener(event) {
 //   // coloque seu código aqui
-// }
-
-// function createCartItemElement({ sku, name, salePrice }) {
-//   const li = document.createElement('li');
-//   li.className = 'cart__item';
-//   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-//   li.addEventListener('click', cartItemClickListener);
-//   return li;
 // }
