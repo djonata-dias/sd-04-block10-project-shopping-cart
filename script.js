@@ -1,5 +1,15 @@
 const query = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
-// const queryItems = "https://api.mercadolibre.com/items/";
+
+const addCart = (e) => {
+  const id = e.target.parentNode.firstChild.innerText;
+  fetch(`https://api.mercadolibre.com/items/${id}`)
+    .then(res => res.json())
+    .then((resTreat) => {
+      const { id: sku, title: name, price: salePrice } = resTreat;
+      const o = { sku, name, salePrice };
+      document.querySelector('.cart__items').appendChild(createCartItemElement(o));
+    });
+};
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -12,6 +22,7 @@ function createCustomElement(element, className, innerText) { // usada
   const e = document.createElement(element);
   e.className = className;
   e.innerText = innerText;
+  if (className === 'item__add') e.addEventListener('click', addCart); // +
   return e;
 }
 
@@ -27,7 +38,7 @@ function createProductItemElement({ sku, name, image }) { // usada
   return section;
 }
 
-function getSkuFromProductItem(item) {
+function getSkuFromProductItem(item) { // !!!
   return item.querySelector('span.item__sku').innerText; // retorna o id
 }
 
@@ -43,13 +54,6 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-// const addEventButItems = () => {
-//   const el = document.querySelector('.empty-cart');
-//   return el;
-// };
-
-// console.log(addEventButItems())
-
 const fFetch = (q) => {
   fetch(q)
     .then(res => res.json())
@@ -58,12 +62,13 @@ const fFetch = (q) => {
         const { id: sku, title: name, thumbnail: image } = result;
         const o = { sku, name, image };
         document.querySelector('section .items').appendChild(createProductItemElement(o));
-        // document.querySelector('.item__add').addEventListener('click', addCart);
       });
     })
     .catch(() => console.log('res error'));
 };
 
 window.onload = function onload() {
-  fFetch(query); // Chama a API dos produtos depois q todo html for carregado
+  fFetch(query); // Chama a API e adiciona os items nos componentes depois q todo html for carregado
+  // const el1 = document.querySelector('.items').childNodes.length;
+  // console.log(el1)
 };
