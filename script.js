@@ -1,6 +1,7 @@
 const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
 const myObj = { method: 'GET' };
 const sectionItems = document.getElementsByClassName('items');
+const ID_URL = `https://api.mercadolibre.com/items/${id}`;
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -44,6 +45,10 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
+//  Function here...
+
+//  Requirement 1
+
 const createList = (dados) => {
   const arrayList = [];
   dados.results.forEach((element) => {
@@ -53,7 +58,7 @@ const createList = (dados) => {
   const arrayProducts = [];
   arrayList.forEach((e) => {
     arrayProducts.push({
-      ski: e.id,
+      sku: e.id,
       name: e.title,
       image: e.thumbnail,
     });
@@ -66,11 +71,44 @@ const printList = array => array.forEach((e) => {
   sectionItems[0].appendChild(createProductItemElement(e));
 });
 
+//  Requirement 2
+
+const addCartElements = (data) => {
+  const objAddCartElem = {
+    sku: data.id,
+    name: data.title,
+    salePrice: data.price,
+  };
+  const li = createCartItemElement(objAddCartElem);
+  const ol = document.getElementsByClassName('.cart_items');
+  ol.appendChild(li);
+};
+
+const fetchItemSelected = (id) => {
+  fetch(ID_URL)
+    .then(data => data.json())
+    .then(dados => addCartElements(dados))
+    .catch(error => console.log(error));
+};
+
+const idElementsClick = (event) => {
+  const parentNodeSection = event.target.parentNode;
+  const firstId = parentNodeSection.firstChild.innerText;
+  fetchItemSelected(firstId);
+};
+
+const requestButtons = () => {
+  document.getElementsByClassName('item__add')
+  .forEach((element) => {
+    element.addEventListener('click', idElementsClick)
+  });
+};
 
 window.onload = function onload() {
   fetch(API_URL, myObj)
     .then(data => data.json())
     .then(dados => createList(dados))
     .then(array => printList(array))
+    .then(requestButtons)
     .catch(error => console.log(error));
 };
