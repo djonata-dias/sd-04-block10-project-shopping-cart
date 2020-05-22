@@ -22,8 +22,11 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 // refatoração com fFetch() pq CC apontava duplicação de código
 const addCart = (its) => {
-  const { id: sku, title: name, price: salePrice } = its;
-  const o = { sku, name, salePrice };
+  const o = {
+    sku: its.id,
+    name: its.title,
+    salePrice: its.price,
+  };
   document.querySelector('ol.cart__items').appendChild(createCartItemElement(o));
 };
 
