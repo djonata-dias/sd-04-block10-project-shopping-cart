@@ -28,11 +28,7 @@ function createProductItemElement({ sku, name, image }) {
 // }
 
 function cartItemClickListener(event) {
-
-  console.log('inutile', event.target.className);
   event.target.parentNode.removeChild(event.target)
-  // coloque seu código aqui
-
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -76,11 +72,11 @@ window.onload = function onload() {
     }).catch(error => console.log(error));
 
   // find the Id of the clicked add to cart button
-  document.body.addEventListener("click", function (event) {
-    if (event.target.className === "item__add") {
+  document.body.addEventListener('click', function (event) {
+    if (event.target.className === 'item__add') {
       const idOfClickedCartButon =
         event.target.previousSibling.previousSibling.previousSibling.innerText; // To be improve
-      console.log("idOfClickedCartButon", idOfClickedCartButon); // To remove
+      console.log('idOfClickedCartButon', idOfClickedCartButon); // To remove
       fetchId(idOfClickedCartButon);
     }
   });
