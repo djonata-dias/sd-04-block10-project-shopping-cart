@@ -93,7 +93,7 @@ window.onload = async function onload() {
       document.getElementsByClassName('cart__items')[0].innerHTML = '';
     });
 
-/*   document
+  document
     .querySelectorAll('li')
-    .forEach(li => li.addEventListener('click', cartItemClickListener)); */
+    .forEach(li => li.addEventListener('click', cartItemClickListener));
 };
