@@ -13,12 +13,17 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function cartItemClickListener(event) {
-  event.target.remove();
+const updateCart = () => {
   localStorage.setItem(
     'Cart-items',
     document.querySelector('.cart__items').innerHTML,
   );
+  sumPrices();
+};
+
+function cartItemClickListener(event) {
+  event.target.remove();
+  updateCart();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -29,14 +34,20 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
+// const sumPrices = () => {
+//   const cartItems = document.querySelectorAll('.cart__item');
+//   document.querySelector('total-price').textContent = Math.round([...cartItems]
+//     .reduce((acc, price) => acc + parseFloat(price), 0) * 100) / 100;
+// };
+
 const loading = () =>
   document
     .getElementsByClassName('items')[0]
-    .appendChild(createCustomElement('p', 'loading', 'LOADING...'));
+    .appendChild(createCustomElement('span', 'loading', 'LOADING...'));
 
-const removeLoading = () => {
-  document.getElementsByClassName('loading')[0].remove();
-};
+// const removeLoading = () => {
+//   document.getElementsByClassName('loading')[0].remove();
+// };
 
 const appendElement = (parentClass, callback, obj) =>
   document.getElementsByClassName(parentClass)[0].appendChild(callback(obj));
@@ -91,7 +102,9 @@ window.onload = function onload() {
   fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
     .then(data => data.json())
     .then((json) => {
-      removeLoading();
+      setTimeout(() => {
+        document.querySelector('.loading').remove();
+      }, 2700);
       json.results.forEach((product) => {
         document.querySelectorAll('.items')[0].appendChild(
           createProductItemElement({
