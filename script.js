@@ -13,12 +13,24 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+const sumAll = async () => {
+  const allItems = document.getElementsByClassName('cart__item');
+  const totalPriceDisplay = document.querySelector('.total-price');
+  totalPriceDisplay.innerHTML =
+    Math.round(
+      [...allItems]
+        .map(e => e.textContent.match(/([0-9.]){1,}$/))
+        .reduce((acc, price) => acc + parseFloat(price), 0)
+        .toFixed(2) * 100,
+    ) / 100;
+};
+
 const updateCart = () => {
   localStorage.setItem(
     'Cart-items',
-    document.querySelector('.cart__items').innerHTML,
+    document.getElementsByClassName('cart__items')[0].innerHTML,
   );
-  // sumPrices();
+  sumAll();
 };
 
 function cartItemClickListener(event) {
@@ -34,20 +46,10 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-// const sumPrices = () => {
-//   const cartItems = document.querySelectorAll('.cart__item');
-//   document.querySelector('total-price').textContent = Math.round([...cartItems]
-//     .reduce((acc, price) => acc + parseFloat(price), 0) * 100) / 100;
-// };
-
 const loading = () =>
   document
     .getElementsByClassName('items')[0]
     .appendChild(createCustomElement('span', 'loading', 'LOADING...'));
-
-// const removeLoading = () => {
-//   document.getElementsByClassName('loading')[0].remove();
-// };
 
 const appendElement = (parentClass, callback, obj) =>
   document.getElementsByClassName(parentClass)[0].appendChild(callback(obj));
@@ -66,6 +68,7 @@ const addToCart = async ({ sku }) => {
     'Cart-items',
     document.querySelector('.cart__items').innerHTML,
   );
+  sumAll();
 };
 
 function createProductItemElement({ sku, name, image }) {
@@ -86,13 +89,10 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-// function getSkuFromProductItem(item) {
-//   return item.querySelector('span.item__sku').innerText;
-// }Bora cypress 2
-
 const clearCart = () => {
   document.querySelector('.empty-cart').addEventListener('click', () => {
     document.querySelector('.cart__items').innerHTML = '';
+    sumAll();
     localStorage.setItem('Cart-items', '');
   });
 };
