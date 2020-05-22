@@ -87,5 +87,6 @@ const createList = async () => {
 
 window.onload = async function onload() {
   await createList();
-  document.querySelectorAll('li').forEach(li => li.addEventListener('click', cartItemClickListener));
+  document.getElementsByClassName('cart__items')[0].innerHTML = '';
+  //document.querySelectorAll('li').forEach(li => li.addEventListener('click', cartItemClickListener))
 };
