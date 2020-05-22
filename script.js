@@ -10,9 +10,10 @@ const fFetch = (q, call) => {
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
+  event.target.parentNode.removeChild(event.target);
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
+function createCartItemElement({ sku, name, salePrice }) { // usada
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
