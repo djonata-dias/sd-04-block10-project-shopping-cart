@@ -119,7 +119,7 @@ async function loadItems() {
 }
 
 window.onload = () => {
-  totalElement = document.querySelector('.total_price');
+  totalElement = document.querySelector('.total-price');
   cartList = document.querySelector('.cart__items');
   document.querySelector('.empty-cart').addEventListener('click', removeAll);
   loadCart();
