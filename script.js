@@ -1,36 +1,24 @@
 const getProductsFromLocalStorage = () =>
   JSON.parse(localStorage.products);
 
-// const sumCartPrices = () => {
-//   const prices = document.querySelector('.total-price');
-//   const sum = getProductsFromLocalStorage().reduce(
-//     (acc, product) => acc + product.price, 0);
-//   prices.innerText = sum;
-//   return sum;
-// };
-
-const sumCartPrices2 = () => {
+const sumCartPrices = () => {
   const prices = document.querySelector('.total-price');
-  const products = document.querySelector('.cart__items');
-  let total = 0;
-  products.childNodes.forEach((product) => {
-    total += Number(product.id);
-  });
-  prices.innerText = total;
-  return total;
+  const sum = getProductsFromLocalStorage().reduce(
+    (acc, product) => acc + product.price, 0);
+  prices.innerText = sum;
+  return sum;
 };
 
 const asyncSum = async () => {
-  sumCartPrices2();
+  await sumCartPrices();
 };
 
 const clearCart = () => {
-  const cart = document.querySelector('.cart__items');
   const items = document.getElementsByClassName('cart__item');
   while (items.length > 0) {
     items[0].remove();
   }
-  localStorage.setItem('products', JSON.stringify([]));
+  localStorage.products = JSON.stringify([]);
   asyncSum();
 };
 
@@ -48,8 +36,8 @@ function getSkuFromProductItem(item) {
 function cartItemClickListener(event) {
   element = event.target;
   if (element) {
-    element.parentNode.removeChild(element);
-    const products = JSON.parse(localStorage.getItem('products'));
+    element.remove();
+    const products = JSON.parse(localStorage.products);
     if (products) {
       const ProductId = products.findIndex(
         product => product.id === event.target.id,
@@ -67,7 +55,7 @@ function cartItemClickListener(event) {
 
 function createCartItemElement({ id, title, price }) {
   const li = document.createElement('li');
-  li.id = price;
+  li.id = id;
   li.className = 'cart__item';
   li.innerText = `SKU: ${id} | NAME: ${title} | PRICE: $${price}`;
   li.addEventListener('click', cartItemClickListener);
@@ -126,6 +114,8 @@ window.onload = () => {
   const emptyCart = document.querySelector('.empty-cart');
   const loading = document.querySelector('.loading');
 
+  asyncSum();
+
   fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
     .then(object => object.json())
     .then(data => appendToItems(data))
@@ -141,8 +131,6 @@ window.onload = () => {
   } else {
     localStorage.products = JSON.stringify([]);
   }
-
-  asyncSum();
 
   emptyCart.addEventListener('click', () => clearCart());
 
