@@ -20,10 +20,10 @@ const displaySum = (sum) => {
       prices.innerText = sum;
       resolve();
     } else {
+      reject('Deu ruim não tinha soma dos preços');
 
       // prices.innerText = 0.0;
-
-      reject('Deu ruim não tinha soma dos preços');
+      
     }
   });
 };
