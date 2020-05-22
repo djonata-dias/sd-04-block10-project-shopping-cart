@@ -2,6 +2,8 @@ const secItems = document.querySelector('.items'); // Manipula section items.
 const carrinho = document.querySelector('.cart__items');
 const btnLimpa = document.querySelector('.empty-cart'); // Manipula o botão que limpa ista.
 const loading = document.querySelector('.loading'); // Maniluça o loading.
+const total = document.getElementById('total'); // Manipula o span #total.
+let tot = 0;
 let cart = []; // Array para os ids de cada produto.
 
 const saveToStorage = () => {
@@ -11,6 +13,8 @@ const saveToStorage = () => {
 const limpaLista = () => {
   carrinho.innerText = '';
   cart = [];
+  tot = 0;
+  total.innerHTML = tot.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   saveToStorage();
 };
 
@@ -30,7 +34,23 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+const somaTudo = async (price, sinal) => {
+  try {
+    if (sinal) {
+      tot += price;
+    } else {
+      tot -= price;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 function cartItemClickListener(event) {
+  const pos = event.target.innerText.indexOf('$');
+  const valor = event.target.innerHTML.substring(pos + 1);
+  somaTudo(valor, false);
+  total.innerHTML = tot.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   event.target.remove();
   const code = event.target.innerText.substring(5, 18);
   cart.splice(cart.indexOf(code), 1);
@@ -52,6 +72,8 @@ const addToCart = (code) => {
     const item = createCartItemElement({ sku: id, name: title, salePrice: price });
     cart.push(id);
     carrinho.append(item);
+    somaTudo(price, true);
+    total.innerHTML = tot.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     saveToStorage();
   })
   .catch(error => console.log(error));
