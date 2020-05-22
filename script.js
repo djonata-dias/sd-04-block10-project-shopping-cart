@@ -82,8 +82,7 @@ const addCartElements = (data) => {
     salePrice: data.price,
   };
   const li = createCartItemElement(objAddCartElem);
-  const ol = document.getElementsByClassName('cart_items');
-  ol.appendChild(li);
+  const ol = document.getElementsByClassName('cart_items').appendChild(li);
 };
 
 const fetchItemSelected = (id) => {
@@ -101,7 +100,7 @@ const idElementsClick = (event) => {
 };
 
 const requestButtons = () => {
-  const btns = document.getElementsByClassName('item__add');
+  const btns = document.querySelectorAll('.item__add');
   btns.forEach((element) => {
     element.addEventListener('click', idElementsClick);
   });
