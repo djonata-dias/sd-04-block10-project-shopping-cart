@@ -1,4 +1,5 @@
 async function doFetch(QUERY) {
+  await new Promise(resolve => setTimeout(resolve, 1000));
   const resp = await fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${QUERY}`);
   const data = await resp.json();
   const newMap = data.results.map((obj) => {
@@ -9,6 +10,7 @@ async function doFetch(QUERY) {
     };
     return filter;
   });
+  document.querySelector('.loading').remove();
   return newMap;
 }
 
