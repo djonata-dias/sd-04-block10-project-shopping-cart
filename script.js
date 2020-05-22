@@ -25,7 +25,7 @@ function addToCartObj(obj) {
   return { sku, name, salePrice };
 }
 
-function addToCart(id) {gi
+function addToCart(id) {
   fetch(`https://api.mercadolibre.com/items/${id}`)
     .then(response => response.json())
     .then(data => data)
