@@ -18,7 +18,7 @@ const updateCart = () => {
     'Cart-items',
     document.querySelector('.cart__items').innerHTML,
   );
-  sumPrices();
+  // sumPrices();
 };
 
 function cartItemClickListener(event) {
