@@ -76,8 +76,8 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
-  const section = document.querySelector('ol.cart__items');
-  section.removeChild(event.target);
+  // const section = document.querySelector('ol.cart__items');
+  // section.removeChild(event.target);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
