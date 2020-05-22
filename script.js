@@ -1,6 +1,10 @@
+let valor = 0;
+
 async function doFetch(QUERY) {
   await new Promise(resolve => setTimeout(resolve, 1000));
   const resp = await fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${QUERY}`);
+  const loadRemove = () => document.querySelector('.loading').remove();
+  await new Promise(resolve => resolve(loadRemove()));
   const data = await resp.json();
   const newMap = data.results.map((obj) => {
     const filter = { sku: obj.id,
@@ -10,7 +14,6 @@ async function doFetch(QUERY) {
     };
     return filter;
   });
-  document.querySelector('.loading').remove();
   return newMap;
 }
 
@@ -54,17 +57,23 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-const storageUpdate = () => {
+function storageUpdate() {
   const cartItems = document.querySelector('.cart__items');
   localStorage.setItem('cartItemsKey', (cartItems.innerHTML));
-};
+}
 
 function cartItemClickListener(e) {
+  const totalPrice = document.querySelector('.total-price');
+  valor -= e.target.id;
+  totalPrice.innerText = `Valor total: R$ ${valor}`;
   e.target.remove();
   storageUpdate();
 }
 
 function clearCart() {
+  const totalPrice = document.querySelector('.total-price');
+  valor = 0;
+  totalPrice.innerText = `Valor total: R$ ${valor}`;
   const cartItems = document.querySelector('.cart__items');
   cartItems.innerHTML = '';
   storageUpdate();
@@ -74,6 +83,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.id = salePrice;
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
@@ -83,21 +93,30 @@ function eventFunction(e) {
 }
 
 window.onload = async function onload() {
+  const totalPrice = document.querySelector('.total-price');
   const items = document.querySelector('.items');
   const sync = await doFetch('computador');
   sync.map(objeto => items.appendChild(createProductItemElement(objeto)));
   const cartItems = document.querySelector('.cart__items');
+
   if (localStorage.getItem('cartItemsKey')) {
     cartItems.innerHTML = localStorage.getItem('cartItemsKey').toString();
+    valor = Array.from(cartItems.children)
+      .map(element => Number(element.id))
+      .reduce((acc, cur) => acc + cur);
+    totalPrice.innerText = `Valor total: R$ ${valor}`;
     cartItems.addEventListener('click', cartItemClickListener);
   }
+
   const buttons = Array.from(document.querySelectorAll('.item__add'));
   buttons.map(button => button.addEventListener('click', async (e) => {
     const id = await eventFunction(e);
     const clickado = await doClick(id);
     const itemAdded = createCartItemElement(clickado);
     cartItems.appendChild(itemAdded);
-    localStorage.setItem('cartItemsKey', (cartItems.innerHTML));
+    storageUpdate();
+    valor += clickado.salePrice;
+    totalPrice.innerText = `Valor total: R$ ${valor}`;
   }));
 
   const buttonClear = document.querySelector('.empty-cart');
