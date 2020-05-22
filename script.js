@@ -14,6 +14,12 @@ const updateCart = (data) => {
 const getCartItems = () => Object.keys(localStorage).sort()
   .map((key) => JSON.parse(localStorage[key]));
 
+const deleteCartItem = (id) => {
+  Object.keys(localStorage).forEach((key) => {
+    if (JSON.parse(localStorage[key]).sku === id) localStorage.removeItem(key);
+  });
+};
+
 const cleanCartItems = () => localStorage.clear();
 
 /* endof */
@@ -23,6 +29,7 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
+  deleteCartItem(event.target.id);
   event.target.remove();
 }
 
@@ -44,6 +51,7 @@ function createProductImageElement(imageSource) {
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
+  li.id = sku;
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
