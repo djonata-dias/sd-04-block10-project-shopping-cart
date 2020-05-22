@@ -90,7 +90,7 @@ window.onload = async function onload() {
   document
     .getElementsByClassName('empty-cart')[0]
     .addEventListener('click', () => {
-      document.getElementsByClassName('cart__items')[0].remove();
+      document.getElementsByClassName('cart__items')[0].innerHTML = '';
     });
 
 /*   document
