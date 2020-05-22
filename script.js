@@ -1,25 +1,27 @@
 const getProductsFromLocalStorage = () =>
   JSON.parse(localStorage.products);
 
-const sumCartPrices = () => {
-  const prices = document.querySelector('.total-price');
-  const sum = getProductsFromLocalStorage().reduce(
-    (acc, product) => acc + product.price, 0);
-  prices.innerText = sum;
-  return sum;
-};
-
-// const sumCartPrices2 = () => {
+// const sumCartPrices = () => {
 //   const prices = document.querySelector('.total-price');
-//   const products = document.getElementsByClassName('cart__item')
 //   const sum = getProductsFromLocalStorage().reduce(
 //     (acc, product) => acc + product.price, 0);
 //   prices.innerText = sum;
 //   return sum;
-// }
+// };
+
+const sumCartPrices2 = () => {
+  const prices = document.querySelector('.total-price');
+  const products = document.querySelector('.cart__items');
+  let total = 0;
+  products.childNodes.forEach((product) => {
+    total += Number(product.id);
+  });
+  prices.innerText = total;
+  return total;
+}
 
 const asyncSum = async () => {
-  sumCartPrices();
+  sumCartPrices2();
 };
 
 const clearCart = () => {
@@ -65,7 +67,7 @@ function cartItemClickListener(event) {
 
 function createCartItemElement({ id, title, price }) {
   const li = document.createElement('li');
-  li.id = id;
+  li.id = price;
   li.className = 'cart__item';
   li.innerText = `SKU: ${id} | NAME: ${title} | PRICE: $${price}`;
   li.addEventListener('click', cartItemClickListener);
