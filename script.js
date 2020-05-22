@@ -1,11 +1,11 @@
 const getProductsFromLocalStorage = () =>
-  JSON.parse(localStorage.getItem('products'));
+  JSON.parse(localStorage.products);
 
 const sumCartPrices = () => {
   const prices = document.querySelector('.total-price');
   const sum = getProductsFromLocalStorage().reduce(
     (acc, product) => acc + product.price, 0);
-  prices.innerHTML = sum;
+  prices.innerText = sum;
   return sum;
 };
 
@@ -19,7 +19,10 @@ const asyncSum = async () => {
 
 const clearCart = () => {
   const cart = document.querySelector('.cart__items');
-  cart.innerHTML = '';
+  const items = document.getElementsByClassName("cart__item");
+  while(items.length > 0){
+    items[0].remove()
+  }
   localStorage.setItem('products', JSON.stringify([]));
   asyncSum();
 };
