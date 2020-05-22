@@ -1,3 +1,11 @@
+function getItensLocalStorage() {
+  let ItensCarrinho = [];
+  if (localStorage.getItem('carrinho')) {
+    ItensCarrinho = JSON.parse(localStorage.getItem('carrinho'));
+  }
+  return ItensCarrinho;
+}
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -44,7 +52,7 @@ function cartItemClickListener(event) {
   event.target.remove();
   const elemId = event.target.innerText.split(' | ')[0].substr(5); // pega Id do evento
   const ItensCarrinho = getItensLocalStorage(); // pega os itens armazenados
-  const elemRemove = ItensCarrinho.find(item => item.sku == elemId);
+  const elemRemove = ItensCarrinho.find(item => item.sku === elemId);
   ItensCarrinho.splice(ItensCarrinho.indexOf(elemRemove), 1);
   localStorage.setItem('carrinho', JSON.stringify(ItensCarrinho));
 }
@@ -64,7 +72,7 @@ function getProductForCarItem(event) {
   const numeroSku = eventPai.children[0].innerText;
   fetch(`https://api.mercadolibre.com/items/${numeroSku}`)
     .then(resolve => resolve.json())
-    .then(data => {
+    .then((data) => {
       const parameter = {
         sku: data.id,
         name: data.title,
@@ -72,30 +80,22 @@ function getProductForCarItem(event) {
       };
       createCartItemElement(parameter);
       saveProductsCart(parameter);
-      somaProdutos(parameter);
+//      somaProdutos(parameter);
     })
     .catch(console.error);
 }
 
-async function somaProdutos({ salePrice }) {
-  const prices = document.getElementsByClassName('total-price')[0];
-  const totalPrices = 0;
-  totalPrices += salePrice;
-}
-
-function getItensLocalStorage() {
-  let ItensCarrinho = [];
-  if (localStorage.getItem('carrinho')) {
-    ItensCarrinho = JSON.parse(localStorage.getItem('carrinho'));
-  }
-  return ItensCarrinho;
-}
+//async function somaProdutos({ salePrice }) {
+//  const prices = document.getElementsByClassName('total-price')[0];
+//  const totalPrices = 0;
+//  totalPrices += salePrice;
+//}
 
 // criando a chamada do função que busca o elemento.
 function buscarElemento(result) {
   const product = { sku: '', name: '', image: '' };
   const produtos = result;
-  produtos.map(elem => {
+  produtos.map((elem) => {
     product.sku = elem.id;
     product.name = elem.title;
     product.image = elem.thumbnail;
