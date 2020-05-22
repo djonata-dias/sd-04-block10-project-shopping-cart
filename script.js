@@ -16,13 +16,9 @@ function createCustomElement(element, className, innerText) {
 const sumAll = async () => {
   const allItems = document.getElementsByClassName('cart__item');
   const totalPriceDisplay = document.querySelector('.total-price');
-  totalPriceDisplay.innerHTML =
-    Math.round(
-      [...allItems]
-        .map(e => e.textContent.match(/([0-9.]){1,}$/))
-        .reduce((acc, price) => acc + parseFloat(price), 0)
-        * 100,
-    ) / 100;
+  totalPriceDisplay.textContent = [...allItems]
+    .map(e => e.textContent.match(/([0-9.]){1,}$/))
+    .reduce((acc, price) => acc + parseFloat(price), 0);
 };
 
 const updateCart = () => {
