@@ -94,7 +94,7 @@ function listItems(array) {
   const loadingMessage = document.querySelector('p.loading');
   setTimeout(() => {
     sectionContainer.removeChild(loadingMessage);
-  }, 1);
+  }, 500);
   const sectionItems = document.querySelector('section.items');
   array.forEach((computerObj) => {
     const { id: sku, title: name, thumbnail: image } = computerObj;
