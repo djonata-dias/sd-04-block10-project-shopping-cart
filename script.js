@@ -41,19 +41,20 @@ const somaTudo = async (price, sinal) => {
     } else {
       tot -= price;
     }
-    total.innerHTML = tot.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    // total.innerHTML = tot.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    total.innerHTML = tot.toFixed(2);
   } catch (err) {
     console.log(err);
   }
 };
 
 function cartItemClickListener(event) {
-  const pos = event.target.innerText.indexOf('$');
-  const valor = event.target.innerHTML.substring(pos + 1);
-  somaTudo(valor, false);
-  event.target.remove();
+  const pos = event.target.innerText.indexOf('$') + 1;
+  const valor = event.target.innerHTML.substring(pos).replace('$', ' ').trim();
+  somaTudo(parseFloat(valor), false);
   const code = event.target.innerText.substring(5, 18);
   cart.splice(cart.indexOf(code), 1);
+  event.target.remove();
   saveToStorage();
 }
 
@@ -72,7 +73,7 @@ const addToCart = (code) => {
     const item = createCartItemElement({ sku: id, name: title, salePrice: price });
     cart.push(id);
     carrinho.append(item);
-    somaTudo(price, true);
+    somaTudo(parseFloat(price), true);
     saveToStorage();
   })
   .catch(error => console.log(error));
