@@ -12,26 +12,37 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-const toLocalStorage = () => { // Function to send products list and total price to local storage
+const toLocalStorage = () => { // Function to send products list to local storage
   const list = document.querySelector('.cart__items').innerHTML;
-  const totalSection = document.querySelector('section.total-price').innerHTML;
-
   localStorage.setItem('cart_products', list);
-  localStorage.setItem('total_price', totalSection);
+};
+
+const totalPrice = async () => {
+  const cartItems = document.querySelector('.cart__items');
+  const totalSpan = document.querySelector('.total-span');
+  const priceArr = [];
+  let total = 0;
+
+  const list = cartItems.children;
+  for (let i = 0; i < list.length; i += 1) {
+    const itemArr = list[i].innerText.split(' ');
+    const price = itemArr[itemArr.length - 1];
+    const number = Number(price.substring(1));
+    priceArr.push(number);
+  }
+  total = priceArr.reduce((acc, curr) => acc + curr, 0);
+  totalSpan.innerHTML = `Valor total: R$${total}`;
 };
 
 function cartItemClickListener(event) { // Removing cart item by clicking it
   event.target.remove();
   toLocalStorage();
+  totalPrice();
 }
 
-const toGetLocalStorage = () => { // Get saved list and total price from local storage
+const toGetLocalStorage = () => { // Get saved list from local storage
   const getList = localStorage.getItem('cart_products');
-  const getTotalPrice = localStorage.getItem('total_price');
-
   document.querySelector('.cart__items').innerHTML = getList; // Adding items to current list
-  document.querySelector('section.total-price').innerHTML = getTotalPrice; // Adding total price to 'total-price' section
-
   const cart = document.querySelector('.cart__items'); // Making the items clickable again
   cart.addEventListener('click', cartItemClickListener);
 };
@@ -42,6 +53,7 @@ const emptyCart = () => { // Function to delete all items form the cart at once
     const itemsList = document.querySelector('.cart__items');
     itemsList.innerHTML = '';
     toLocalStorage();
+    totalPrice();
   });
 };
 
@@ -53,15 +65,6 @@ function createCartItemElement({ sku, name, salePrice }) { // Function to insert
   return li;
 }
 
-// const totalPrice = (price) => {
-//   let total = 0;
-
-//   const totalSection = document.querySelector('section.total-price');
-//   const totalSpan = document.querySelector('.total-span')
-//   totalSpan.innerHTML = price;
-//   totalSection.appendChild()
-// }
-
 // Function to create the item object as required, with sku, name and salePrice
 const newCartItem = (itemObj) => {
   const cartItems = document.querySelector('.cart__items');
@@ -72,6 +75,7 @@ const newCartItem = (itemObj) => {
     salePrice: price,
   };
   cartItems.appendChild(createCartItemElement(item));
+  totalPrice();
 };
 
 function createProductItemElement({ sku, name, image }) { // Creating the list of available products
@@ -121,5 +125,5 @@ window.onload = function onload() {
   firstFetch();
   emptyCart();
   toGetLocalStorage();
-  // addValues();
+  totalPrice();
 };
