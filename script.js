@@ -19,9 +19,9 @@ const asyncSum = async () => {
 
 const clearCart = () => {
   const cart = document.querySelector('.cart__items');
-  const items = document.getElementsByClassName("cart__item");
-  while(items.length > 0){
-    items[0].remove()
+  const items = document.getElementsByClassName('cart__item');
+  while (items.length > 0) {
+    items[0].remove();
   }
   localStorage.setItem('products', JSON.stringify([]));
   asyncSum();
