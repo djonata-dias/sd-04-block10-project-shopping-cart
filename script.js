@@ -63,7 +63,7 @@ let valor = 0;
 function cartItemClickListener(e) {
   const totalPrice = document.querySelector('.total-price');
   valor -= e.target.id;
-  totalPrice.innerText = valor.toFixed(0);
+  totalPrice.innerText = Math.trunc(valor.toFixed(2));
   e.target.remove();
   storageUpdate();
 }
@@ -103,7 +103,7 @@ window.onload = async function onload() {
     valor = Array.from(cartItems.children)
       .map(element => Number(element.id))
       .reduce((acc, cur) => acc + cur);
-    totalPrice.innerText = valor.toFixed(0);
+    totalPrice.innerText = Math.trunc(valor.toFixed(2));
     cartItems.addEventListener('click', cartItemClickListener);
   }
 
@@ -115,7 +115,7 @@ window.onload = async function onload() {
     cartItems.appendChild(itemAdded);
     storageUpdate();
     valor += clickado.salePrice;
-    totalPrice.innerText = valor.toFixed(0);
+    totalPrice.innerText = Math.trunc(valor.toFixed(2));
   }));
 
   const buttonClear = document.querySelector('.empty-cart');
