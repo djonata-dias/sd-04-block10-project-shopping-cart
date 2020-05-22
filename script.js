@@ -1,16 +1,20 @@
-const updatePrice = () => {
-  let totalPrice = 0;
-  const itemsList = document.querySelectorAll('ol.cart__items > li');
-  itemsList.forEach((itemElement) => {
-    const elementInnerHTMLarray = itemElement.innerHTML.split(' ');
-    const elementPriceArray = elementInnerHTMLarray[
-      elementInnerHTMLarray.length - 1
-    ].split('');
-    elementPriceArray.splice(0, 1);
-    const elementPriceNumber = Number(elementPriceArray.join(''));
-    totalPrice += elementPriceNumber;
-  });
-  document.querySelector('p.total-price').innerHTML = totalPrice;
+const updatePrice = async () => {
+  try {
+    let totalPrice = 0;
+    const itemsList = await document.querySelectorAll('ol.cart__items > li');
+    itemsList.forEach((itemElement) => {
+      const elementInnerHTMLarray = itemElement.innerHTML.split(' ');
+      const elementPriceArray = elementInnerHTMLarray[
+        elementInnerHTMLarray.length - 1
+      ].split('');
+      elementPriceArray.splice(0, 1);
+      const elementPriceNumber = Number(elementPriceArray.join(''));
+      totalPrice += elementPriceNumber;
+    });
+    document.querySelector('p.total-price').innerHTML = totalPrice;
+  } catch (err) {
+    console.log(err.message);
+  }
   return totalPrice;
 };
 
@@ -90,7 +94,7 @@ function listItems(array) {
   const loadingMessage = document.querySelector('p.loading');
   setTimeout(() => {
     sectionContainer.removeChild(loadingMessage);
-  }, 1000);
+  }, 500);
   const sectionItems = document.querySelector('section.items');
   array.forEach((computerObj) => {
     const { id: sku, title: name, thumbnail: image } = computerObj;
