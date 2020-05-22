@@ -51,24 +51,24 @@ function createCartItemElement({ id, title, price }) {
   return li;
 }
 
-// removing itens from the cart by clicking on them:
-let arrLStorage = [];
-function cartItemClickListener(event) {
-  // removing element only if it's a list
-  if (event.target && event.target.nodeName === 'LI') event.target.remove();
-  // removing the product from the storage array
-  arrLStorage.splice(event.target.innerHTML, 1);
-  // than setting the new array as the current storage
-  localStorage.setItem('items', JSON.stringify(arrLStorage));
-}
-cartSection.addEventListener('click', cartItemClickListener);
-
 // adding to localStorage, this function is called each time we do a fetch:
+let arrLStorage = [];
 const addingToStorage = (product) => {
   arrLStorage = JSON.parse(localStorage.getItem('items'));
   arrLStorage.push(product.innerHTML);
   localStorage.setItem('items', JSON.stringify(arrLStorage));
 };
+
+// removing itens from the cart by clicking on them:
+function cartItemClickListener(event) {
+  // removing element only if it's a list
+  if (event.target && event.target.nodeName === 'LI') event.target.remove();
+  // removing the product from the storage array
+  if (arrLStorage.length !== 0) arrLStorage.splice(event.target.innerHTML, 1);
+  // than setting the new array as the current storage
+  localStorage.setItem('items', JSON.stringify(arrLStorage));
+}
+cartSection.addEventListener('click', cartItemClickListener);
 
 // loading localStorage when the page loads:
 const loadingLS = () => {
