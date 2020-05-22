@@ -73,12 +73,12 @@ window.onload = function onload() {
 
   // find the Id of the clicked add to cart button
   document.body.addEventListener('click', function (event) {
+    console.log(event.target.className); // to remove
     if (event.target.className === 'item__add') {
-      fetchId(event.target.previousSibling.previousSibling.previousSibling.innerText);// To be improve
+      fetchId(event.target.previousSibling.previousSibling.previousSibling.innerText);// Toimpro
     }
-    // if (event.target.className === 'cart__title') {
-    //   // console.log('coucou');
-    //   // fetchId(event.target.previousSibling.previousSibling.previousSibling.innerText);// To be improve
-    // }
+    if (event.target.className === 'empty-cart') {
+      // console.log('coucou');
+    }
   });
 }; // End of window load
