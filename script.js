@@ -20,7 +20,9 @@ const displaySum = (sum) => {
       prices.innerText = sum;
       resolve();
     } else {
-      prices.innerText = 0.0;
+
+      // prices.innerText = 0.0;
+
       reject('Deu ruim não tinha soma dos preços');
     }
   });
@@ -36,10 +38,12 @@ const asyncSum = async () => {
 };
 
 const clearCart = () => {
+  const prices = document.querySelector('.total-price');
   const cart = document.querySelector('.cart__items');
   cart.innerHTML = '';
   localStorage.setItem('products', JSON.stringify([]));
   asyncSum();
+  prices.innerText = 0.0;
 };
 
 function createProductImageElement(imageSource) {
