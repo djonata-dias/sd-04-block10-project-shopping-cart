@@ -14,7 +14,7 @@ const limpaLista = () => {
   carrinho.innerText = '';
   cart = [];
   tot = 0;
-  total.innerHTML = tot.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  total.innerHTML = 'R$ 0,00';
   saveToStorage();
 };
 
@@ -41,6 +41,7 @@ const somaTudo = async (price, sinal) => {
     } else {
       tot -= price;
     }
+    total.innerHTML = tot.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   } catch (err) {
     console.log(err);
   }
@@ -50,7 +51,6 @@ function cartItemClickListener(event) {
   const pos = event.target.innerText.indexOf('$');
   const valor = event.target.innerHTML.substring(pos + 1);
   somaTudo(valor, false);
-  total.innerHTML = tot.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   event.target.remove();
   const code = event.target.innerText.substring(5, 18);
   cart.splice(cart.indexOf(code), 1);
@@ -73,7 +73,6 @@ const addToCart = (code) => {
     cart.push(id);
     carrinho.append(item);
     somaTudo(price, true);
-    total.innerHTML = tot.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     saveToStorage();
   })
   .catch(error => console.log(error));
