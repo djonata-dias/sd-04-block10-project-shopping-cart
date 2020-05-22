@@ -10,7 +10,6 @@ function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
   e.className = className;
   e.innerText = innerText;
-  // é aqui que se cria o botão.,
   return e;
 }
 
@@ -34,13 +33,24 @@ function createProductItemElement({ sku, name, image }) {
 //   // coloque seu código aqui
 // }
 
-// function createCartItemElement({ sku, name, salePrice }) {
-//   const li = document.createElement('li');
-//   li.className = 'cart__item';
-//   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-//   li.addEventListener('click', cartItemClickListener);
-//   return li;
-// }
+function createCartItemElement({ sku, name, salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  // li.addEventListener('click', cartItemClickListener);
+  document.getElementsByClassName('cart__items')[0].appendChild(li);
+  return li;
+}
+
+// vamos criar uma função para tratar os dados do evento de click e jogar para o carrinho de compras
+
+function getAllInfoFromProductItem(event) {
+  const itemID = event.target.parentNode.firstChild.innerText;
+  fetch(`https://api.mercadolibre.com/items/${itemID}`)
+    .then(response => response.json())
+    .then(data => createCartItemElement({ sku: data.id, name: data.title, salePrice: data.price }))
+    .catch(console.error);
+}
 
 // criando a chamada da função que busca o produto.
 
@@ -53,10 +63,18 @@ const returnProduct = (results) => {
     const section = createProductItemElement(product);
     document.getElementsByClassName('items')[0].appendChild(section);
   });
+  // pegando o evento de click e colocando numa variável
+  document.querySelectorAll('.item__add')
+  //  o querySelectorAll devolve um array com todos os elementos...
+  //  nesse carro um array com os elementos dessa class.
+      .forEach((item) => {
+        item.addEventListener('click', event => getAllInfoFromProductItem(event)); // aqui eu adicionei o evento ao item
+      });
 };
 
 window.onload = function onload() {
   fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
-    .then(response => response.json()).then(data => returnProduct(data.results))
+    .then(response => response.json())
+    .then(data => returnProduct(data.results))
     .catch(console.error);
 };
