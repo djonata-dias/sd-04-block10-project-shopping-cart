@@ -94,8 +94,9 @@ window.onload = async function onload() {
   buttons.map(button => button.addEventListener('click', async (e) => {
     const id = await eventFunction(e);
     const clickado = await doClick(id);
-    const itemAdded = await createCartItemElement(clickado);
-    await cartItems.appendChild(itemAdded);
+    const itemAdded = createCartItemElement(clickado);
+    cartItems.appendChild(itemAdded);
+    localStorage.setItem('cartItemsKey', (cartItems.innerHTML));
   }));
 
   const buttonClear = document.querySelector('.empty-cart');
