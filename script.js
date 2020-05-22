@@ -138,6 +138,9 @@ window.onload = function onload() {
     .then(response => response.json())
     .then(data => buscarElemento(data.results))
     .catch(console.error);
+  setTimeout(() => {
+    document.getElementsByClassName('loading')[0].remove()
+  }, 500);
   if (localStorage.carrinho) {
     const ItensCarrinho = getItensLocalStorage();
     ItensCarrinho.forEach(item => createCartItemElement(item));
