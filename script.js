@@ -1,6 +1,6 @@
 const secItems = document.querySelector('.items'); // Manipula section items.
 const carrinho = document.querySelector('.cart__items');
-let cart = []; // Vou ver o que faço com isso.
+const cart = []; // Vou ver o que faço com isso.
 
 const saveToStorage = () => {
   localStorage.setItem('itens_carrinho', JSON.stringify(cart));
@@ -83,8 +83,6 @@ window.onload = function onload() {
   .catch(error => console.log(error));
   const salvos = JSON.parse(localStorage.itens_carrinho);
   if (localStorage.itens_carrinho) {
-    salvos.forEach(code => {
-      addToCart(code);
-    });
+    salvos.forEach(code => addToCart(code));
   }
 };
