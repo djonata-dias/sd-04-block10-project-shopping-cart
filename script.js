@@ -10,7 +10,11 @@ const sumCartPrices = () => {
 };
 
 const asyncSum = async () => {
-  await sumCartPrices();
+  try {
+    await sumCartPrices();
+  } catch (erro) {
+    console.log(erro);
+  }
 };
 
 const clearCart = () => {
@@ -18,7 +22,7 @@ const clearCart = () => {
   while (items.length > 0) {
     items[0].remove();
   }
-  localStorage.products = JSON.stringify([]);
+  localStorage.setItem('products', JSON.stringify([]));
   asyncSum();
 };
 
@@ -36,8 +40,8 @@ function getSkuFromProductItem(item) {
 function cartItemClickListener(event) {
   element = event.target;
   if (element) {
-    element.remove();
-    const products = JSON.parse(localStorage.products);
+    element.parentNode.removeChild(element);
+    const products = JSON.parse(localStorage.getItem('products'));
     if (products) {
       const ProductId = products.findIndex(
         product => product.id === event.target.id,
