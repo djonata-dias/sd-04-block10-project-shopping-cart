@@ -19,7 +19,9 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+  section.appendChild(
+    createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'),
+  );
   return section;
 }
 
@@ -40,7 +42,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 // Fetch to call the infomation related to Id and call createCartItemElement
-const fetchId = (idToFecth) => {
+function fetchId(idToFecth) {
   fetch(`https://api.mercadolibre.com/items/${idToFecth}`)
     .then(response => response.json())
     .then((data) => {
@@ -50,10 +52,21 @@ const fetchId = (idToFecth) => {
           sku: idToFecth,
           name: data.title,
           salePrice: data.price,
-        }));
+        }),
+      );
     })
     .catch(error => console.log(error));
-};
+}
+
+function removeCartItems() {
+  console.log('coucou Hop');
+  const test = document.getElementsByClassName('cart__items');
+  console.log('test', test[0]);
+  while (test[0].firstChild) {
+    test[0].removeChild(test[0].firstChild);
+  }
+}
+// test[0].removeChild(test[0]);
 
 window.onload = function onload() {
   const query = 'computador';
@@ -67,18 +80,19 @@ window.onload = function onload() {
             sku: result.id,
             name: result.title,
             image: result.thumbnail,
-          }));
+          }),
+        );
       });
-    }).catch(error => console.log(error));
-
+    })
+    .catch(error => console.log(error));
   // find the Id of the clicked add to cart button
   document.body.addEventListener('click', function (event) {
     console.log(event.target.className); // to remove
     if (event.target.className === 'item__add') {
-      fetchId(event.target.previousSibling.previousSibling.previousSibling.innerText);// Toimpro
+      fetchId(
+        event.target.previousSibling.previousSibling.previousSibling.innerText,
+      ); // Toimpro
     }
-    if (event.target.className === 'empty-cart') {
-      // console.log('coucou');
-    }
+    if (event.target.className === 'empty-cart') removeCartItems();
   });
 }; // End of window load
