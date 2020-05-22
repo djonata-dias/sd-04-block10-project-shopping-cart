@@ -18,7 +18,7 @@ const sumCartPrices2 = () => {
   });
   prices.innerText = total;
   return total;
-}
+};
 
 const asyncSum = async () => {
   sumCartPrices2();
