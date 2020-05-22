@@ -139,7 +139,7 @@ window.onload = function onload() {
     .then(data => buscarElemento(data.results))
     .catch(console.error);
   setTimeout(() => {
-    document.getElementsByClassName('loading')[0].remove()
+    document.getElementsByClassName('loading')[0].remove();
   }, 500);
   if (localStorage.carrinho) {
     const ItensCarrinho = getItensLocalStorage();
