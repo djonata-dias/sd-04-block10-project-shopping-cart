@@ -51,7 +51,7 @@ async function somaProdutos({ salePrice }) {
   } else {
     valorTotal = salePrice;
   }
-  price.innerText = valorTotal;
+  price.innerText = parseFloat(valorTotal.toFixed(2));
   prices.appendChild(price);
   localStorage.setItem('valorTotal', valorTotal);
 }
