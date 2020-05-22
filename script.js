@@ -49,8 +49,22 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 //  Requirement 1
 
-const createList = (dados) => {
+const createList = async () => {
+  await fetch(API_URL, myObj)
+    .then(response => response.json())
+    .then((data) => {
+      const items = document.querySelector('.items');
 
+      data.results.map(function (dados) {
+        return items.appendChild(
+          createProductItemElement({
+            sku: dados.id,
+            name: dados.name,
+            image: dados.thumbnail,
+          }),
+        );
+      });
+    });
 };
 
 window.onload = async function onload() {
