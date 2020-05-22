@@ -26,9 +26,28 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
+const convertObject = (dataArray) => {
+  const itemClass = document.querySelector('.items');
+  dataArray.forEach(({ id, title, thumbnail }) => {
+    itemClass.appendChild(createProductItemElement({ sku: id, name: title, image: thumbnail }));
+    console.log(itemClass);
+  });
+};
+
+const getObject = (busca) => {
+  const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=';
+
+  fetch(API_URL + busca)
+  .then(response => response.json())
+  .then(data => convertObject(data.results));
+//  .then(data => console.log(data.results[0]))
+};
+
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
+
+getObject('TV');
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
