@@ -30,6 +30,7 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
+  event.target.remove(); //  really?! kkkkk sogra desce
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -39,21 +40,38 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+const addToCart = (datajson) => { //  trata e add to cart fino
+  const produto = document.querySelector('.cart__items');
+  produto.appendChild(createCartItemElement({ sku: datajson.id, name: datajson.title, salePrice: datajson.price }));
+};
 
 const APIURL = 'https://api.mercadolibre.com/sites/MLB/search?q=';
 const PESQUISA = 'computador';
+const URLITEM = 'https://api.mercadolibre.com/items/';
+// const ITEMID = '$ItemID';
 
 const gerarLista = (productArr) => {
-  const items = document.getElementsByClassName('items');
+  const items = document.querySelectorAll('.items');
+  //  loop para gerar os elementos em <section class="items">
   productArr.forEach((produto) => {
     const { id, title, thumbnail } = produto;
     items[0].appendChild(createProductItemElement({ sku: id, name: title, image: thumbnail }));
   });
+    const product = document.querySelectorAll('.item');
+    //  loop para add event listener nos botões de adicionar ao carrinho
+    product.forEach((element) => {
+      element.lastElementChild.addEventListener('click', () => { //  lastElemntChild é o botão que recebe o event listener
+        fetch(`${URLITEM}${getSkuFromProductItem(element)}`) //  getSkuFromProductItem retorna id do produto
+        .then(data => data.json()) //  converte p json
+        .then(datajson => addToCart(datajson)) // manda p tratar e add to cart
+        .catch(error => console.log(error.message));
+      });
+    });
 };
 
 window.onload = function onload() {
   fetch(`${APIURL}${PESQUISA}`)
     .then(data => data.json())
-    .then(data => gerarLista(data.results))
-    .catch(error => console.log(error));
+    .then(datajson => gerarLista(datajson.results))
+    .catch(error => console.log(error.message));
 };
