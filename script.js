@@ -30,7 +30,6 @@ function createProductItemElement({ sku, name, image }) {
 // }
 
 function cartItemClickListener(event) {
-  // ao clicar num produto, ele deve ser removido da lista
   document.querySelector('.cart__items').removeChild(event.target);
 }
 
