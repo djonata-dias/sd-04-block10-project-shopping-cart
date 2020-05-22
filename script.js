@@ -90,10 +90,10 @@ window.onload = async function onload() {
   document
     .getElementsByClassName('empty-cart')[0]
     .addEventListener('click', () => {
-      document.getElementsByClassName('cart__items')[0].innerHTML = '';
+      document.getElementsByClassName('cart__items')[0].remove();
     });
 
-  document
+/*   document
     .querySelectorAll('li')
-    .forEach(li => li.addEventListener('click', cartItemClickListener));
+    .forEach(li => li.addEventListener('click', cartItemClickListener)); */
 };
