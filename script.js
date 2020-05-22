@@ -22,7 +22,7 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-  
+
   return section;
 }
 
@@ -51,7 +51,7 @@ const fFetch = (q) => {
         const o = { sku, name, image };
         document.querySelector('section .items').appendChild(createProductItemElement(o));
         // console.log(result)
-      })
+      });
     }) // resTreat.results ok
     .catch(() => console.log('res error'));
 };
