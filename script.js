@@ -1,10 +1,4 @@
-const tratarRetornoDaApi = dados =>
-dados.map(product => document.getElementsByClassName('items')[0]
-.appendChild(createProductItemElement({
-  sku: product.id,
-  name: product.title,
-  image: product.thumbnail,
-})));
+
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -31,6 +25,14 @@ function createProductItemElement({ sku, name, image }) {
 
   return section;
 }
+
+const tratarRetornoDaApi = dados =>
+dados.map(product => document.getElementsByClassName('items')[0]
+.appendChild(createProductItemElement({
+  sku: product.id,
+  name: product.title,
+  image: product.thumbnail,
+})));
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
