@@ -91,7 +91,7 @@ const createList = async () => {
         );
       });
     });
-    document.getElementsByClassName('loading')[0].remove();
+  document.getElementsByClassName('loading')[0].remove();
 };
 
 //  Requeriment 3, 4 and 6
