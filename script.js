@@ -110,8 +110,8 @@ const query = 'computador';
 const sectionItems = document.getElementsByClassName('items');
 const containerElement = document.getElementsByClassName('cart');
 const span = document.createElement('span');
-span.innerText = 'loading';
-span.className = 'loading...';
+span.innerText = 'loading...';
+span.className = 'loading';
 window.onload = function onload() {
   loadCart();
   sumPrice();
