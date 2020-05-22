@@ -68,7 +68,9 @@ function getSkuFromProductItem(item) {
 }
 
 function listItems(array) {
-  document.querySelector('p.loading').style.display = 'none';
+  const sectionContainer = document.querySelector('section.container');
+  const loadingMessage = document.querySelector('p.loading');
+  sectionContainer.removeChild(loadingMessage);
   const sectionItems = document.querySelector('section.items');
   array.forEach((computerObj) => {
     const { id: sku, title: name, thumbnail: image } = computerObj;
