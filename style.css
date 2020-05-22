@@ -93,9 +93,9 @@ body {
   padding: 7px;
 }
 
-/* .cart__item:hover {
-  background-color: rgb(0, 50, 0);
-} */
+.cart__item:hover {
+  background: rgb( 0 , 125 , 100 );
+}
 
 .total-price {
   color: black;
