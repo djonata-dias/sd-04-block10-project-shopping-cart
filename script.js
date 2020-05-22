@@ -43,6 +43,7 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
+let arrLStorage = [];
 // creating elements for each item in the cart section:
 function createCartItemElement({ id, title, price }) {
   const li = document.createElement('li');
@@ -52,7 +53,6 @@ function createCartItemElement({ id, title, price }) {
 }
 
 // adding to localStorage, this function is called each time we do a fetch:
-let arrLStorage = [];
 const addingToStorage = (product) => {
   arrLStorage = JSON.parse(localStorage.getItem('items'));
   arrLStorage.push(product.innerHTML);
