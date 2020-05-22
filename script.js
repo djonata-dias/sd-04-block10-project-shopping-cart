@@ -3,6 +3,17 @@ function saveCart() { //  salva cart no local storage
   localStorage.setItem('cart_list', lista);
 }
 
+//  esvaziar cart
+const clear = () => {
+  //  seleciona elemento com classe 'empty-cart'
+  const btnClearAll = document.querySelector('.empty-cart');
+  btnClearAll.addEventListener('click', () => {
+    //  remove todos os elementos com classe cart__item (produtos do carrinho)
+    const cartItems = document.querySelectorAll('.cart__item');
+    cartItems.forEach(item => item.remove());
+  });
+};
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -35,6 +46,7 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
+  clear();
   event.target.remove();
   saveCart();
 }
@@ -83,6 +95,7 @@ function loadCart() { //  carrega cart salvo no local storage
   document.querySelector('.cart__items').innerHTML = savedList;
   const cart = document.querySelector('.cart__items');
   cart.addEventListener('click', cartItemClickListener);
+  clear();
 }
 
 window.onload = function onload() {
