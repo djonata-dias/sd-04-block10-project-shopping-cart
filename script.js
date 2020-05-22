@@ -91,6 +91,7 @@ const createList = async () => {
         );
       });
     });
+    document.getElementsByClassName('loading')[0].remove();
 };
 
 //  Requeriment 3, 4 and 6
@@ -106,7 +107,7 @@ window.onload = async function onload() {
 
   document
     .getElementsByClassName('cart__items')[0]
-    .innerHTML = localStorage.getItem('cartItems');
+    .innerHTML = localStorage.getItem('cartItems'); //  4
 
   document
     .querySelectorAll('li')
