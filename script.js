@@ -15,11 +15,11 @@ function createCartItemElement({ sku, name, salePrice }) {
 const addCart = (e) => {
   const id = e.target.parentNode.firstChild.innerText;
   fetch(`https://api.mercadolibre.com/items/${id}`)
-    .then(resp => resp.json())
-    .then((respTreat) => {
-      const { id: sku, title: name, price: salePrice } = respTreat;
-      const ob = { sku, name, salePrice };
-      document.querySelector('.cart__items').appendChild(createCartItemElement(ob));
+    .then(res => res.json())
+    .then((resTreat) => {
+      const { id: sku, title: name, price: salePrice } = resTreat;
+      const o = { sku, name, salePrice };
+      document.querySelector('ol.cart__items').appendChild(createCartItemElement(o));
     });
 };
 
@@ -61,7 +61,7 @@ const fFetch = (q) => {
       resTreat.results.forEach((result) => {
         const { id: sku, title: name, thumbnail: image } = result;
         const o = { sku, name, image };
-        document.querySelector('section .items').appendChild(createProductItemElement(o));
+        document.querySelector('section.items').appendChild(createProductItemElement(o));
       });
     })
     .catch(() => console.log('res error'));
