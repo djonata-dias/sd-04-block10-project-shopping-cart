@@ -11,7 +11,7 @@
       let totalPrice = 0;
       const cartItems = await getItemsStorage();
       totalPrice = cartItems.reduce((total, item) => total + item.price, 0);
-      document.querySelector('.total-price').innerHTML = `Total: R$ ${totalPrice.toFixed(2)}`;
+      document.querySelector('.total-price').innerHTML = `${totalPrice}`;
     } catch (err) {
       console.log(err.msg);
     }
