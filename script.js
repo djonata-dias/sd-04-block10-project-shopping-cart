@@ -31,7 +31,7 @@ function addToCart(id) {
     .then(data => data)
     .then(addToCartObj)
     .then(createCartItemElement)
-    .then(item => {
+    .then((item) => {
       const itemsList = document.querySelector('ol.cart__items');
       itemsList.appendChild(item);
       return itemsList;
@@ -68,8 +68,9 @@ function getSkuFromProductItem(item) {
 }
 
 function listItems(array) {
+  document.querySelector('p.loading').style.display = 'none';
   const sectionItems = document.querySelector('section.items');
-  array.forEach(computerObj => {
+  array.forEach((computerObj) => {
     const { id: sku, title: name, thumbnail: image } = computerObj;
     const newObj = { sku, name, image };
     sectionItems.appendChild(createProductItemElement(newObj));
@@ -95,7 +96,7 @@ window.onload = function onload() {
     const itemsList = document.querySelector('ol.cart__items');
     while (itemsList.firstChild !== null) {
       itemsList.removeChild(itemsList.firstChild);
-    };
+    }
   });
   fetchList();
 };
