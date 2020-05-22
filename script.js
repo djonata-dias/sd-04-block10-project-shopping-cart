@@ -10,7 +10,6 @@ const fFetch = (q, call) => {
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
-  event.target.remove(event.target);
 }
 
 function createCartItemElement({ sku, name, salePrice }) { // usada
