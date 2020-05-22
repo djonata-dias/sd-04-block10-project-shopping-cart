@@ -30,9 +30,23 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item_sku').innerText;
 }
 
+function saveProductsCart (produto) {
+  console.log(produto)
+  let carrinho = [];
+  if (localStorage.carrinho) {
+    carrinho = JSON.parse(localStorage.getItem('carrinho'));
+  }
+  carrinho.push(produto);
+  localStorage.setItem('carrinho', JSON.stringify(carrinho))
+}
+
 function cartItemClickListener(event) {
-  const element = event.target;
-  element.parentNode.removeChild(element);
+  const elemId = event.target.innerText.split(' | ')[0].substr(5); // pega Id do evento
+  const ItensCarrinho = getItensLocalStorage(); // pega os itens armazenados
+  const elemRemove = ItensCarrinho.find(item => item.id == elemId);
+  ItensCarrinho.splice(ItensCarrinho.indexOf(elemRemove), 1);
+  localStorage.setItem('carrinho', JSON.stringify(ItensCarrinho));
+  event.target.remove()
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -57,6 +71,8 @@ function getProductForCarItem(event) {
         salePrice: data.price,
       };
       createCartItemElement(parameter);
+      saveProductsCart(parameter)
+      somaProdutos(parameter)
     })
     .catch(console.error);
   const limparCarrinho = document.getElementsByClassName('empty-cart')[0];
@@ -65,7 +81,22 @@ function getProductForCarItem(event) {
     while (carroDeCompras.firstChild) {
       carroDeCompras.removeChild(carroDeCompras.firstChild);
     }
+    localStorage.clear()
   });
+}
+
+async function somaProdutos ({salePrice}) {
+  const prices = document.getElementsByClassName('total-price')[0];
+  const totalPrices = 0;
+  totalPrices += salePrice
+}
+
+function getItensLocalStorage () {
+  let ItensCarrinho = [];
+  if (localStorage.getItem('carrinho')) {
+    ItensCarrinho = JSON.parse(localStorage.getItem('carrinho'))
+  }
+  return ItensCarrinho
 }
 
 // criando a chamada do função que busca o elemento.
@@ -92,4 +123,10 @@ window.onload = function onload() {
     .then(response => response.json())
     .then(data => buscarElemento(data.results))
     .catch(console.error);
+  if (localStorage.carrinho) {
+    const ItensCarrinho = getItensLocalStorage();
+    ItensCarrinho.forEach(item => createCartItemElement(item));
+  } else {
+    localStorage.setItem('carrinho', '');
+  }
 };
