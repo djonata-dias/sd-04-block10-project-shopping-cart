@@ -131,7 +131,6 @@ async function listItems() {
   }));
 
   const sectionItems = document.getElementsByClassName('items')[0];
-  
 
   formattedItems.forEach((formattedItem) => {
     const sectionItem = createProductItemElement(formattedItem);
