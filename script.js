@@ -50,7 +50,7 @@ function getProductForCarItem(event) {
   const numeroSku = eventPai.children[0].innerText;
   fetch(`https://api.mercadolibre.com/items/${numeroSku}`)
     .then(resolve => resolve.json())
-    .then(data => {
+    .then((data) => {
       const parameter = {
         sku: data.id,
         name: data.title,
@@ -70,9 +70,9 @@ function getProductForCarItem(event) {
 
 // criando a chamada do função que busca o elemento.
 function buscarElemento(result) {
-  const product = { sku: '', name: '', salePrice: '', image: '' };
+  const product = { sku: '', name: '', image: '' };
   const produtos = result;
-  produtos.map(elem => {
+  produtos.map((elem) => {
     product.sku = elem.id;
     product.name = elem.title;
     product.image = elem.thumbnail;
