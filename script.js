@@ -93,10 +93,6 @@ window.onload = async function onload() {
       document.getElementsByClassName('cart__items')[0].innerHTML = '';
     });
 
-  document.getElementsByClassName(
-    'cart__items',
-  )[0].innerHTML = localStorage.getItem('itemCart');
-
   document
     .querySelectorAll('li')
     .forEach(li => li.addEventListener('click', cartItemClickListener));
