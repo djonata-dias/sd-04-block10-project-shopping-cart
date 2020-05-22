@@ -4,7 +4,7 @@ const getProductsFromLocalStorage = () =>
 const sumCartPrices = () => {
   const sum = getProductsFromLocalStorage().reduce(
     (acc, product) => acc + product.price, 0);
-  return sum
+  return sum;
 };
 
 const displaySum = (sum) => {
@@ -22,7 +22,6 @@ const asyncSum = async () => {
 };
 
 const clearCart = () => {
-  const prices = document.querySelector('.total-price');
   const cart = document.querySelector('.cart__items');
   cart.innerHTML = '';
   localStorage.setItem('products', JSON.stringify([]));
