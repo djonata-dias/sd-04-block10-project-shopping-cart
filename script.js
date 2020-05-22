@@ -126,8 +126,6 @@ window.onload = () => {
   const emptyCart = document.querySelector('.empty-cart');
   const loading = document.querySelector('.loading');
 
-  asyncSum();
-
   fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
     .then(object => object.json())
     .then(data => appendToItems(data))
@@ -143,6 +141,8 @@ window.onload = () => {
   } else {
     localStorage.products = JSON.stringify([]);
   }
+
+  asyncSum();
 
   emptyCart.addEventListener('click', () => clearCart());
 
