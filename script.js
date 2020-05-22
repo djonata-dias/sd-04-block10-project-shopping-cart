@@ -106,7 +106,9 @@
     const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
     fetch(API_URL)
     .then(response => response.json())
-    .then(data => returnProduct(data.results));
+    .then(data => returnProduct(data.results))
+    .then(document.querySelector('.loading').style.display = 'none')
+    .catch(console.log('Error while trying to reach API'));
 
     verifyCart();
   };
