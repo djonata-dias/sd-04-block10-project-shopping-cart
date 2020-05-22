@@ -64,15 +64,15 @@ function createCartItemElement({ sku, name, salePrice }) {
 //     });
 //   });
 // };
-const trataDadosJson = (data) => {
-  data.results.forEach((product) => {
+const funcObjectToList = (data) => {
+  data.forEach((product) => {
     const sku = product.id;
     const name = product.title;
     const image = product.thumbnail;
     const section = document.querySelector('.items');
     section.appendChild(createProductItemElement({ sku, name, image }));
   });
-  //addCartListener();
+  // addCartListener();
 };
 
 const callAPI = () => {
