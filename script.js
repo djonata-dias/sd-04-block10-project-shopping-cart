@@ -65,6 +65,10 @@ const addProduto = (event) => {
   .catch(error => console.log(error));
 };
 
+const emptyCart = () => {
+  document.querySelector('.cart__items').innerHTML = '';
+};
+
 const produtos = (produto) => {
   produto.forEach(({ id, title, thumbnail }) => {
     const itemsElement = document.querySelector('.items');
@@ -74,6 +78,8 @@ const produtos = (produto) => {
   botaoAdicionar.forEach((elemento) => {
     elemento.addEventListener('click', addProduto);
   });
+  const botaoEsvaziar = document.querySelector('.empty-cart');
+  botaoEsvaziar.addEventListener('click', emptyCart);
 };
 
 
