@@ -40,7 +40,6 @@ const getObject = (busca) => {
   fetch(API_URL + busca)
   .then(response => response.json())
   .then(data => convertObject(data.results));
-//  .then(data => console.log(data.results[0]))
 };
 
 function getSkuFromProductItem(item) {
