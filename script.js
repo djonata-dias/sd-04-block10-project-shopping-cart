@@ -23,12 +23,6 @@ function saveCart() {
   window.localStorage.cart = cartList.innerHTML;
 }
 
-function cartItemClickListener(event) {
-  event.target.remove();
-  saveCart();
-  updateTotalPrice();
-}
-
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -50,8 +44,14 @@ function getElementWithCallback({ id, title, price, thumbnail }, callback) {
 
 async function updateTotalPrice() {
   let totalPrice = 0;
-  await cartList.childNodes.forEach(a => totalPrice += parseInt(a.id));
+  await cartList.childNodes.forEach(a => { totalPrice += Number(a.id) });
   totalElement.innerText = `Total: R$${totalPrice}`;
+}
+
+function cartItemClickListener(event) {
+  event.target.remove();
+  saveCart();
+  updateTotalPrice();
 }
 
 async function appendCartItemById(id) {
