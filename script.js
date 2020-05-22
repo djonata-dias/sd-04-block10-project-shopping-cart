@@ -1,6 +1,5 @@
 const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
 const myObj = { method: 'GET' };
-const sectionItems = document.getElementsByClassName('items');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -51,66 +50,9 @@ function createCartItemElement({ sku, name, salePrice }) {
 //  Requirement 1
 
 const createList = (dados) => {
-  const arrayList = [];
-  dados.results.forEach((element) => {
-    arrayList.push(element);
-  });
-  //  console.log(arrayList)
-  const arrayProducts = [];
-  arrayList.forEach((e) => {
-    arrayProducts.push({
-      sku: e.id,
-      name: e.title,
-      image: e.thumbnail,
-    });
-    //  console.log(arrayProducts);
-  });
-  return arrayProducts;
+
 };
 
-const printList = array =>
-  array.forEach((e) => {
-    sectionItems[0].appendChild(createProductItemElement(e));
-  });
-
-//  Requirement 2
-
-const addCartElements = (data) => {
-  const objAddCartElem = {
-    sku: data.id,
-    name: data.title,
-    salePrice: data.price,
-  };
-  const li = createCartItemElement(objAddCartElem);
-  const ol = document.querySelector('.cart_items');
-  ol.appendChild(li);
-};
-
-const fetchItemSelected = async (id) => {
-  const ID_URL = `https://api.mercadolibre.com/items/${id}`;
-  const response = await fetch(ID_URL);
-  const data = await response.json();
-  addCartElements(data);
-};
-
-const idElementsClick = (event) => {
-  const parentNodeSection = event.target.parentNode;
-  const firstId = parentNodeSection.firstChild.innerText;
-  fetchItemSelected(firstId);
-};
-
-const requestButtons = () => {
-  const btns = document.querySelectorAll('.item__add');
-  btns.forEach((element) => {
-    element.addEventListener('click', idElementsClick);
-  });
-};
-
-window.onload = function onload() {
-  fetch(API_URL, myObj)
-    .then(data => data.json())
-    .then(dados => createList(dados))
-    .then(array => printList(array))
-    .then(requestButtons())
-    .catch(error => console.log(error));
+window.onload = async function onload() {
+  await createList();
 };
