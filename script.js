@@ -120,7 +120,6 @@ window.onload = () => {
   setTimeout(() => {
     document.querySelector('.loading').remove();
   }, 2000);
-  
   loadCart();
   loadItems();
 };
