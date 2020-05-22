@@ -50,7 +50,8 @@ async function sumPrice() {
   }
   console.log('temp message sumPrice', sum);
   const spanTotaPrice = document.querySelector('.total-price');
-  spanTotaPrice.innerText = `Total R$ ${sum}`;
+  // spanTotaPrice.innerText = `Total R$ ${sum}`;
+  spanTotaPrice.innerText = sum;
 }
 
 function cartItemClickListener(event) {
