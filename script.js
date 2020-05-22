@@ -111,13 +111,15 @@ async function loadItems() {
   } catch (error) {
     console.log(error);
   }
-  document.querySelector('.loading').remove();
 }
 
 window.onload = () => {
   totalElement = document.querySelector('.total-price');
   cartList = document.querySelector('.cart__items');
   document.querySelector('.empty-cart').addEventListener('click', removeAll);
+  setTimeout(() => {
+    document.querySelector('.loading').remove();
+  }, 2000);
   loadCart();
   loadItems();
 };
