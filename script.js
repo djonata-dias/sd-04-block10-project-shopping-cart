@@ -47,6 +47,6 @@ window.onload = function onload() {
 
     .then(object => object.json())
     .then((data) => {
-      items.appendChild(createProductItemElement(data.results[0]));
+      data.results.forEach(element => items.appendChild(createProductItemElement(element)));
     });
 };
