@@ -125,9 +125,10 @@ window.onload = () => {
   fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
     .then(object => object.json())
     .then(data => appendToItems(data))
-    .then(loading.parentNode.removeChild(loading))
     .then(asyncSum())
     .catch(erro => console.log(erro));
+
+  // .then(loading.parentNode.removeChild(loading)) retirado para colocar setTimeOut 
 
   if (localStorage.products) {
     const products = JSON.parse(localStorage.getItem('products'));
@@ -137,4 +138,8 @@ window.onload = () => {
   }
 
   emptyCart.addEventListener('click', () => clearCart());
+
+  setTimeout(() => {
+    document.querySelector('.loading').remove();
+  }, 2000);
 };
