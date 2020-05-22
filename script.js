@@ -72,7 +72,7 @@ const funcObjectToList = (data) => {
     const section = document.querySelector('.items');
     section.appendChild(createProductItemElement({ sku, name, image }));
   });
-   addCartListener();
+  addCartListener();
 };
 
 const callAPI = () => {
