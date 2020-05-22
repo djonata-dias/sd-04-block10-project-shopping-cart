@@ -19,7 +19,7 @@ const toLocalStorage = () => { // Function to send products list to local storag
 
 const totalPrice = () => {
   const cartItems = document.querySelector('.cart__items');
-  const totalSpan = document.querySelector('.total-span');
+  const totalSpan = document.querySelector('.total-price');
   const priceArr = [];
   let total = 0;
 
@@ -100,7 +100,7 @@ function createProductItemElement({ sku, name, image }) { // Creating the list o
   return section;
 }
 
-const productInfo = (productArray) => {
+const productsList = (productArray) => {
   setTimeout(() => {
     document.querySelector('.loading').remove();
   }, 3000);
@@ -121,7 +121,7 @@ const firstFetch = () => {
   const $QUERY = 'computador';
   fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${$QUERY}`)
     .then(response => response.json())
-    .then(json => productInfo(json.results))
+    .then(json => productsList(json.results))
     .catch(() => console.log('Hi there, an error just happened'));
 };
 
