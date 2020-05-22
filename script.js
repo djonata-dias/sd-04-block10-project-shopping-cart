@@ -29,15 +29,15 @@ function createProductItemElement({ sku, name, image }) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
 
-// function cartItemClickListener(event) {
-//   // coloque seu código aqui
-// }
+function cartItemClickListener(event) {
+  event.target.remove();
+}
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  // li.addEventListener('click', cartItemClickListener);
+  li.addEventListener('click', cartItemClickListener);
   document.getElementsByClassName('cart__items')[0].appendChild(li);
   return li;
 }
@@ -63,18 +63,22 @@ const returnProduct = (results) => {
     const section = createProductItemElement(product);
     document.getElementsByClassName('items')[0].appendChild(section);
   });
-  // pegando o evento de click e colocando numa variável
+  //  pegando o evento de click e colocando numa variável
   document.querySelectorAll('.item__add')
   //  o querySelectorAll devolve um array com todos os elementos...
-  //  nesse carro um array com os elementos dessa class.
+  //  nesse caso um array com os elementos dessa class.
       .forEach((item) => {
         item.addEventListener('click', event => getAllInfoFromProductItem(event)); // aqui eu adicionei o evento ao item
       });
 };
 
+const fetchAPI = (URL) => {
+  fetch(URL)
+  .then(response => response.json())
+  .then(data => returnProduct(data.results))
+  .catch(console.error); 
+};
+
 window.onload = function onload() {
-  fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
-    .then(response => response.json())
-    .then(data => returnProduct(data.results))
-    .catch(console.error);
+  fetchAPI('https://api.mercadolibre.com/sites/MLB/search?q=computador')
 };
