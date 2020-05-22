@@ -1,0 +1,6 @@
+{
+  "trailingComma": "all",
+  "prettier.arrowParens": "always",
+  "arrowParens": "avoid"
+
+}
