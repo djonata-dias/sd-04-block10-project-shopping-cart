@@ -14,6 +14,7 @@ const updateCart = (data) => {
 const getCartItems = () => Object.keys(localStorage).sort()
   .map((key) => JSON.parse(localStorage[key]));
 
+const cleanCartItems = () => localStorage.clear();
 
 /* endof */
 
@@ -24,6 +25,15 @@ function getSkuFromProductItem(item) {
 function cartItemClickListener(event) {
   event.target.remove();
 }
+
+const cleanCart = () => {
+  document.querySelectorAll('.cart__item')
+    .forEach((item) => {
+      item.remove();
+    });
+  // Remove from localStorage
+  cleanCartItems();
+};
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -97,4 +107,8 @@ const initApp = () => {
 window.onload = function onload() {
   searchProducts();
   initApp();
+
+  // Enable clean cart btn
+  document.querySelector('.empty-cart')
+    .addEventListener('click', () => cleanCart());
 };
