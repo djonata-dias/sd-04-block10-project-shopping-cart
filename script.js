@@ -1,6 +1,6 @@
 const updatePrice = async () => {
+  let totalPrice = 0;
   try {
-    let totalPrice = 0;
     const itemsList = await document.querySelectorAll('ol.cart__items > li');
     itemsList.forEach((itemElement) => {
       const elementInnerHTMLarray = itemElement.innerHTML.split(' ');
