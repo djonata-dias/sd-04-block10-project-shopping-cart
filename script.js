@@ -41,7 +41,6 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 const product = (products) => {
-
   products.forEach((element) => {
     const sku = element.id;
     const name = element.title;
@@ -51,10 +50,7 @@ const product = (products) => {
   });
 };
 
-
-
 window.onload = function onload() {
-
   fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
 
     .then(object => object.json())
