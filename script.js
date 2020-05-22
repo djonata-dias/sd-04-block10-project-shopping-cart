@@ -8,8 +8,14 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+function getSkuFromProductItem(item) {
+  return item.querySelector('span.item__sku').innerText;
+}
+
+//  Requirement 3
+
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  event.target.remove();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -59,12 +65,6 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(buttonAddCart);
   return section;
 }
-
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
-
-//  Function here...
 
 //  Requirement 1
 
