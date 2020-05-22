@@ -24,53 +24,50 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
+// function getSkuFromProductItem(item) {
+//   return item.querySelector('span.item__sku').innerText;
+// }
 
-function cartItemClickListener(event) {
-  // coloque seu código aqui
-}
+// function cartItemClickListener(event) {
+//   // coloque seu código aqui
+// }
 
-function createCartItemElement({ sku, name, salePrice }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
-}
+// function createCartItemElement({ sku, name, salePrice }) {
+//   const li = document.createElement('li');
+//   li.className = 'cart__item';
+//   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+//   li.addEventListener('click', cartItemClickListener);
+//   return li;
+// }
 // feitos
 
 const query = 'computador';
 
-const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q='
+const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=';
 
 const pegaInfos = ({ id, title, thumbnail }, callback) => {
   const obj = {
     sku: id,
     name: title,
-    image: thumbnail
-  }
-  return callback(obj)
-}
+    image: thumbnail,
+  };
+  return callback(obj);
+};
 
 const criaList = async () => {
   const listItens = document.querySelector('.items');
   try {
-    const response = await fetch(`${API_URL}${query}`)
-    const responseJson = await response.json()
+    const response = await fetch(`${API_URL}${query}`);
+    const responseJson = await response.json();
     const products = responseJson.results;
     await products.forEach((e) => {
-      listItens.appendChild(pegaInfos(e, createProductItemElement))
+      listItens.appendChild(pegaInfos(e, createProductItemElement));
     });
   } catch (error) {
-    console.log(`ERROR: ${error}`)
+    console.log(`ERROR: ${error}`);
   }
-}
+};
 
 window.onload = () => {
-
-  criaList()
-
-}
-
+  criaList();
+};
