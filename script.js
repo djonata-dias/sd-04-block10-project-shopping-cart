@@ -6,9 +6,17 @@
     return cartItems;
   };
 
+  async function updateTotalPrice() {
+    let totalPrice = 0;
+    const cartItems = getItemsStorage();
+    totalPrice = await cartItems.reduce((total, item) => total + item.price, 0);
+    document.querySelector('.total-price').innerHTML = `Total: R$ ${totalPrice.toFixed(2)}`;
+  }
+
   document.querySelector('.empty-cart').addEventListener('click', () => {
     localStorage.setItem('cart', '');
     document.querySelectorAll('ol li').forEach(li => li.remove());
+    updateTotalPrice();
   });
 
   // function getSkuFromProductItem(item) {
@@ -24,6 +32,7 @@
     cartItems.splice(cartItems.indexOf(excl), 1);
     localStorage.setItem('cart', JSON.stringify(cartItems));
     event.target.remove();
+    updateTotalPrice();
   }
 
   function createCartItemElement({ sku, name, salePrice }) {
@@ -49,6 +58,7 @@
     const itemLi = createCartItemElement(cartItem);
     cartItems.appendChild(itemLi);
     if (save) saveStorage(item);
+    updateTotalPrice();
   };
 
   function createCustomElement(element, className, innerText, sku) {
@@ -113,4 +123,5 @@
     .catch(console.log('Error while trying to reach API'));
 
     verifyCart();
+    updateTotalPrice();
   };
