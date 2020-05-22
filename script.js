@@ -12,9 +12,13 @@ const displaySum = (sum) => {
   prices.innerText = sum;
 };
 
-const asyncSum = () => {
-  const sumCartPricesResponse = sumCartPrices();
-  displaySum(sumCartPricesResponse);
+const asyncSum = async () => {
+  try {
+    const sumCartPricesResponse = await sumCartPrices();
+    displaySum(sumCartPricesResponse);
+  } catch (erro) {
+    console.log(erro);
+  }
 };
 
 const clearCart = () => {
