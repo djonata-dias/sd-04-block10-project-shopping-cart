@@ -29,6 +29,7 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+// creating elements for each item in the main section:
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -46,7 +47,7 @@ function cartItemClickListener(event) {
   event.target.remove();
 }
 
-// creating elements from each rom each item:
+// creating elements for each item in the cart section:
 function createCartItemElement({ id, title, price }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
