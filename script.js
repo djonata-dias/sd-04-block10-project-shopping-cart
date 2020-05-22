@@ -76,7 +76,7 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-const addProductToCart = (productElement) => {
+const addProductToCart = async (productElement) => {
   document.querySelector('.loading').hidden = false;
   fetch(itemApiUrl + getSkuFromProductItem(productElement))
     .then((response) => response.json())
@@ -106,7 +106,7 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-const searchProducts = (search) => {
+const searchProducts = async (search) => {
   document.querySelector('.loading').hidden = false;
   fetch(searchApiUrl + search)
     .then((response) => response.json())
