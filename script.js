@@ -132,8 +132,8 @@ const initApp = () => {
 };
 
 window.onload = function onload() {
-  initApp();
   searchProducts();
+  initApp();
 
   // Enable clean cart btn
   document.querySelector('.empty-cart')
