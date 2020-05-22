@@ -1,5 +1,6 @@
 const secItems = document.querySelector('.items'); // Manipula section items.
 const carrinho = document.querySelector('.cart__items');
+const btnLimpa = document.querySelector('.empty-cart'); // Manipula o botão que limpa ista.
 let cart = []; // Array para os ids de cada produto.
 
 const saveToStorage = () => {
@@ -11,6 +12,8 @@ const limpaLista = () => {
   cart = [];
   saveToStorage();
 };
+
+btnLimpa.addEventListener('click', limpaLista);
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
