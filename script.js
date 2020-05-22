@@ -1,9 +1,15 @@
 const secItems = document.querySelector('.items'); // Manipula section items.
 const carrinho = document.querySelector('.cart__items');
-const cart = []; // Vou ver o que faço com isso.
+let cart = []; // Array para os ids de cada produto.
 
 const saveToStorage = () => {
   localStorage.setItem('itens_carrinho', JSON.stringify(cart));
+};
+
+const limpaLista = () => {
+  carrinho.innerText = '';
+  cart = [];
+  saveToStorage();
 };
 
 function createProductImageElement(imageSource) {
@@ -36,7 +42,6 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 const addToCart = (code) => {
-  // const code = e.target.parentNode.firstChild.innerText;
   fetch(`https://api.mercadolibre.com/items/${code}`)
   .then(responsta => responsta.json())
   .then(({ id, title, price }) => {
