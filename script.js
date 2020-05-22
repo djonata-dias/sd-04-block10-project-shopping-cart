@@ -38,7 +38,6 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
-  localStorage.cartItems = document.querySelector('ol.cart__items').innerHTML;
   return li;
 }
 
@@ -51,6 +50,7 @@ const appendCartItemElement = ({ id, title, price }) => {
   obj.salePrice = price;
   // adiciona o objeto ao carrinho
   classCartItems.appendChild(createCartItemElement(obj));
+  localStorage.cartItems = document.querySelector('ol.cart__items').innerHTML;
 };
 
 const infoProduct = (information) => {
