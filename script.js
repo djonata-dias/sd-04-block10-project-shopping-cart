@@ -25,7 +25,7 @@ function addToCartObj(obj) {
   return { sku, name, salePrice };
 }
 
-function addToCart(id) {
+function addToCart(id) {gi
   fetch(`https://api.mercadolibre.com/items/${id}`)
     .then(response => response.json())
     .then(data => data)
@@ -70,7 +70,9 @@ function getSkuFromProductItem(item) {
 function listItems(array) {
   const sectionContainer = document.querySelector('section.container');
   const loadingMessage = document.querySelector('p.loading');
-  sectionContainer.removeChild(loadingMessage);
+  setTimeout(() => {
+    sectionContainer.removeChild(loadingMessage);
+  }, 1000);
   const sectionItems = document.querySelector('section.items');
   array.forEach((computerObj) => {
     const { id: sku, title: name, thumbnail: image } = computerObj;
