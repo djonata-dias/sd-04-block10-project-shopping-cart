@@ -1,3 +1,5 @@
+window.onload = function onload() {};
+
 const secItems = document.querySelector('.items'); // Manipula section items.
 const carrinho = document.querySelector('.cart__items');
 const btnLimpa = document.querySelector('.empty-cart'); // Manipula o botão que limpa ista.
@@ -121,9 +123,7 @@ const fetchList = () => {
     });
   })
   .catch(error => console.log(error));
-};
-
-window.onload = function onload() {
-  fetchList();
   carregaLista();
 };
+
+fetchList();
