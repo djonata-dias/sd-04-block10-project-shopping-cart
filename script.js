@@ -65,7 +65,7 @@ function cartItemClickListener(e) {
 }
 
 function clearCart() {
-  const cartItems = document.querySelector('.cart__items', 2000);
+  const cartItems = document.querySelector('.cart__items');
   cartItems.innerHTML = '';
   storageUpdate();
 }
@@ -95,8 +95,8 @@ window.onload = async function onload() {
   buttons.map(button => button.addEventListener('click', async (e) => {
     const id = await eventFunction(e);
     const clickado = await doClick(id);
-    const itemAdded = await createCartItemElement(clickado);
-    await cartItems.appendChild(itemAdded);
+    const itemAdded = createCartItemElement(clickado);
+    cartItems.appendChild(itemAdded);
     localStorage.setItem('cartItemsKey', (cartItems.innerHTML));
   }));
 
