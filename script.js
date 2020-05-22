@@ -87,10 +87,17 @@ const createList = async () => {
 
 window.onload = async function onload() {
   await createList();
-  document.getElementsByClassName('empty-cart')[0].addEventListener('click', () => {
-    document.getElementsByClassName('cart__items')[0].innerHTML = '';
-  });
-  document.getElementsByClassName('cart__items')[0].innerHTML = localStorage.getItem('itemCart');
-  document.querySelectorAll('li').forEach(li => li.addEventListener('click', cartItemClickListener));
-  await sumPrices();
+  document
+    .getElementsByClassName('empty-cart')[0]
+    .addEventListener('click', () => {
+      document.getElementsByClassName('cart__items')[0].innerHTML = '';
+    });
+
+  document.getElementsByClassName(
+    'cart__items',
+  )[0].innerHTML = localStorage.getItem('itemCart');
+
+  document
+    .querySelectorAll('li')
+    .forEach(li => li.addEventListener('click', cartItemClickListener));
 };
