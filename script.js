@@ -77,10 +77,12 @@ function createCustomElement(element, className, innerText) {
 }
 
 const addProductToCart = (productElement) => {
+  document.querySelector('.loading').hidden = false;
   fetch(itemApiUrl + getSkuFromProductItem(productElement))
     .then((response) => response.json())
     .then((data) => {
       const productData = { sku: data.id, name: data.title, salePrice: data.price };
+      document.querySelector('.loading').hidden = true;
       document.querySelector('.cart__items').appendChild(
         createCartItemElement(productData),
       );
