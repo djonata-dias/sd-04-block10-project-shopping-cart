@@ -60,6 +60,12 @@ function cartItemClickListener(e) {
   storageUpdate();
 }
 
+function clearCart() {
+  const cartItems = document.querySelector('.cart__items');
+  cartItems.innerHTML = '';
+  storageUpdate();
+}
+
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -88,4 +94,7 @@ window.onload = async function onload() {
     const itemAdded = await createCartItemElement(clickado);
     await cartItems.appendChild(itemAdded);
   }));
+
+  const buttonClear = document.querySelector('.empty-cart');
+  buttonClear.onclick = clearCart;
 };
