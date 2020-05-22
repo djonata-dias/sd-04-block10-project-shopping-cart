@@ -45,7 +45,7 @@ function storeCart() { // To be improved
 // Fetch to call the infomation related to Id and call createCartItemElement
 function fetchId(idToFecth) {
   fetch(`https://api.mercadolibre.com/items/${idToFecth}`)
-    .then((response) => response.json())
+    .then(response => response.json())
     .then((data) => {
       const cartItemElenet = document.getElementsByClassName('cart__items');
       cartItemElenet[0].appendChild(
