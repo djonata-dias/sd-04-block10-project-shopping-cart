@@ -87,7 +87,7 @@ body {
 }
 
 .cart__item {
-  background: linear-gradient(rgb( 0 , 150 , 150 ), rgb( 0 , 50 , 0 ));
+  background: linear-gradient( rgb( 0 , 150 , 150 ) , rgb( 0 , 50 , 0 ) );
   border: 1px solid black;
   border-radius: 10px;
   padding: 7px;
