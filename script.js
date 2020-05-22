@@ -30,14 +30,14 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item_sku').innerText;
 }
 
-function saveProductsCart (produto) {
-  console.log(produto)
+function saveProductsCart(produto) {
+  console.log(produto);
   let carrinho = [];
   if (localStorage.carrinho) {
     carrinho = JSON.parse(localStorage.getItem('carrinho'));
   }
   carrinho.push(produto);
-  localStorage.setItem('carrinho', JSON.stringify(carrinho))
+  localStorage.setItem('carrinho', JSON.stringify(carrinho));
 }
 
 function cartItemClickListener(event) {
@@ -64,38 +64,38 @@ function getProductForCarItem(event) {
   const numeroSku = eventPai.children[0].innerText;
   fetch(`https://api.mercadolibre.com/items/${numeroSku}`)
     .then(resolve => resolve.json())
-    .then((data) => {
+    .then(data => {
       const parameter = {
         sku: data.id,
         name: data.title,
         salePrice: data.price,
       };
       createCartItemElement(parameter);
-      saveProductsCart(parameter)
-      somaProdutos(parameter)
+      saveProductsCart(parameter);
+      somaProdutos(parameter);
     })
     .catch(console.error);
 }
 
-async function somaProdutos ({salePrice}) {
+async function somaProdutos({ salePrice }) {
   const prices = document.getElementsByClassName('total-price')[0];
   const totalPrices = 0;
-  totalPrices += salePrice
+  totalPrices += salePrice;
 }
 
-function getItensLocalStorage () {
+function getItensLocalStorage() {
   let ItensCarrinho = [];
   if (localStorage.getItem('carrinho')) {
-    ItensCarrinho = JSON.parse(localStorage.getItem('carrinho'))
+    ItensCarrinho = JSON.parse(localStorage.getItem('carrinho'));
   }
-  return ItensCarrinho
+  return ItensCarrinho;
 }
 
 // criando a chamada do função que busca o elemento.
 function buscarElemento(result) {
   const product = { sku: '', name: '', image: '' };
   const produtos = result;
-  produtos.map((elem) => {
+  produtos.map(elem => {
     product.sku = elem.id;
     product.name = elem.title;
     product.image = elem.thumbnail;
@@ -114,7 +114,7 @@ function buscarElemento(result) {
     while (carroDeCompras.firstChild) {
       carroDeCompras.removeChild(carroDeCompras.firstChild);
     }
-    localStorage.clear()
+    localStorage.clear();
   });
 }
 
