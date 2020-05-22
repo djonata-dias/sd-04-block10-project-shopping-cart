@@ -66,7 +66,7 @@ function insertShoppingCart() {
 
   const items = shoppingCart.map(item => createCartItemElement(item));
   setTimeout(() => {
-    items.forEach(item => {
+    items.forEach((item) => {
       const cart = document.getElementById('cart');
       cart.appendChild(item);
     });
@@ -132,7 +132,7 @@ async function listItems() {
 
   const sectionItems = document.getElementsByClassName('items')[0];
 
-  formattedItems.forEach(formattedItem => {
+  formattedItems.forEach((formattedItem) => {
     const sectionItem = createProductItemElement(formattedItem);
     sectionItems.appendChild(sectionItem);
   });
