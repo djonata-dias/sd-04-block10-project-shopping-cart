@@ -75,6 +75,12 @@
   text-align: center;
 }
 
+.cart__item {
+  border: 1px solid black;
+  border-top-right-radius: 10px;
+  padding: 5px;
+}
+
 .loading {
   animation: load 2s alternate infinite linear;
   display: none;
