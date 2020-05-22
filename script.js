@@ -28,9 +28,15 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+const addToStorage = () => {
+  const items = document.querySelector('.cart__items').innerHTML;
+  localStorage.setItem('items', items);
+};
+
 function cartItemClickListener(event) {
   // coloque seu código aqui
   event.target.remove();
+  addToStorage();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -41,14 +47,27 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
+const loadCart = () => {
+  const innerHtml = localStorage.getItem('items');
+  const ol = document.querySelector('.cart__items');
+  ol.innerHTML = innerHtml;
+  const arrayDeLi = document.querySelectorAll('.cart__item');
+  arrayDeLi.forEach(li => li.addEventListener('click', cartItemClickListener));
+};
+
+const createObj = (data) => {
+  const sku = data.id;
+  const name = data.title;
+  const image = data.thumbnail;
+  const salePrice = data.price;
+  return { sku, name, image, salePrice };
+};
+
 const addCarrinho = (data) => {
-  const obj = {
-    sku: data.id,
-    name: data.title,
-    salePrice: data.price,
-  };
+  const obj = createObj(data);
   const ol = document.querySelector('.cart__items');
   ol.appendChild(createCartItemElement(obj));
+  addToStorage();
 };
 
 const adicionaEventListener = () => {
@@ -65,17 +84,16 @@ const adicionaEventListener = () => {
 
 const trataDadosJson = (data) => {
   data.results.forEach((product) => {
-    const sku = product.id;
-    const name = product.title;
-    const image = product.thumbnail;
+    const obj = createObj(product);
     const section = document.querySelector('.items');
-    section.appendChild(createProductItemElement({ sku, name, image }));
+    section.appendChild(createProductItemElement(obj));
   });
   adicionaEventListener();
   // chama a função que adiciona os event listeners para todos os elementos
 };
 
 window.onload = function onload() {
+  loadCart();
   const query = 'computador';
   const API_URL = `https://api.mercadolibre.com/sites/MLB/search?q=${query}`;
   fetch(API_URL)
