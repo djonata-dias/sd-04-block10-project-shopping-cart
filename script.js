@@ -1,8 +1,41 @@
-window.onload = function onload() {
-  fetchProduct();
-};
-// ----
+function createProductImageElement(imageSource) {
+  const img = document.createElement('img');
+  img.className = 'item__image';
+  img.src = imageSource;
+  return img;
+}
 
+function createProductItemElement({ sku, name, image }) {
+  const section = document.createElement('section');
+  section.className = 'item';
+
+  section.appendChild(createCustomElement('span', 'item__sku', sku));
+  section.appendChild(createCustomElement('span', 'item__title', name));
+  section.appendChild(createProductImageElement(image));
+  section.appendChild(
+    createCustomElement('button', 'item__add', 'Adicionar ao carrinho!', sku),
+  );
+
+  return section;
+}
+
+function getSkuFromProductItem(item) {
+  return item.querySelector('span.item__sku').innerText;
+}
+
+function cartItemClickListener(event) {
+  // coloque seu código aqui
+  const section = document.querySelector('ol.cart__items');
+  section.removeChild(event.target);
+}
+
+function createCartItemElement({ sku, name, salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
+}
 
 const getData = (arr) => {
   const sectionItem = document.querySelector('section.items');
@@ -27,8 +60,18 @@ function addToCartObj(obj) {
   return { sku, name, salePrice };
 }
 
+function createCustomElement(element, className, innerText, id = null) {
+  const e = document.createElement(element);
+  if (element === 'button')  e.addEventListener('click', () => {
+    addToCart(id);
+  }) // Se for button cria um event com a função addToCart
+  e.className = className;
+  e.innerText = innerText;
+  return e;
+}
+
 const addToCart = (id) => {
-  console.log(id)
+  console.log(id);
   const API_ID = `https://api.mercadolibre.com/items/${id}`;
   fetch(API_ID)
   .then(response => response.json())
@@ -37,53 +80,8 @@ const addToCart = (id) => {
   .then(item => document.querySelector('ol.cart__items').appendChild(item));
 };
 
-// ----
+window.onload = function onload() {
+  fetchProduct();
+};
 
-function createProductImageElement(imageSource) {
-  const img = document.createElement('img');
-  img.className = 'item__image';
-  img.src = imageSource;
-  return img;
-}
 
-function createCustomElement(element, className, innerText, id = null) {
-  const e = document.createElement(element);
-  if (element === 'button') e.addEventListener('click', () => {
-    addToCart(id);
-  }) // Se for button cria um event com a função addToCart
-  e.className = className;
-  e.innerText = innerText;
-  return e;
-}
-
-function createProductItemElement({ sku, name, image }) {
-  const section = document.createElement('section');
-  section.className = 'item';
-
-  section.appendChild(createCustomElement('span', 'item__sku', sku));
-  section.appendChild(createCustomElement('span', 'item__title', name));
-  section.appendChild(createProductImageElement(image));
-  section.appendChild(
-    createCustomElement('button', 'item__add', 'Adicionar ao carrinho!', sku),
-  );
-
-  return section;
-}
-
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
-
-function cartItemClickListener(event) {
-  // coloque seu código aqui
-  // const section = document.querySelector('ol.cart__items');
-  // section.removeChild(event.target);
-}
-
-function createCartItemElement({ sku, name, salePrice }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
-}
