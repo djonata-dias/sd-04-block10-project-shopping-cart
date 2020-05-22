@@ -18,7 +18,7 @@ const sumCartPrices = () => {
 //   return sum;
 // }
 
-const asyncSum = () => {
+const asyncSum = async () => {
   sumCartPrices();
 };
 
