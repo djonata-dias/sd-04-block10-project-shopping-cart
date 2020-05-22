@@ -142,5 +142,5 @@ window.onload = () => {
 
   setTimeout(() => {
     loading.remove();
-  }, 2000);
+  }, 700);
 };
