@@ -19,7 +19,9 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+  section.appendChild(
+    createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'),
+  );
 
   return section;
 }
@@ -47,10 +49,22 @@ function getProductForCarItem(event) {
   const eventPai = event.target.parentNode;
   const numeroSku = eventPai.children[0].innerText;
   fetch(`https://api.mercadolibre.com/items/${numeroSku}`)
-  .then(resolve => resolve.json())
-  .then((data) => {
-    const parameter = { sku: data.id, name: data.title, salePrice: data.price };
-    createCartItemElement(parameter);
+    .then(resolve => resolve.json())
+    .then(data => {
+      const parameter = {
+        sku: data.id,
+        name: data.title,
+        salePrice: data.price,
+      };
+      createCartItemElement(parameter);
+    })
+    .catch(console.error);
+  const limparCarrinho = document.getElementsByClassName('empty-cart')[0];
+  limparCarrinho.addEventListener('click', () => {
+    const carroDeCompras = document.getElementsByClassName('cart__items')[0];
+    while (carroDeCompras.firstChild) {
+      carroDeCompras.removeChild(carroDeCompras.firstChild);
+    }
   });
 }
 
@@ -58,15 +72,19 @@ function getProductForCarItem(event) {
 function buscarElemento(result) {
   const product = { sku: '', name: '', salePrice: '', image: '' };
   const produtos = result;
-  produtos.map((elem) => {
+  produtos.map(elem => {
     product.sku = elem.id;
     product.name = elem.title;
     product.image = elem.thumbnail;
-    document.getElementById('items').appendChild(createProductItemElement(product));
+    document
+      .getElementById('items')
+      .appendChild(createProductItemElement(product));
     return product;
   });
   const clickCart = document.querySelectorAll('.item__add');
-  clickCart.forEach(index => index.addEventListener('click', event => getProductForCarItem(event)));
+  clickCart.forEach(index =>
+    index.addEventListener('click', event => getProductForCarItem(event)),
+  );
 }
 
 window.onload = function onload() {
