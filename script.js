@@ -54,9 +54,7 @@ const fFetch = (q) => {
     })
     .catch(() => console.log('res error'));
 };
-  
+
 window.onload = function onload() {
   fFetch(query);
 };
-  
-// console.log(result)
