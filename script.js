@@ -47,14 +47,6 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-const loadCart = () => {
-  const innerHtml = localStorage.getItem('items');
-  const ol = document.querySelector('.cart__items');
-  ol.innerHTML = innerHtml;
-  const arrayDeLi = document.querySelectorAll('.cart__item');
-  arrayDeLi.forEach(li => li.addEventListener('click', cartItemClickListener));
-};
-
 const createObj = (data) => {
   const sku = data.id;
   const name = data.title;
@@ -72,9 +64,9 @@ const addCarrinho = (data) => {
 
 const adicionaEventListener = () => {
   const product = document.querySelectorAll('.item');
-  product.forEach((element) => {
-    element.lastElementChild.addEventListener('click', () => { // lastElemntChild é o botão que recebe o eventLIstener
-      fetch(`https://api.mercadolibre.com/items/${element.firstElementChild.innerHTML}`)
+  product.forEach((item) => {
+    item.lastElementChild.addEventListener('click', () => { // lastElemntChild é o botão que recebe o eventLIstener
+      fetch(`https://api.mercadolibre.com/items/${item.firstElementChild.innerHTML}`)
       .then(data => data.json())
       .then(dataJson => addCarrinho(dataJson))
       .catch(error => console.log(error));
@@ -90,6 +82,24 @@ const trataDadosJson = (data) => {
   });
   adicionaEventListener();
   // chama a função que adiciona os event listeners para todos os elementos
+};
+
+const esvaziarCarrinho = () => {
+  const button = document.querySelector('.empty-cart');
+  button.addEventListener('click', () => {
+    const itemsCarrinho = document.querySelectorAll('.cart__item');
+    itemsCarrinho.forEach(item => item.remove());
+    addToStorage();
+  });
+};
+
+const loadCart = () => {
+  const innerHtml = localStorage.getItem('items');
+  const ol = document.querySelector('.cart__items');
+  ol.innerHTML = innerHtml;
+  const arrayDeLi = document.querySelectorAll('.cart__item');
+  arrayDeLi.forEach(li => li.addEventListener('click', cartItemClickListener));
+  esvaziarCarrinho();
 };
 
 window.onload = function onload() {
