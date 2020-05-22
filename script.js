@@ -85,11 +85,11 @@ function getProductForCarItem(event) {
     .catch(console.error);
 }
 
-//async function somaProdutos({ salePrice }) {
-//  const prices = document.getElementsByClassName('total-price')[0];
-//  const totalPrices = 0;
-//  totalPrices += salePrice;
-//}
+//  async function somaProdutos({ salePrice }) {
+//    const prices = document.getElementsByClassName('total-price')[0];
+//    const totalPrices = 0;
+//    totalPrices += salePrice;
+//  }
 
 // criando a chamada do função que busca o elemento.
 function buscarElemento(result) {
