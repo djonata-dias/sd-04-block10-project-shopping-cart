@@ -22,18 +22,19 @@ const toLocalStorage = () => { // Function to send products list to local storag
   localStorage.setItem('cart_products', list);
 };
 
+function cartItemClickListener(event) { // Removing cart item by clicking it
+  const cart = document.querySelector('.cart__items');
+  cart.removeChild(event.target);
+  toLocalStorage();
+}
+
 const toGetLocalStorage = () => { // Get saved listo from local storage
   const getList = localStorage.getItem('cart_products');
   document.querySelector('.cart__items').innerHTML = getList; // Adding saved items to current list
-  // console.log(getList)
-};
 
-function cartItemClickListener(event) { // Removing cart item by clicking it
-  const cart = document.querySelector('.cart__items');
-  const clickedCartItem = event.target;
-  cart.removeChild(clickedCartItem);
-  toLocalStorage();
-}
+  const cart = document.querySelector('.cart__items'); // Making the items clickable again
+  cart.addEventListener('click', cartItemClickListener);
+};
 
 const emptyCart = () => { // Function to delete all items form the cart at once
   const emptyCartBtt = document.querySelector('.empty-cart');
