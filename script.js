@@ -43,7 +43,6 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-let arrLStorage = [];
 // creating elements for each item in the cart section:
 function createCartItemElement({ id, title, price }) {
   const li = document.createElement('li');
@@ -52,23 +51,25 @@ function createCartItemElement({ id, title, price }) {
   return li;
 }
 
-// adding to localStorage, this function is called each time we do a fetch:
-const addingToStorage = (product) => {
-  arrLStorage = JSON.parse(localStorage.getItem('items'));
-  arrLStorage.push(product.innerHTML);
-  localStorage.setItem('items', JSON.stringify(arrLStorage));
-};
-
 // removing itens from the cart by clicking on them:
+let arrLStorage = [];
 function cartItemClickListener(event) {
+  arrLStorage = JSON.parse(localStorage.getItem('items'));
   // removing element only if it's a list
   if (event.target && event.target.nodeName === 'LI') event.target.remove();
   // removing the product from the storage array
-  if (arrLStorage.length !== 0) arrLStorage.splice(event.target.innerHTML, 1);
+  arrLStorage.splice(event.target.innerHTML, 1);
   // than setting the new array as the current storage
   localStorage.setItem('items', JSON.stringify(arrLStorage));
 }
 cartSection.addEventListener('click', cartItemClickListener);
+
+// adding to localStorage, this function is called each time we do a fetch:
+const addingToStorage = (product) => {
+  if (localStorage.getItem('items') != null) arrLStorage = JSON.parse(localStorage.getItem('items'));
+  arrLStorage.push(product.innerHTML);
+  localStorage.setItem('items', JSON.stringify(arrLStorage));
+};
 
 // loading localStorage when the page loads:
 const loadingLS = () => {
