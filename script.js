@@ -1,3 +1,8 @@
+function saveCart() { //  salva cart no local storage
+  const lista = document.querySelector('.cart__items').innerHTML;
+  localStorage.setItem('cart_list', lista);
+}
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -73,20 +78,15 @@ const gerarLista = (productArr) => {
   });
 };
 
-function saveCart() { //  salva cart no local storage
-  const lista = document.querySelector('.cart__items').innerHTML
-  localStorage.setItem('cart_list', lista);
-};
-
 function loadCart() { //  carrega cart salvo no local storage
   const savedList = localStorage.getItem('cart_list');
   document.querySelector('.cart__items').innerHTML = savedList;
   const cart = document.querySelector('.cart__items');
   cart.addEventListener('click', cartItemClickListener);
-};
+}
 
 window.onload = function onload() {
-  fetch(`${APIURL}${PESQUISA}`) //  
+  fetch(`${APIURL}${PESQUISA}`)
     .then(data => data.json())
     .then(datajson => gerarLista(datajson.results))
     .catch(error => console.log(error.message));
