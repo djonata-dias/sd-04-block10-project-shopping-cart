@@ -13,16 +13,17 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-const addCart = (e) => {
+// refatoração com fFetch() pq CC apontava duplicação de código
+const addCart = (its) => {
+  const { id: sku, title: name, price: salePrice } = its;
+  const o = { sku, name, salePrice };
+  document.querySelector('ol.cart__items').appendChild(createCartItemElement(o));
+};
+
+// refatoração com fFetch() pq CC apontava duplicação de código
+const evAddCart = (e) => {
   const id = e.target.parentNode.firstChild.innerText;
-  fetch(queryItem + id)
-    .then(res => res.json())
-    .then((resTreat) => {
-      const { id: sku, title: name, price: salePrice } = resTreat;
-      const o = { sku, name, salePrice };
-      document.querySelector('ol.cart__items').appendChild(createCartItemElement(o));
-    })
-    .catch(() => console.log('res item error'));
+  fFetch(queryItem + id, addCart);
 };
 
 function createProductImageElement(imageSource) {
@@ -36,7 +37,7 @@ function createCustomElement(element, className, innerText) { // usada
   const e = document.createElement(element);
   e.className = className;
   e.innerText = innerText;
-  if (className === 'item__add') e.addEventListener('click', addCart); // +
+  if (className === 'item__add') e.addEventListener('click', evAddCart); // +
   return e;
 }
 
