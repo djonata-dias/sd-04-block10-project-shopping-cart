@@ -1,35 +1,21 @@
 const getProductsFromLocalStorage = () =>
   JSON.parse(localStorage.getItem('products'));
 
-const sumCartPrices = () =>
-  new Promise((resolve, reject) => {
-    if (localStorage.products) {
-      const sum = getProductsFromLocalStorage().reduce(
-        (acc, product) => acc + product.price,
-        0,
-      );
-      resolve(sum);
-    }
-    reject('deu ruim, não tinha local Storage');
-  });
+const sumCartPrices = () => {
+  const sum = getProductsFromLocalStorage().reduce(
+    (acc, product) => acc + product.price, 0);
+  return sum
+};
 
 const displaySum = (sum) => {
   const prices = document.querySelector('.total-price');
-  return new Promise((resolve, reject) => {
-    if (sum) {
-      prices.innerText = sum;
-      resolve();
-    } else {
-      reject('Deu ruim não tinha soma dos preços');
-      // prices.innerText = 'testando';
-    }
-  });
+  prices.innerText = sum;
 };
 
 const asyncSum = async () => {
   try {
     const sumCartPricesResponse = await sumCartPrices();
-    await displaySum(sumCartPricesResponse);
+    displaySum(sumCartPricesResponse);
   } catch (erro) {
     console.log(erro);
   }
@@ -41,7 +27,6 @@ const clearCart = () => {
   cart.innerHTML = '';
   localStorage.setItem('products', JSON.stringify([]));
   asyncSum();
-  prices.innerText = 0.0;
 };
 
 function createProductImageElement(imageSource) {
