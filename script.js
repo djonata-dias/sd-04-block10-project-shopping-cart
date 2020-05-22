@@ -84,7 +84,7 @@ const verifyLocalStorage = () => { // c
   const elOl = document.querySelector('ol.cart__items');
   for (let i = 0; i < localStorage.length; i += 1) {
     const li = document.createElement('li');
-    let item = localStorage.getItem(localStorage.key(i));
+    const item = localStorage.getItem(localStorage.key(i));
     li.addEventListener('click', cartItemClickListener);
     li.innerText = item;
     elOl.appendChild(li);
