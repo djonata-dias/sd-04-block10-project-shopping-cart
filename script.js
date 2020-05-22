@@ -9,18 +9,19 @@ const updateCart = (data) => {
   });
   const nextId = Number(lastId) + 1;
   localStorage.setItem(nextId, JSON.stringify(data));
+  console.log('updated')
 };
 
 const getCartItems = () => Object.keys(localStorage).sort()
   .map((key) => JSON.parse(localStorage[key]));
 
-const deleteCartItem = (id) => {
+const deleteCartItem = async (id) => {
   Object.keys(localStorage).forEach((key) => {
     if (JSON.parse(localStorage[key]).sku === id) localStorage.removeItem(key);
   });
 };
 
-const cleanCartItems = () => localStorage.clear();
+const cleanCartItems = async () => localStorage.clear();
 
 /* endof */
 
@@ -28,9 +29,18 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+const calculateTotal = async () => {
+  const total = getCartItems()
+    .reduce((sum, { salePrice }) => sum + salePrice, 0);
+  document.querySelector('.total-price').textContent = `Total: ${total}`;
+};
+
 function cartItemClickListener(event) {
-  deleteCartItem(event.target.id);
-  event.target.remove();
+  deleteCartItem(event.target.id)
+    .then(() => {
+      event.target.remove();
+      calculateTotal();
+    });
 }
 
 const cleanCart = () => {
@@ -39,7 +49,8 @@ const cleanCart = () => {
       item.remove();
     });
   // Remove from localStorage
-  cleanCartItems();
+  cleanCartItems()
+    .then(() => calculateTotal());
 };
 
 function createProductImageElement(imageSource) {
@@ -74,6 +85,9 @@ const addProductToCart = (productElement) => {
         createCartItemElement(productData),
       );
       updateCart(productData);
+    })
+    .then(() => {
+      calculateTotal();
     });
 };
 
@@ -110,6 +124,7 @@ const initApp = () => {
       createCartItemElement(item),
     );
   });
+  calculateTotal();
 };
 
 window.onload = function onload() {
