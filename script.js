@@ -105,9 +105,11 @@ function createProductItemElement({ sku, name, image }) {
 }
 
 const searchProducts = (search) => {
+  document.querySelector('.loading').hidden = false;
   fetch(searchApiUrl + search)
     .then((response) => response.json())
     .then((data) => {
+      document.querySelector('.loading').hidden = true;
       data.results.forEach((item) => {
         const productData = { sku: item.id, name: item.title, image: item.thumbnail };
         const productElement = createProductItemElement(productData);
@@ -128,8 +130,8 @@ const initApp = () => {
 };
 
 window.onload = function onload() {
-  searchProducts();
   initApp();
+  searchProducts();
 
   // Enable clean cart btn
   document.querySelector('.empty-cart')
