@@ -41,6 +41,14 @@ function createProductItemElement({ sku, name, image }) {
 // }
 // feitos
 
+const limpaCarrinhoFunction = () => {
+  const limpaCarrinho = document.querySelector('.empty-cart');
+  limpaCarrinho.addEventListener('click', function () {
+    document.querySelector('.cart__items').innerHTML = '';
+    localStorage.clear();
+  });
+}
+
 const query = 'computador';
 
 const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=';
@@ -70,4 +78,6 @@ const criaList = async () => {
 
 window.onload = () => {
   criaList();
+
+  limpaCarrinhoFunction();
 };
