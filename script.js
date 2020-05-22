@@ -91,7 +91,6 @@ const fetchItemSelected = async (id) => {
   const response = await fetch(ID_URL);
   const data = await response.json();
   addCartElements(data);
-
 };
 
 const idElementsClick = (event) => {
