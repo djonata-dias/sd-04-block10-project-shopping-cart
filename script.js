@@ -114,7 +114,7 @@ const carregaLista = () => {
 };
 
 const fetchList = () => {
-  fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
+  fetch('https://api.mercadolibre.com/sites/MLB/search?q=$computador')
   .then(responsta => responsta.json())
   .then((json) => {
     json.results.forEach((prod) => {
