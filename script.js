@@ -124,9 +124,9 @@ window.onload = function onload() {
           createProductItemElement({
             sku: result.id, name: result.title, image: result.thumbnail }));
       });
-      setTimeout(function () {
-        span.parentNode.removeChild(span);
-      }, 1000);
+      // setTimeout(function () {
+      //   span.parentNode.removeChild(span);
+      // }, 1000);
     })
     .catch(error => console.log(error));
   document.body.addEventListener('click', function (event) {  // find the Id of the clicked add to cart button
