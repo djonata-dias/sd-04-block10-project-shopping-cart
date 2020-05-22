@@ -36,34 +36,55 @@ function createProductItemElement({ sku, name, image }) {
 //   // coloque seu código aqui
 // }
 
-// function createCartItemElement({ sku, name, salePrice }) {
-//   const li = document.createElement('li');
-//   li.className = 'cart__item';
-//   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-//   li.addEventListener('click', cartItemClickListener);
-//   return li;
-// }
+function createCartItemElement({ sku, name, salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
+}
 
-window.onload = function onload() {
-// 1 - Listagem de produtos
-// Fazendo a requisição com Fetch ( Fetch API segue o padrão de Promise):
+// 1 - Listagem de produtos;
 
+function doRequisition() {
+  // Fazendo a requisição com Fetch ( Fetch API segue o padrão de Promise):
   const query = 'computador'; // parametro para a busca na API;
   fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${query}`)
 
-// .then((response) => console.log(response))//objeto response;
-// o json() converte o conteudo do body da response e retorna outra promise.
-.then(response => response.json())
-/* retorna o array results da promise(deve-se iteragir com results e retornar os parâmetros da
-funçao  `createProdutItemElement` num objeto e apensá-los no html)*/
-// .then ((dadosEmJson) => console.log(dadosEmJson.results))
-.then(dadosEmJson => dadosEmJson.results.forEach((elementos) => {
-  const itemProduto = {
-    sku: elementos.id,
-    name: elementos.title,
-    image: elementos.thumbnail,
-  };
-  document.querySelector('.items').appendChild(createProductItemElement(itemProduto));
-}))
-.catch(err => console.error('Failed retrieving information', err));
+  // .then((response) => console.log(response))//objeto response;
+  // o json() converte o conteudo do body da response e retorna outra promise.
+  .then(response => response.json())
+  /* retorna o array results da promise(deve-se iteragir com results e retornar os parâmetros da
+  funçao  `createProdutItemElement` num objeto e apensá-los no html)*/
+  // .then ((dadosEmJson) => console.log(dadosEmJson.results))
+  .then(dadosEmJson => dadosEmJson.results.forEach((elementos) => {
+    const itemProduto = {
+      sku: elementos.id,
+      name: elementos.title,
+      image: elementos.thumbnail,
+    };
+    document.querySelector('.items').appendChild(createProductItemElement(itemProduto));
+  }))
+  .catch(err => console.error('Failed retrieving information', err));
+}
+
+// 2 - Adicione o produto ao carrinho de compras
+
+function addById() {
+  document.querySelectorAll('.item__add').forEach((elementos) => {
+    elementos.addEventListener('click', () => {
+      const itemID = document.querySelector('span.item__sku').innerHTML;
+      fetch(`https://api.mercadolibre.com/items/${itemID}`)
+      .then(responseJ => responseJ.json().then((dadosItem) => {
+        documento.querySelector('.cart__items').appendChild(createCartItemElement({
+          sku: dadosItem.id, name: dadosItem.title, salePrice: dadosItem.price,
+        }));
+      }));
+    });
+  });
+}
+
+window.onload = function onload() {
+  doRequisition();
+  addById();
 };
