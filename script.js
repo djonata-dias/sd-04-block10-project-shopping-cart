@@ -67,7 +67,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-// Fetch to call the infomation related to Id and call createCartItemElement
+// Fetch to call the infomation related to Id and call createCartItemElemen
 async function fetchId(idToFecth) {
   fetch(`https://api.mercadolibre.com/items/${idToFecth}`)
   .then(response => response.json())
