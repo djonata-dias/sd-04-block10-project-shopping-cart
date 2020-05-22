@@ -27,9 +27,10 @@ function createProductItemElement({ sku, name, image }) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
 
-// function cartItemClickListener(event) {
-//   // coloque seu código aqui
-// }
+function cartItemClickListener(event) {
+  console.log('inutile', event.className);
+  // coloque seu código aqui
+}
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
@@ -75,7 +76,7 @@ window.onload = function onload() {
   document.body.addEventListener('click', function (event) { // To be improve
     const idOfClickedCartButon =
       event.target.previousSibling.previousSibling.previousSibling.innerText; // To be improve
-    console.log('idOfClickedCartButon', idOfClickedCartButon);
+    console.log('idOfClickedCartButon', idOfClickedCartButon); // To remove
     fetchId(idOfClickedCartButon);
   });
 }; // End of window load
