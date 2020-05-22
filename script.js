@@ -17,7 +17,7 @@ const toLocalStorage = () => { // Function to send products list to local storag
   localStorage.setItem('cart_products', list);
 };
 
-const totalPrice = () => {
+const totalPrice = () => { // Sum price values from the cart list
   const cartItems = document.querySelector('.cart__items');
   const totalSpan = document.querySelector('.total-price');
   const priceArr = [];
