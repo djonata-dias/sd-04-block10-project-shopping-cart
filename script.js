@@ -71,7 +71,7 @@ function doRequisition() {
 // 2 - Adicione o produto ao carrinho de compras
 
 function addById() {
-  document.querySelectorAll('.item__add').forEach((elementos) => {
+  document.querySelectorAll('.item').forEach((elementos) => {
     elementos.addEventListener('click', () => {
       const itemID = document.querySelector('span.item__sku').innerHTML;
       fetch(`https://api.mercadolibre.com/items/${itemID}`)
