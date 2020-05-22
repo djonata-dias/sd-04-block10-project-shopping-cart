@@ -7,10 +7,14 @@
   };
 
   async function updateTotalPrice() {
-    let totalPrice = 0;
-    const cartItems = getItemsStorage();
-    totalPrice = await cartItems.reduce((total, item) => total + item.price, 0);
-    document.querySelector('.total-price').innerHTML = `Total: R$ ${totalPrice.toFixed(2)}`;
+    try {
+      let totalPrice = 0;
+      const cartItems = getItemsStorage();
+      totalPrice = await cartItems.reduce((total, item) => total + item.price, 0);
+      document.querySelector('.total-price').innerHTML = `Total: R$ ${totalPrice.toFixed(2)}`;
+    } catch (err) {
+      onerror(err);
+    }
   }
 
   document.querySelector('.empty-cart').addEventListener('click', () => {
