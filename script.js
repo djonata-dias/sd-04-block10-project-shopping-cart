@@ -9,12 +9,17 @@ const sumCartPrices = () => {
   return sum;
 };
 
-const asyncSum = async () => {
-  try {
-    await sumCartPrices();
-  } catch (erro) {
-    console.log(erro);
-  }
+// const sumCartPrices2 = () => {
+//   const prices = document.querySelector('.total-price');
+//   const products = document.getElementsByClassName('cart__item')
+//   const sum = getProductsFromLocalStorage().reduce(
+//     (acc, product) => acc + product.price, 0);
+//   prices.innerText = sum;
+//   return sum;
+// }
+
+const asyncSum = () => {
+  sumCartPrices();
 };
 
 const clearCart = () => {
