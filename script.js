@@ -21,7 +21,7 @@ const displaySum = (sum) => {
       resolve();
     } else {
       reject('Deu ruim não tinha soma dos preços');
-      prices.innerText = 'testando';
+      // prices.innerText = 'testando';
     }
   });
 };
