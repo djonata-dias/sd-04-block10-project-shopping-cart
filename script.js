@@ -118,7 +118,6 @@ window.onload = async function onload() {
     valor += clickado.salePrice;
     totalPrice.innerText = `Valor total: R$ ${valor}`;
   }));
-
   const buttonClear = document.querySelector('.empty-cart');
   buttonClear.onclick = clearCart;
 };
