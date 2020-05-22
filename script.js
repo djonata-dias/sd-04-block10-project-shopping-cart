@@ -47,7 +47,7 @@ const limpaCarrinhoFunction = () => {
     document.querySelector('.cart__items').innerHTML = '';
     localStorage.clear();
   });
-}
+};
 
 const query = 'computador';
 
