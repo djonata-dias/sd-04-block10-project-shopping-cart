@@ -1,5 +1,19 @@
+  const getItemsStorage = () => {
+    let cartItems = [];
+    if (localStorage.getItem('cart')) {
+      cartItems = JSON.parse(localStorage.getItem('cart'));
+    }
+    return cartItems;
+  };
+
   function cartItemClickListener(event) {
     // coloque seu código aqui
+    const item = event.target.innerText.split(' | ');
+    const id = item[0].substr(5);
+    const cartItems = getItemsStorage();
+    const excl = cartItems.find(i => i.id === id);
+    cartItems.splice(cartItems.indexOf(excl), 1);
+    localStorage.setItem('cart', JSON.stringify(cartItems));
     event.target.remove();
   }
 
@@ -10,14 +24,6 @@
     li.addEventListener('click', cartItemClickListener);
     return li;
   }
-
-  const getItemsStorage = () => {
-    let cartItems = [];
-    if (localStorage.getItem('cart')) {
-      cartItems = JSON.parse(localStorage.getItem('cart'));
-    }
-    return cartItems;
-  };
 
   const saveStorage = (item) => {
     const cartItems = getItemsStorage();
