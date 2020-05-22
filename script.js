@@ -1,3 +1,5 @@
+let valor = 0;
+
 async function doFetch(QUERY) {
   await new Promise(resolve => setTimeout(resolve, 1000));
   const resp = await fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${QUERY}`);
@@ -58,14 +60,26 @@ function storageUpdate() {
   localStorage.setItem('cartItemsKey', (cartItems.innerHTML));
 }
 
-let valor = 0;
+function addValorTotal() {
+  const totalPrice = document.querySelector('.total-price');
+  const cartItems = document.querySelector('.cart__items');
+  valor = Array.from(cartItems.children)
+  .map(element => Number(element.id))
+  .reduce((acc, cur) => acc + cur, 0);
+  console.log(valor);
+  if (Number.isInteger(valor) || valor === 0) {
+    totalPrice.innerText = Math.trunc(valor);
+  } else totalPrice.innerText = valor.toFixed(2);
+}
+
 
 function cartItemClickListener(e) {
   const totalPrice = document.querySelector('.total-price');
   valor -= e.target.id;
-  totalPrice.innerText = Math.trunc(valor.toFixed(2));
+  totalPrice.innerText = valor.toFixed(2);
   e.target.remove();
   storageUpdate();
+  addValorTotal();
 }
 
 function clearCart() {
@@ -91,8 +105,6 @@ function eventFunction(e) {
 }
 
 window.onload = async function onload() {
-  const totalPrice = document.querySelector('.total-price');
-
   const items = document.querySelector('.items');
   const sync = await doFetch('computador');
   sync.map(objeto => items.appendChild(createProductItemElement(objeto)));
@@ -103,7 +115,7 @@ window.onload = async function onload() {
     valor = Array.from(cartItems.children)
       .map(element => Number(element.id))
       .reduce((acc, cur) => acc + cur);
-    totalPrice.innerText = Math.trunc(valor.toFixed(2));
+    addValorTotal();
     cartItems.addEventListener('click', cartItemClickListener);
   }
 
@@ -114,8 +126,7 @@ window.onload = async function onload() {
     const itemAdded = createCartItemElement(clickado);
     cartItems.appendChild(itemAdded);
     storageUpdate();
-    valor += clickado.salePrice;
-    totalPrice.innerText = Math.trunc(valor.toFixed(2));
+    addValorTotal();
   }));
 
   const buttonClear = document.querySelector('.empty-cart');
