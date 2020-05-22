@@ -20,7 +20,8 @@ const addCart = (e) => {
     .then((resTreat) => {
       const { id: sku, title: name, price: salePrice } = resTreat;
       const o = { sku, name, salePrice };
-      document.querySelector('ol.cart__items').appendChild(createCartItemElement(o));})
+      document.querySelector('ol.cart__items').appendChild(createCartItemElement(o));
+    })
     .catch(() => console.log('res item error'));
 };
 
@@ -71,8 +72,9 @@ const fFetch = (q, call) => {
     .catch(() => console.log('res error'));
 };
 
+// Chama a API e adiciona os items nos componentes depois q todo html for carregado
 window.onload = function onload() {
-  fFetch(query, addProd); // Chama a API e adiciona os items nos componentes depois q todo html for carregado
+  fFetch(query, addProd);
   // const el1 = document.querySelector('.items').childNodes.length;
   // console.log(el1)
 };
