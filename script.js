@@ -120,10 +120,11 @@ window.onload = () => {
   const emptyCart = document.querySelector('.empty-cart');
   const loading = document.querySelector('.loading');
 
+  asyncSum();
+
   fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
     .then(object => object.json())
     .then(data => appendToItems(data))
-    .then(asyncSum())
     .catch(erro => console.log(erro));
 
   // .then(loading.parentNode.removeChild(loading)) retirado para colocar setTimeOut
