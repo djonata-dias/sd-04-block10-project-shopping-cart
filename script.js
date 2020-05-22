@@ -9,11 +9,11 @@
   async function updateTotalPrice() {
     try {
       let totalPrice = 0;
-      const cartItems = getItemsStorage();
-      totalPrice = await cartItems.reduce((total, item) => total + item.price, 0);
+      const cartItems = await getItemsStorage();
+      totalPrice = cartItems.reduce((total, item) => total + item.price, 0);
       document.querySelector('.total-price').innerHTML = `Total: R$ ${totalPrice.toFixed(2)}`;
     } catch (err) {
-      onerror(err);
+      console.log(err.msg);
     }
   }
 
