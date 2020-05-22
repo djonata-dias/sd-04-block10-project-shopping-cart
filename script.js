@@ -1,9 +1,13 @@
-const getProductsFromLocalStorage = () => JSON.parse(localStorage.getItem('products'));
+const getProductsFromLocalStorage = () =>
+  JSON.parse(localStorage.getItem('products'));
 
 const sumCartPrices = () =>
   new Promise((resolve, reject) => {
     if (localStorage.products) {
-      const sum = getProductsFromLocalStorage().reduce((acc, product) => acc + product.price, 0);
+      const sum = getProductsFromLocalStorage().reduce(
+        (acc, product) => acc + product.price,
+        0,
+      );
       resolve(sum);
     }
     reject('deu ruim, não tinha local Storage');
@@ -16,7 +20,7 @@ const displaySum = (sum) => {
       prices.innerText = sum;
       resolve();
     } else {
-      prices.innerText = 0.00;
+      prices.innerText = 0.0;
       reject('Deu ruim não tinha soma dos preços');
     }
   });
@@ -55,8 +59,11 @@ function cartItemClickListener(event) {
     element.parentNode.removeChild(element);
     const products = JSON.parse(localStorage.getItem('products'));
     if (products) {
-      const ProductId = products.findIndex(product => product.id === event.target.id);
-      const filteredProducts = products.slice(0, ProductId)
+      const ProductId = products.findIndex(
+        product => product.id === event.target.id,
+      );
+      const filteredProducts = products
+        .slice(0, ProductId)
         .concat(products.slice(ProductId + 1, products.lenght));
       localStorage.setItem('products', JSON.stringify(filteredProducts));
       asyncSum();
@@ -80,11 +87,11 @@ function createCustomElement(element, className, innerText) {
   e.className = className;
   e.innerText = innerText;
   if (element === 'button') {
-    e.addEventListener('click', (event) => {
+    e.addEventListener('click', event => {
       const id = getSkuFromProductItem(event.target.parentElement);
       fetch(`https://api.mercadolibre.com/items/${id}`)
         .then(object => object.json())
-        .then((data) => {
+        .then(data => {
           const cart = document.querySelector('.cart__items');
           cart.appendChild(createCartItemElement(data));
 
@@ -99,20 +106,26 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function createProductItemElement({ id = 'teste', title = 'teste', thumbnail = 'teste' }) {
+function createProductItemElement({
+  id = 'teste',
+  title = 'teste',
+  thumbnail = 'teste',
+}) {
   const section = document.createElement('section');
   section.className = 'item';
 
   section.appendChild(createCustomElement('span', 'item__sku', id));
   section.appendChild(createCustomElement('span', 'item__title', title));
   section.appendChild(createProductImageElement(thumbnail));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+  section.appendChild(
+    createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'),
+  );
   return section;
 }
 
 const appendToItems = (data) => {
   const items = document.querySelector('.items');
-  data.results.forEach((product) => {
+  data.results.forEach(product => {
     items.appendChild(createProductItemElement(product));
   });
 };
@@ -132,7 +145,9 @@ window.onload = () => {
 
   if (localStorage.products) {
     const products = JSON.parse(localStorage.getItem('products'));
-    products.forEach(product => cart.appendChild(createCartItemElement(product)));
+    products.forEach(product =>
+      cart.appendChild(createCartItemElement(product)),
+    );
   } else {
     localStorage.setItem('products', JSON.stringify([]));
   }
