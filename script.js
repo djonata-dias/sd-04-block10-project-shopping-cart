@@ -6,6 +6,11 @@
     return cartItems;
   };
 
+  document.querySelector('.empty-cart').addEventListener('click', () => {
+    localStorage.setItem('cart', '');
+    document.querySelectorAll('ol li').forEach(li => li.remove());
+  });
+
   // function getSkuFromProductItem(item) {
   //   return item.querySelector('span.item__sku').innerText;
   // }
