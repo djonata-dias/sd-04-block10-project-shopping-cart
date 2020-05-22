@@ -9,7 +9,7 @@ const sumCartPrices = () => {
 
 const displaySum = (sum) => {
   const prices = document.querySelector('.total-price');
-  prices.innerText = sum;
+  prices.innerHTML = sum;
 };
 
 const asyncSum = async () => {
