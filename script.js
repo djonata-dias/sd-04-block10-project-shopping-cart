@@ -18,20 +18,24 @@ const toLocalStorage = () => { // Function to send products list to local storag
 };
 
 const totalPrice = async () => {
-  const cartItems = document.querySelector('.cart__items');
-  const totalSpan = document.querySelector('.total-span');
-  const priceArr = [];
-  let total = 0;
+  try {
+    const cartItems = document.querySelector('.cart__items');
+    const totalSpan = document.querySelector('.total-span');
+    const priceArr = [];
+    let total = 0;
 
-  const list = cartItems.children;
-  for (let i = 0; i < list.length; i += 1) {
-    const itemArr = list[i].innerText.split(' ');
-    const price = itemArr[itemArr.length - 1];
-    const number = Number(price.substring(1));
-    priceArr.push(number);
+    const list = cartItems.children;
+    for (let i = 0; i < list.length; i += 1) {
+      const itemArr = list[i].innerText.split(' ');
+      const price = itemArr[itemArr.length - 1];
+      const number = Number(price.substring(1));
+      priceArr.push(number);
+    }
+    total = priceArr.reduce((acc, curr) => acc + curr, 0);
+    totalSpan.innerHTML = await total;
+  } catch (err) {
+    console.log(err);
   }
-  total = priceArr.reduce((acc, curr) => acc + curr, 0);
-  totalSpan.innerHTML = `Valor total: R$${total}`;
 };
 
 function cartItemClickListener(event) { // Removing cart item by clicking it
@@ -101,6 +105,10 @@ function createProductItemElement({ sku, name, image }) { // Creating the list o
 }
 
 const productInfo = (productArray) => {
+  const container = document.querySelector('.container');
+  const loading = document.querySelector('.loading');
+  container.removeChild(loading);
+
   const items = document.getElementsByClassName('items');
   productArray.forEach((product) => {
     const { id, title, thumbnail } = product;
