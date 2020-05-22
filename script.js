@@ -87,11 +87,11 @@ function createCustomElement(element, className, innerText) {
   e.className = className;
   e.innerText = innerText;
   if (element === 'button') {
-    e.addEventListener('click', event => {
+    e.addEventListener('click', (event) => {
       const id = getSkuFromProductItem(event.target.parentElement);
       fetch(`https://api.mercadolibre.com/items/${id}`)
         .then(object => object.json())
-        .then(data => {
+        .then((data) => {
           const cart = document.querySelector('.cart__items');
           cart.appendChild(createCartItemElement(data));
 
@@ -125,7 +125,7 @@ function createProductItemElement({
 
 const appendToItems = (data) => {
   const items = document.querySelector('.items');
-  data.results.forEach(product => {
+  data.results.forEach((product) => {
     items.appendChild(createProductItemElement(product));
   });
 };
