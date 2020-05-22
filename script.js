@@ -1,6 +1,13 @@
 const query = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
 const queryItem = 'https://api.mercadolibre.com/items/';
 
+const fFetch = (q, call) => {
+  fetch(q)
+    .then(res => res.json())
+    .then(resTreat => call(resTreat))
+    .catch(() => console.log('res error'));
+};
+
 function cartItemClickListener(event) {
   // coloque seu código aqui
 }
@@ -64,13 +71,6 @@ const addProd = (pds) => {
     const o = { sku, name, image };
     document.querySelector('section.items').appendChild(createProductItemElement(o));
   });
-};
-
-const fFetch = (q, call) => {
-  fetch(q)
-    .then(res => res.json())
-    .then(resTreat => call(resTreat))
-    .catch(() => console.log('res error'));
 };
 
 // Chama a API e adiciona os items nos componentes depois q todo html for carregado
