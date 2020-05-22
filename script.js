@@ -95,5 +95,5 @@ window.onload = function onload() {
     salvos.forEach(code => addToCart(code));
   }
   loading.style.display = 'block';
-  setTimeout(() => (loading.style.display = 'none'), 2000);
+  setTimeout(() => (loading.style.display = 'none'), 2100);
 };
