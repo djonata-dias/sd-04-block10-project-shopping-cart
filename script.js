@@ -103,15 +103,14 @@
         document.getElementsByClassName('items')[0].appendChild(section);
       });
     };
+    setTimeout(() => {
+      document.querySelector('.loading').style.display = 'none';
+    }, 500);
     const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
     fetch(API_URL)
     .then(response => response.json())
     .then(data => returnProduct(data.results))
     .catch(console.log('Error while trying to reach API'));
-
-    setTimeout(() => {
-      document.querySelector('.loading').style.display = 'none';
-    }, 500);
 
     verifyCart();
   };
