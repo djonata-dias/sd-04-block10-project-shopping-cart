@@ -60,7 +60,7 @@ function cartItemClickListener(event) {
 
 function listItems(array) {
   const sectionItems = document.querySelector('section.items');
-  array.forEach(computerObj => {
+  array.forEach((computerObj) => {
     const { id: sku, title: name, thumbnail: image } = computerObj;
     const newObj = { sku, name, image };
     sectionItems.appendChild(createProductItemElement(newObj));
