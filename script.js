@@ -44,18 +44,19 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 const fFetch = (q) => {
   fetch(q)
-    .then(res => res.json()) // res ok
+    .then(res => res.json())
     .then((resTreat) => {
       resTreat.results.forEach((result) => {
         const { id: sku, title: name, thumbnail: image } = result;
         const o = { sku, name, image };
         document.querySelector('section .items').appendChild(createProductItemElement(o));
-        // console.log(result)
       });
-    }) // resTreat.results ok
+    })
     .catch(() => console.log('res error'));
 };
-
+  
 window.onload = function onload() {
   fFetch(query);
 };
+  
+// console.log(result)
