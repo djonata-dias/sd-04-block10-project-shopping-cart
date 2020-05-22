@@ -76,9 +76,9 @@ const fetchAPI = (URL) => {
   fetch(URL)
   .then(response => response.json())
   .then(data => returnProduct(data.results))
-  .catch(console.error); 
+  .catch(console.error);
 };
 
 window.onload = function onload() {
-  fetchAPI('https://api.mercadolibre.com/sites/MLB/search?q=computador')
+  fetchAPI('https://api.mercadolibre.com/sites/MLB/search?q=computador');
 };
