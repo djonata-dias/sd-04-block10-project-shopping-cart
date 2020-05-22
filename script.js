@@ -24,29 +24,27 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-// function getSkuFromProductItem(item) {
-//   return item.querySelector('span.item__sku').innerText;
-// }
+function getSkuFromProductItem(item) {
+  return item.querySelector('span.item__sku').innerText;
+}
 
-// function cartItemClickListener(event) {
-//   // coloque seu código aqui
-// }
+function cartItemClickListener(event) {
+  // coloque seu código aqui
+}
 
-// function createCartItemElement({ sku, name, salePrice }) {
-//   const li = document.createElement('li');
-//   li.className = 'cart__item';
-//   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-//   li.addEventListener('click', cartItemClickListener);
-//   return li; // elementoOL.appendChild(createCartItemElement({ sku, name, salePrice }))
-// }
+function createCartItemElement({ sku, name, salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li; // elementoOL.appendChild(createCartItemElement({ sku, name, salePrice }))
+}
 
 // -------------------------------------------------------------------- //
 
 // requisito 1 -> retorno da requisicao feita no onload é usado para listar os produtos
 
 const produtos = (produto) => {
-  // console.log(produto) -> array de objetos (cada objeto com infos de um produto)
-
   produto.forEach((elemento) => {
     const sku = elemento.id;
     const name = elemento.title;
@@ -54,13 +52,32 @@ const produtos = (produto) => {
     const itemsElement = document.querySelector('.items');
     itemsElement.appendChild(createProductItemElement({ sku, name, image }));
   });
+  const botaoAdicionar = document.querySelectorAll('.item__add');
+  botaoAdicionar.forEach((elemento) => {
+    elemento.addEventListener('click', addProduto);
+  })
 };
-
 
 // requisito 2 -> botao adicionar ao carrinho dispara uma requisicao a api
 
-// const botaoAdicionar = document.querySelectorAll('.item__add');
-// console.log(botaoAdicionar); // Node List
+// adicionar um evento de clique a cada botao com a classe .item__add
+
+const addProduto = (event) => {
+  const itemId = event.target.parentNode.firstChild.innerText;
+
+  const API_URL_2 = `https://api.mercadolibre.com/items/${itemId}`;
+
+  fetch(API_URL_2)
+  .then(response => response.json())
+  .then((produto) => {
+    const sku = produto.id;
+    const name = produto.title;
+    const salePrice = produto.price;
+    const lista = document.querySelector('.cart__items');
+    lista.appendChild(createCartItemElement({ sku, name, salePrice }));
+  })
+  .catch(error => console.log(error));
+}
 
 
 // onload -> toda vez que a pagina é carregada é feita uma requisicao na API do mercado livre
