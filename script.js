@@ -2,7 +2,7 @@ const updatePrice = async () => {
   let totalPrice = 0;
   try {
     const itemsList = await document.querySelectorAll('ol.cart__items > li');
-    itemsList.forEach((itemElement) => {
+    itemsList.forEach(itemElement => {
       const elementInnerHTMLarray = itemElement.innerHTML.split(' ');
       const elementPriceArray = elementInnerHTMLarray[
         elementInnerHTMLarray.length - 1
@@ -52,7 +52,7 @@ function addToCart(id) {
     .then(data => data)
     .then(addToCartObj)
     .then(createCartItemElement)
-    .then((item) => {
+    .then(item => {
       const itemsList = document.querySelector('ol.cart__items');
       itemsList.appendChild(item);
       updatePrice();
@@ -96,7 +96,7 @@ function listItems(array) {
     sectionContainer.removeChild(loadingMessage);
   }, 500);
   const sectionItems = document.querySelector('section.items');
-  array.forEach((computerObj) => {
+  array.forEach(computerObj => {
     const { id: sku, title: name, thumbnail: image } = computerObj;
     const newObj = { sku, name, image };
     sectionItems.appendChild(createProductItemElement(newObj));
@@ -129,4 +129,4 @@ window.onload = function onload() {
   });
   fetchList();
   updatePrice();
-};
+ };
