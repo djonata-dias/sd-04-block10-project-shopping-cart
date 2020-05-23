@@ -110,7 +110,19 @@ const carregaLista = () => {
   setTimeout(() => (loading.style.display = 'none'), 2100);
 };
 
-const fetchList = () => {
+// const fetchList = () => {
+//   fetch('https://api.mercadolibre.com/sites/MLB/search?q=$computador')
+//   .then(responsta => responsta.json())
+//   .then((json) => {
+//     json.results.forEach((prod) => {
+//       const { id: sku, title: name, thumbnail: image } = prod;
+//       secItems.append(createProductItemElement({ sku, name, image }));
+//     });
+//   })
+//   .catch(error => console.log(error));
+//   carregaLista();
+// };
+const fetchList = async () => {
   fetch('https://api.mercadolibre.com/sites/MLB/search?q=$computador')
   .then(responsta => responsta.json())
   .then((json) => {
@@ -120,9 +132,9 @@ const fetchList = () => {
     });
   })
   .catch(error => console.log(error));
-  carregaLista();
 };
 
 window.onload = function onload() {
+  carregaLista();
   fetchList();
 };
