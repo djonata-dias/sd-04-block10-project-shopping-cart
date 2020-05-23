@@ -31,9 +31,9 @@ async function updatePrice() {
   await cartList.forEach((item) => {
     const itemArray = item.innerHTML.split(' ');
     const itemPrice = +itemArray[itemArray.length - 1].replace('$', '');
-    totalPrice += itemPrice;
+    totalPrice += +itemPrice.toFixed(2);
   });
-  cartTotalPrice.innerText = await +totalPrice.toFixed(2);
+  cartTotalPrice.innerText = await totalPrice.toFixed(2);
 }
 
 function setCartListLocalStorage() {
