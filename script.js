@@ -52,47 +52,40 @@ function createCartItemElement({ id, title, price }) {
 }
 
 // summing prices asynchronously for each items each time we do a fetch:
-const sumCart = () => {
-  const priceArr = [];
-  let total = 0;
-  const cartItems = document.querySelector('.cart__items').children;
-  for (let i = 0; i < cartItems.length; i += 1) {
-    const itemArr = cartItems[i].innerText.split(' ');
-    const price = itemArr[itemArr.length - 1];
-    const number = Number(price.substring(1));
-    priceArr.push(number);
-  }
-  total = priceArr.reduce((acc, curr) => acc + curr, 0);
-  priceSpan.innerHTML = total;
-  // const storageArr = await JSON.parse(localStorage.getItem('items'));
-  // // getting the price from local storage string:
-  // const pricesArr = await storageArr.map(item => Number(item.split('PRICE: $')[1]));
-  // const sum = await pricesArr.reduce((total, num) => total + num, 0);
-  // priceSpan.innerHTML = `<p>${sum}</p>`;
+const sumCart = async () => {
+  const storageArr = await JSON.parse(localStorage.getItem('items'));
+  // getting the price from local storage string:
+  const pricesArr = await storageArr.map(item => Number(item.split('PRICE: $')[1]));
+  const sum = await pricesArr.reduce((total, num) => total + num, 0);
+  priceSpan.innerHTML = `<p>${sum}</p>`;
 };
 
-// removing itens from the cart by clicking on them:
-let arrLStorage = [];
-function cartItemClickListener(event) {
-  arrLStorage = JSON.parse(localStorage.getItem('items'));
-  // removing element only if it's a list:
-  if (event.target && event.target.nodeName === 'LI') event.target.remove();
-  // removing the product from the storage array:
-  const i = arrLStorage.indexOf(event.target.innerHTML);
-  arrLStorage.splice(i, 1);
-  // then setting the new array as the current storage:
-  localStorage.setItem('items', JSON.stringify(arrLStorage));
-  // updating the total, after removing items from the cart:
-  sumCart();
-}
-cartSection.addEventListener('click', cartItemClickListener);
-
 // adding to localStorage, this function is called each time we do a fetch:
+let arrLStorage = [];
 const addingToStorage = (product) => {
   if (localStorage.getItem('items') != null) arrLStorage = JSON.parse(localStorage.getItem('items'));
   arrLStorage.push(product.innerHTML);
   localStorage.setItem('items', JSON.stringify(arrLStorage));
 };
+
+// removing the item from localStorage, this function is called each time we remove an item:
+const removingFromStorage = (item) => {
+  arrLStorage = JSON.parse(localStorage.getItem('items'));
+  // removing the product from the storage array:
+  const i = arrLStorage.indexOf(item.innerHTML);
+  arrLStorage.splice(i, 1);
+  // then setting the new array as the current storage:
+  localStorage.setItem('items', JSON.stringify(arrLStorage));
+};
+
+// removing itens from the cart by clicking on them:
+function cartItemClickListener(event) {
+  // removing element only if it's a list:
+  if (event.target && event.target.nodeName === 'LI') event.target.remove();
+  removingFromStorage(event.target);
+  sumCart(); // updating the total, after removing items from the cart
+}
+cartSection.addEventListener('click', cartItemClickListener);
 
 // loading localStorage when the page loads:
 const loadingLS = () => {
