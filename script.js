@@ -75,7 +75,7 @@ const productList = (results) => {
 };
 
 window.onload = function onload() {
-  const rmvAll = document.querySelector('.empty-cart')
+  const rmvAll = document.querySelector('.empty-cart');
   const savedItens = document.querySelector('.cart__items');
   if (localStorage !== null) {
     savedItens.innerHTML = localStorage.getItem('item');
