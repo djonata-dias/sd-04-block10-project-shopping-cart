@@ -131,13 +131,14 @@ body {
 }
 
 .loading {
-  animation: load 2s alternate infinite linear;
+  color: black;
   font-size: 18pt;
   font-weight: 700;
   margin-top: 25px;
 }
 
-@keyframes load {
+/* animation: load 2s alternate infinite linear; */
+/* @keyframes load {
 
   0% {
     color: yellow;
@@ -160,4 +161,4 @@ body {
     font-size: 18pt;
     text-shadow: 0 12px 3px black;
   }
-}
+} */
