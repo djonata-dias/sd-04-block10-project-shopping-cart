@@ -1,5 +1,6 @@
 const query = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
 const queryItem = 'https://api.mercadolibre.com/items/';
+const aStorage = [];
 
 const fFetch = (q, call) => { // c
   fetch(q)
@@ -10,11 +11,15 @@ const fFetch = (q, call) => { // c
 
 function cartItemClickListener(event) { // usada
   // coloque seu código aqui
-  // event.target.parentNode.removeChild(event.target);
-  const eT = event.target;
-  eT.innerHTML = '';
+  event.target.parentNode.removeChild(event.target);
   const id = event.target.innerText.substring(5, 18);
-  localStorage.removeItem(id);
+  const aStorageCur = JSON.parse(localStorage.getItem('items'));
+  aStorageCur.forEach((item, i) => {
+    if (item === id) {
+      localStorage.removeItem(items[i]);
+      localStorage.removeItem(items[i + 1]);
+    }
+  });
 }
 
 function createCartItemElement({ sku, name, salePrice }) { // usada
@@ -22,16 +27,19 @@ function createCartItemElement({ sku, name, salePrice }) { // usada
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
-  localStorage.setItem(sku, li.innerText);
+  aStorage.push(sku); // +
+  aStorage.push(li.innerText); // +
+  localStorage.setItem('items', JSON.stringify(aStorage)); // +
+  aStorage = []; // +
   return li;
 }
 
 // refatoração com fFetch() pq CC apontava duplicação de código
-const addCart = (its) => { // c
+const addCart = (itsTreat) => { // c
   const o = {
-    sku: its.id,
-    name: its.title,
-    salePrice: its.price,
+    sku: itsTreat.id,
+    name: itsTreat.title,
+    salePrice: itsTreat.price,
   };
   document.querySelector('ol.cart__items').appendChild(createCartItemElement(o));
 };
@@ -84,11 +92,11 @@ const addProd = (pds) => { // c
 
 const verifyLocalStorage = () => { // c
   const elOl = document.querySelector('ol.cart__items');
-  for (let i = 0; i < localStorage.length; i += 1) {
+  for (let i = 1; i < localStorage.length; i += 2) {
     const li = document.createElement('li');
-    const item = localStorage.getItem(localStorage.key(i));
+    const content = localStorage.getItem(items[i]);
     li.addEventListener('click', cartItemClickListener);
-    li.innerText = item;
+    li.innerText = content;
     elOl.appendChild(li);
   }
 };
