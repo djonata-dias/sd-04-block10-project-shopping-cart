@@ -115,8 +115,5 @@ const callAPI = () => {
 };
 
 callAPI();
-window.onload = function onload() {
-  callAPI();
-  limpaCarrinho();
-  totalPrice();
-};
+limpaCarrinho();
+totalPrice();
