@@ -32,7 +32,10 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
-  event.target.remove();
+  const selecionado = event.target;
+  // selecionado.innerHTML = "";
+  // const carrinho = document.querySelector('.cart_items');
+  selecionado.parentNode.removeChild(selecionado);
 }
 
 
