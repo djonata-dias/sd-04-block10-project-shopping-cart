@@ -62,19 +62,23 @@ const addCarrinho = (data) => {
   addToStorage();
 };
 
+const getItemsFromAPI = API_URL => fetch(API_URL);
+
 const adicionaEventListener = () => {
   const product = document.querySelectorAll('.item');
   product.forEach((item) => {
     item.lastElementChild.addEventListener('click', () => { // lastElemntChild é o botão que recebe o eventLIstener
-      fetch(`https://api.mercadolibre.com/items/${item.firstElementChild.innerHTML}`)
-      .then(data => data.json())
-      .then(dataJson => addCarrinho(dataJson))
+      // fetch(`https://api.mercadolibre.com/items/${item.firstElementChild.innerHTML}`)
+      getItemsFromAPI(`https://api.mercadolibre.com/items/${item.firstElementChild.innerHTML}`)
+      .then(response => response.json())
+      .then(data => addCarrinho(data))
       .catch(error => console.log(error));
     });
   });
 };
 
 const trataDadosJson = (data) => {
+  document.querySelector('.loading').remove();
   data.results.forEach((product) => {
     const obj = createObj(product);
     const section = document.querySelector('.items');
@@ -95,8 +99,7 @@ const esvaziarCarrinho = () => {
 
 const loadCart = () => {
   const innerHtml = localStorage.getItem('items');
-  const ol = document.querySelector('.cart__items');
-  ol.innerHTML = innerHtml;
+  document.querySelector('.cart__items').innerHTML = innerHtml;
   const arrayDeLi = document.querySelectorAll('.cart__item');
   arrayDeLi.forEach(li => li.addEventListener('click', cartItemClickListener));
   esvaziarCarrinho();
@@ -105,8 +108,17 @@ const loadCart = () => {
 window.onload = function onload() {
   loadCart();
   const query = 'computador';
-  const API_URL = `https://api.mercadolibre.com/sites/MLB/search?q=${query}`;
-  fetch(API_URL)
+  const apiItems = `https://api.mercadolibre.com/sites/MLB/search?q=${query}`;
+  const section = document.querySelector('.items');
+  section.appendChild(createCustomElement('span', 'loading', 'loading...'));
+  // fetch(API_URL)
+  // setTimeout(() => {
+  //   getItemsFromAPI(API_URL)
+  //   .then(data => data.json())
+  //   .then(dataJson => trataDadosJson(dataJson))
+  //   .catch(error => console.log(error));
+  // }, 2000)
+  getItemsFromAPI(apiItems)
     .then(data => data.json())
     .then(dataJson => trataDadosJson(dataJson))
     .catch(error => console.log(error));
