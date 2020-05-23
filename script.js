@@ -97,7 +97,7 @@ function doRequisition() {
       });
     });
   })
-  .then(setTimeout((document.querySelector('.loading').remove()), 2000))
+  .then(setTimeout(() => (document.querySelector('.loading').remove()), 5git 00))
   .catch(err => console.error('Failed retrieving information', err));
 }
 
