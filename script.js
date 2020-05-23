@@ -11,7 +11,8 @@ const fFetch = (q, call) => { // c
 function cartItemClickListener(event) { // usada
   // coloque seu código aqui
   // event.target.parentNode.removeChild(event.target);
-  event.target.innerHTML = '';
+  const eT = event.target;
+  eT.innerHTML = '';
   const id = event.target.innerText.substring(5, 18);
   localStorage.removeItem(id);
 }
