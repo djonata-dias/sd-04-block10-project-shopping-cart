@@ -91,8 +91,15 @@ window.onload = function onload() {
     localStorage.clear();
   });
 
-  fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador', myObject)
+  setTimeout(() => {
+    document.querySelector('.loading').remove();
+  }, 2000);
+
+  setTimeout(() => {
+    fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador', myObject)
       .then(response => response.json())
       .then(data => productList(data.results))
       .catch(console.error);
+  }, 2000);
+  
 };
