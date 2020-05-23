@@ -93,6 +93,9 @@ const createList = async () => {
         }),
       );
     });
+    setTimeout(() => {
+      document.getElementsByClassName('loading')[0].remove(); //  7
+    }, 500);
   } catch (error) {
     console.log('Error');
   }
