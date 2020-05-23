@@ -1,15 +1,5 @@
 window.onload = function onload() { };
 
-const searchProduct = (product) => {
-  const url = `https://api.mercadolibre.com/sites/MLB/search?q=${product}`;
-  fetch(url)
-  .then(response => response.json())
-  .then(kaecio => convertObject(kaecio.results))
-  .catch(() => {
-  });
-};
-
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -60,5 +50,15 @@ const convertObject = (dataArray) => {
     console.log(itemClass);
   });
 };
+const searchProduct = (product) => {
+  const url = `https://api.mercadolibre.com/sites/MLB/search?q=${product}`;
+  fetch(url)
+  .then(response => response.json())
+  .then(kaecio => convertObject(kaecio.results))
+  .catch(() => {
+  });
+};
+
 // chamada da função abaixo pq a função não foi criada
 searchProduct('computador');
+
