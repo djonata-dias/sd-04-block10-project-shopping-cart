@@ -97,7 +97,7 @@ function doRequisition() {
       });
     });
   })
-  .then(setTimeout(() => (document.querySelector('.loading').remove()), 5git 00))
+  .then(setTimeout(() => (document.querySelector('.loading').remove()), 500))
   .catch(err => console.error('Failed retrieving information', err));
 }
 
@@ -105,7 +105,6 @@ function esvaziarCarrinho() {
   document.querySelector('.cart__items').innerHTML = ' ';
   armazenando();
 }
-
 
 window.onload = function onload() {
   doRequisition();
