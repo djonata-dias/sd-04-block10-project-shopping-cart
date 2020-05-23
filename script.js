@@ -120,8 +120,8 @@ const loadingLS = () => {
 const fetchToCart = async (event) => {
   if (event.target.classList.contains('item__add')) {
     const itemID = event.target.parentNode.firstChild.innerText;
-    const fecthConst = await fetch(`https://api.mercadolibre.com/items/${itemID}`);
-    const data = await fecthConst.json();
+    const fetchCart = await fetch(`https://api.mercadolibre.com/items/${itemID}`);
+    const data = await fetchCart.json();
     const liElem = await cartSection.appendChild(createCartItemElement(data));
     await addingToStorage(liElem);
     await sumCart();
@@ -136,19 +136,21 @@ if (localStorage.getItem('items') != null) {
 }
 
 // fetching products informations to the main section:
-window.onload = function onload() {
-  const loading = '<p class="loading">loading...</p>';
+const fetchToSection = async () => {
   const queryInput = document.querySelector('.query-input').value;
-  return fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${queryInput}`)
-    .then((data) => data.json())
-    .then((json) => json.results)
-    .then((products) => {
-      mainSection.innerHTML = loading;
-      productInfo(products).forEach((product) => {
-        mainSection.appendChild(createProductItemElement(product));
-      });
-      document.querySelector('.loading').remove();
-    });
+  const fetchSection = await fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${queryInput}`);
+  const dataJson = await fetchSection.json();
+  const products = await productInfo(dataJson.results).forEach((product) => {
+    mainSection.appendChild(createProductItemElement(product));
+  });
+  return products;
+};
+
+window.onload = function onload() {
+  setTimeout(() => {
+    document.querySelector('.loading').remove();
+  }, 1500);
+  fetchToSection();
 };
 
 // function getSkuFromProductItem(item) {
