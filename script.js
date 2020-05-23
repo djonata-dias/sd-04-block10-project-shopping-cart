@@ -57,9 +57,8 @@ function adiconarProdutoById(itemId) {
   fetch(`https://api.mercadolibre.com/items/${iditem}`) // assincrona
   .then(responseJ => responseJ.json())
   .then((dadosJ) => {
-    const objItem = {
-      sku: dadosJ.id, name: dadosJ.title, salePrice: dadosJ.price };
-    document.querySelector('.cart__items').appendChild(createCartItemElement(objItem));
+    document.querySelector('.cart__items').appendChild(createCartItemElement({
+      sku: dadosJ.id, name: dadosJ.title, salePrice: dadosJ.price }));
   })
   .then(() => armazenando());
   // se o armazenamento tiver fora do .then ele
@@ -111,6 +110,5 @@ function esvaziarCarrinho() {
 window.onload = function onload() {
   doRequisition();
   document.querySelector('.empty-cart').addEventListener('click', esvaziarCarrinho);
-  // document.querySelector('.cart__items').innerText =
-  console.log(localStorage.getItem('produto_carrinho'));
+  document.querySelector('.cart__items').innerHTML = localStorage.getItem('produto_carrinho');
 };
