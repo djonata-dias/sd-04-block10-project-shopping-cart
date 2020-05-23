@@ -4,6 +4,7 @@
 const mainSection = document.querySelector('.items');
 const cartSection = document.querySelector('.cart__items');
 const priceSpan = document.querySelector('.total-price');
+const emptyButton = document.querySelector('.empty-cart');
 
 const productInfo = (products) =>
   products.map(({ id, title, thumbnail, price }) => {
@@ -49,7 +50,7 @@ const sumCart = async () => {
   // getting the price from local storage string:
   const pricesArr = await storageArr.map(item => Number(item.split('PRICE: $')[1]));
   const sum = await pricesArr.reduce((total, num) => total + num, 0);
-  priceSpan.innerHTML = sum.toFixed(2).replace(/\.00$/, '');
+  priceSpan.innerHTML = sum.toFixed(13).replace(/\.0000000000000$/, '');
 };
 
 // adding to localStorage, this function is called each time we do a fetch:
@@ -99,6 +100,15 @@ const loadingLS = () => {
     cartSection.appendChild(li);
   });
 };
+
+// adding empty car functionality:
+const emptyCart = () => {
+  localStorage.setItem('items', []);
+  while (cartSection.firstChild) {
+    cartSection.firstChild.remove();
+  }
+};
+emptyButton.addEventListener('click', emptyCart)
 
 // adding items to cart by clicking their buttons:
 const fetchToCart = async (event) => {
