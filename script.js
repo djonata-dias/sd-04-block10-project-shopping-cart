@@ -50,7 +50,7 @@ const toCartList = (data) => {
   };
   const listSelect = document.querySelector('.cart__items');
   listSelect.appendChild(createCartItemElement(obj));
-}
+};
 
 const productList = (results) => {
   const product = {};
