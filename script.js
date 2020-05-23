@@ -55,9 +55,9 @@ function createCartItemElement({ id, title, price }) {
 const sumCart = async () => {
   const storageArr = await JSON.parse(localStorage.getItem('items'));
   // getting the price from local storage string:
-  const pricesArr = await storageArr.map(item => Number(item.split('PRICE: $')[1]));
+  const pricesArr = await storageArr.map(item => parseFloat(item.split('PRICE: $')[1]));
   const sum = await pricesArr.reduce((total, num) => total + num, 0);
-  priceSpan.innerHTML = `<p>${sum.toFixed(2).replace(/\.00$/, '')}</p>`;
+  priceSpan.innerHTML = `<p>${sum.toFixed(13).replace(/\.0000000000000$/, '')}</p>`;
 };
 
 // removing itens from the cart by clicking on them:
