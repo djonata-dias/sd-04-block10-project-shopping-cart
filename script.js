@@ -46,7 +46,7 @@ async function totalPrice() {
   if (Number.isInteger(total)) {
     totalHtml.innerText = Math.trunc(total);
   } else {
-    totalHtml.innerText = total.toFixed(2);
+    totalHtml.innerText = total;
   }
 }
 
