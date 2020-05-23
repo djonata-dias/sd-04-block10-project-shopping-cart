@@ -112,16 +112,13 @@ function emptyCart() {
 }
 
 function addLoader() {
-  const loading = document.createElement('p');
-  loading.classList.add('loading');
-  loading.innerText = 'loading...';
-  const itemsSection = document.querySelector('.items');
-  itemsSection.appendChild(loading);
+  const loader = document.querySelector('.loading');
+  loader.innerHTML = 'loading...';
 }
 
 function removeLoader() {
-  const itemsSection = document.querySelector('.items');
-  itemsSection.removeChild(document.querySelector('.loading'));
+  const loader = document.querySelector('.loading');
+  loader.innerHTML = '';
 }
 
 const getQuery = async () => {
