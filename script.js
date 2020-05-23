@@ -1,6 +1,5 @@
 const query = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
 const queryItem = 'https://api.mercadolibre.com/items/';
-const aStorage = [];
 
 const fFetch = (q, call) => { // c
   fetch(q)
@@ -13,13 +12,15 @@ function cartItemClickListener(event) { // usada
   // coloque seu código aqui
   event.target.parentNode.removeChild(event.target);
   const id = event.target.innerText.substring(5, 18);
-  const aStorageCur = JSON.parse(localStorage.getItem('items'));
-  aStorageCur.forEach((item, i) => {
-    if (item === id) {
-      localStorage.removeItem(items[i]);
-      localStorage.removeItem(items[i + 1]);
+  const its = JSON.parse(localStorage.getItem('items'));
+  for (let i = 0; i < its.length; i += 2) {
+    if (its[i] === id) {
+      localStorage.removeItem('items');
+      its.splice(i, 2);
+      localStorage.setItem('items', JSON.stringify(its));
+      break;
     }
-  });
+  }
 }
 
 function createCartItemElement({ sku, name, salePrice }) { // usada
@@ -27,10 +28,10 @@ function createCartItemElement({ sku, name, salePrice }) { // usada
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
-  aStorage.push(sku); // +
-  aStorage.push(li.innerText); // +
-  localStorage.setItem('items', JSON.stringify(aStorage)); // +
-  aStorage = []; // +
+  const its = JSON.parse(localStorage.getItem('items')); // +
+  its.push(sku); // +
+  its.push(li.innerText); // +
+  localStorage.setItem('items', JSON.stringify(its)); // +
   return li;
 }
 
@@ -92,9 +93,10 @@ const addProd = (pds) => { // c
 
 const verifyLocalStorage = () => { // c
   const elOl = document.querySelector('ol.cart__items');
-  for (let i = 1; i < localStorage.length; i += 2) {
+  const its = JSON.parse(localStorage.getItem('items'));
+  for (let i = 1; i < its.length; i += 2) {
     const li = document.createElement('li');
-    const content = localStorage.getItem(items[i]);
+    const content = its[i];
     li.addEventListener('click', cartItemClickListener);
     li.innerText = content;
     elOl.appendChild(li);
@@ -103,6 +105,7 @@ const verifyLocalStorage = () => { // c
 
 // Chama a API e adiciona os items nos componentes depois q todo html for carregado
 window.onload = function onload() {
+  if (!localStorage.getItem('items')) localStorage.setItem('items', JSON.stringify([]));
   fFetch(query, addProd);
   verifyLocalStorage();
 };
