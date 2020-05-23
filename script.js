@@ -57,7 +57,7 @@ const sumCart = async () => {
   // getting the price from local storage string:
   const pricesArr = await storageArr.map(item => Number(item.split('PRICE: $')[1]));
   const sum = await pricesArr.reduce((total, num) => total + num, 0);
-  priceSpan.innerHTML = `<p>${sum}</p>`;
+  priceSpan.innerHTML = sum;
 };
 
 // adding to localStorage, this function is called each time we do a fetch:
