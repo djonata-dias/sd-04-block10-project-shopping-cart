@@ -144,7 +144,7 @@ const fetchList = async () => {
       secItems.append(createProductItemElement({ sku, name, image }));
     });
     loading.style.display = 'block';
-  setTimeout(() => (loading.style.display = 'none'), 2150);
+    setTimeout(() => (loading.style.display = 'none'), 2150);
     carregaLista(); // Carrega o carrinho.
   } catch (error) {
     console.log(error);
