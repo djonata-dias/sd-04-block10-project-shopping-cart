@@ -115,5 +115,5 @@ const callAPI = () => {
 };
 
 callAPI();
-//limpaCarrinho();
+// limpaCarrinho();
 // totalPrice();
