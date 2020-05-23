@@ -1,5 +1,5 @@
 body {
-  background-color: rgb(82, 65, 10);
+  background-color: rgb( 82 , 65 , 10 );
   color: white;
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -76,8 +76,7 @@ body {
 }
 
 .cart {
-  background-color: darkslategrey;
-  background: linear-gradient( rgb(11, 37, 37), gray, darkslategrey);
+  background: linear-gradient( rgb( 11 , 37 , 37 ) , gray , darkslategrey );
   display: flex;
   flex-basis: 30%;
   flex-flow: column wrap;
@@ -118,7 +117,7 @@ body {
 }
 
 .total:hover {
-  transform: scale(1.2);
+  transform: scale( 1.2 );
   transition: transform 0.5s linear;
 }
 
@@ -133,7 +132,7 @@ body {
   background-color: blue;
   border: none;
   border-radius: 4px;
-  box-shadow: 3px 3px 7px black;
+  box-shadow: 3px 3px 7px white;
   color: white;
   font-size: 15pt;
   outline: none;
@@ -145,7 +144,8 @@ body {
 }
 
 .empty-cart:active {
-  box-shadow: 1px 1px 2px black;
+  box-shadow: 1px 1px 2px white;
+  transition: box-shadow 0.1s linear;
 }
 
 .loading {
