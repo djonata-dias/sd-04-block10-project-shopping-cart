@@ -123,18 +123,19 @@ const carregaLista = () => {
 //   carregaLista();
 // };
 const fetchList = async () => {
-  fetch('https://api.mercadolibre.com/sites/MLB/search?q=$computador')
-  .then(responsta => responsta.json())
-  .then((json) => {
-    json.results.forEach((prod) => {
+  try {
+    const resposta = await fetch('https://api.mercadolibre.com/sites/MLB/search?q=$computador');
+    const json = await resposta.json();
+    await json.results.forEach((prod) => {
       const { id: sku, title: name, thumbnail: image } = prod;
       secItems.append(createProductItemElement({ sku, name, image }));
     });
-  })
-  .catch(error => console.log(error));
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 window.onload = function onload() {
-  carregaLista();
-  fetchList();
+  carregaLista(); // Carrega o carrinho.
+  fetchList(); // Carrega itens para selecionar.
 };
