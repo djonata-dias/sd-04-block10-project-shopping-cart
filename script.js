@@ -1,3 +1,24 @@
+// essa função assync só vai funcionar quando ela for chamada...
+// por isso ela deve ficar mais acima do código.
+async function totalPrice() {
+  const items = document.querySelectorAll('.cart__item');
+  const totalHtml = document.querySelector('.total-price');
+  let total = 0;
+  if (items.length === 0) {
+    console.log(total.toFixed(2));
+  } else {
+    items.forEach((item) => {
+      const string = item.innerText.split('$')[1];
+      total += parseFloat(string);
+      console.log(total.toFixed(2));
+    });
+  }
+  if (Number.isInteger(total)) {
+    totalHtml.innerText = Math.trunc(total);
+  } else {
+    totalHtml.innerText = total.toFixed(2);
+  }
+}
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -19,12 +40,16 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+  section.appendChild(
+    createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'),
+  );
   return section;
 }
 
 function cartItemClickListener(event) {
   event.target.remove();
+  localStorage.wishList = document.querySelector('ol.cart__items').innerHTML;
+  totalPrice();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -34,7 +59,9 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   document.getElementsByClassName('cart__items')[0].appendChild(li);
   localStorage.wishList = document.querySelector('ol.cart__items').innerHTML;
+  totalPrice();
   return li;
+  // tudo que está abaixo do retorno não roda... 2020-Ronan
 }
 
 // vamos criar uma função para tratar os dados do evento de click e jogar para o carrinho de compras
@@ -43,7 +70,13 @@ function getAllInfoFromProductItem(event) {
   const itemID = event.target.parentNode.firstChild.innerText;
   fetch(`https://api.mercadolibre.com/items/${itemID}`)
     .then(response => response.json())
-    .then(data => createCartItemElement({ sku: data.id, name: data.title, salePrice: data.price }))
+    .then(data =>
+      createCartItemElement({
+        sku: data.id,
+        name: data.title,
+        salePrice: data.price,
+      }),
+    )
     .catch(console.error);
 }
 
@@ -59,35 +92,45 @@ const returnProduct = (results) => {
     document.getElementsByClassName('items')[0].appendChild(section);
   });
   //  pegando o evento de click e colocando numa variável
-  document.querySelectorAll('.item__add')
-  //  o querySelectorAll devolve um array com todos os elementos...
-  //  nesse caso um array com os elementos dessa class.
-      .forEach((item) => {
-        item.addEventListener('click', event => getAllInfoFromProductItem(event)); // aqui eu adicionei o evento ao item
-      });
+  document
+    .querySelectorAll('.item__add')
+    //  o querySelectorAll devolve um array com todos os elementos...
+    //  nesse caso um array com os elementos dessa class.
+    .forEach((item) => {
+      item.addEventListener('click', event => getAllInfoFromProductItem(event)); // aqui eu adicionei o evento ao item
+    });
 };
 
 const fetchAPI = (URL) => {
   fetch(URL)
-  .then(response => response.json())
-  .then(data => returnProduct(data.results))
-  .catch(console.error);
+    .then(response => response.json())
+    .then(data => returnProduct(data.results))
+    .catch(console.error);
 };
 
 const apagarCarrinhoButton = () => {
-  if (Storage) {
+  if (localStorage.wishList) {
     document.querySelector('ol.cart__items').innerHTML = localStorage.wishList;
+    totalPrice();
   }
   document.querySelector('button.empty-cart').addEventListener('click', () => {
     document.querySelector('ol.cart__items').innerHTML = '';
     localStorage.wishList = '';
+    totalPrice();
   });
+  // essa linha faz apagar os itens do carrinho depois de dar o reload na página
+  document
+    .querySelector('.cart__items')
+    .addEventListener('click', cartItemClickListener);
 };
 
 const loading = () =>
-  document.getElementsByClassName('top-bar')[0].appendChild(createCustomElement('span', 'loading', 'loading...'));
+  document
+    .getElementsByClassName('top-bar')[0]
+    .appendChild(createCustomElement('span', 'loading', 'loading...'));
 
 window.onload = function onload() {
+  totalPrice();
   fetchAPI('https://api.mercadolibre.com/sites/MLB/search?q=computador');
   loading();
   setTimeout(() => document.querySelector('.loading').remove(), 3000);
