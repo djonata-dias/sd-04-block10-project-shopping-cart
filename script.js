@@ -76,6 +76,28 @@ function createProductItemElement({ sku, name, image }) {
 
 //  Requirement 1
 
+
+
+const createList = async () => {
+  try {
+    const response = await fetch(API_URL, myObj)
+    const responseJson = await response.json()
+    const data = await responseJson.results;
+    const items = document.querySelector('.items');
+    data.map(function (data) {
+      return items.appendChild(
+        createProductItemElement({
+          sku: data.id,
+          name: data.title,
+          image: data.thumbnail,
+        }),
+      );
+    });
+  } catch (error) {
+    console.log('Error')
+  };
+};
+/*
 const createList = async () => {
   await fetch(API_URL, myObj)
     .then(response => response.json())
@@ -85,7 +107,7 @@ const createList = async () => {
         return items.appendChild(
           createProductItemElement({
             sku: dados.id,
-            name: dados.name,
+            name: dados.title,
             image: dados.thumbnail,
           }),
         );
@@ -95,7 +117,7 @@ const createList = async () => {
     document.getElementsByClassName('loading')[0].remove(); //  7
   }, 500);
 };
-
+ */
 //  Requeriment 3, 4 and 6
 
 window.onload = async function onload() {
