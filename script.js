@@ -3,7 +3,7 @@
 /* eslint-disable arrow-parens */
 const mainSection = document.querySelector('.items');
 const cartSection = document.querySelector('.cart__items');
-console.log(cartSection);
+const priceSpan = document.querySelector('.total-price');
 
 const productInfo = (products) =>
   products.map(({ id, title, thumbnail, price }) => {
@@ -51,16 +51,30 @@ function createCartItemElement({ id, title, price }) {
   return li;
 }
 
+// summing prices asynchronously for each items each time we do a fetch:
+const sumCart = async () => {
+  const storageArr = JSON.parse(localStorage.getItem('items'));
+  // getting the price from local storage string:
+  const pricesArr = storageArr.map(item => Number(item.split('PRICE: $')[1]));
+  const sum = pricesArr.reduce((total, num) => total + num, 0);
+  priceSpan.innerHTML = `<p>R$${Math.floor(sum)}</p>`;
+};
+
 // removing itens from the cart by clicking on them:
 let arrLStorage = [];
 function cartItemClickListener(event) {
   arrLStorage = JSON.parse(localStorage.getItem('items'));
   // removing element only if it's a list
   if (event.target && event.target.nodeName === 'LI') event.target.remove();
+  console.log(event.target);
   // removing the product from the storage array
-  arrLStorage.splice(event.target.innerHTML, 1);
+  const i = arrLStorage.indexOf(event.target.innerHTML);
+  arrLStorage.splice(i, 1);
+  console.log(arrLStorage);
   // than setting the new array as the current storage
   localStorage.setItem('items', JSON.stringify(arrLStorage));
+  // updating the total, after removing items from the cart:
+  sumCart();
 }
 cartSection.addEventListener('click', cartItemClickListener);
 
@@ -82,20 +96,24 @@ const loadingLS = () => {
   });
 };
 
-// adding items to cart by clicking their buttons:
-mainSection.addEventListener('click', function (event) {
+const fetchToCart = async (event) => {
   if (event.target.classList.contains('item__add')) {
     const itemID = event.target.parentNode.firstChild.innerText;
-    fetch(`https://api.mercadolibre.com/items/${itemID}`)
-      .then((data) => data.json())
-      .then((products) => cartSection.appendChild(createCartItemElement(products)))
-      .then(li => addingToStorage(li));
+    const fecthConst = await fetch(`https://api.mercadolibre.com/items/${itemID}`);
+    const data = await fecthConst.json();
+    const liElem = await cartSection.appendChild(createCartItemElement(data));
+    await addingToStorage(liElem);
+    await sumCart();
   }
-});
+};
+
+// adding items to cart by clicking their buttons:
+mainSection.addEventListener('click', fetchToCart);
 
 // loading local storage, only if it's not empty:
 if (localStorage.getItem('items') != null) {
   loadingLS();
+  sumCart();
 }
 
 // fetching products informations to the main section:
