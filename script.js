@@ -101,5 +101,4 @@ window.onload = function onload() {
       .then(data => productList(data.results))
       .catch(console.error);
   }, 2000);
-  
 };
