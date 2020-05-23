@@ -63,7 +63,6 @@ const infoProduct = (information) => {
   button.forEach(elemento => elemento.addEventListener('click', function () {
     const item = elemento.parentNode.firstChild.innerHTML;
     const URL = `https://api.mercadolibre.com/items/${item}`;
-  // pega informações da API
     fetch(URL)
       .then(response => response.json())
       .then(data => appendCartItemElement(data));
