@@ -8,9 +8,10 @@ const fFetch = (q, call) => { // c
     .catch(() => console.log('res error'));
 };
 
-function cartItemClickListener(event) {
+function cartItemClickListener(event) { // usada
   // coloque seu código aqui
-  event.target.parentNode.removeChild(event.target);
+  // event.target.parentNode.removeChild(event.target);
+  event.target.innerHTML = '';
   const id = event.target.innerText.substring(5, 18);
   localStorage.removeItem(id);
 }
