@@ -43,6 +43,13 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
+// creating elements for each item in the cart section:
+function createCartItemElement({ id, title, price }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${id} | NAME: ${title} | PRICE: $${price}`;
+  return li;
+}
 
 // summing prices asynchronously for each items each time we do a fetch:
 const sumCart = async () => {
@@ -96,15 +103,7 @@ function cartItemClickListener(event) {
   }
   sumCart(); // updating the total, after removing items from the cart
 }
-
-// creating elements for each item in the cart section:
-function createCartItemElement({ id, title, price }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${id} | NAME: ${title} | PRICE: $${price}`;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
-}
+cartSection.addEventListener('click', cartItemClickListener);
 
 // loading localStorage when the page loads:
 const loadingLS = () => {
