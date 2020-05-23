@@ -143,12 +143,12 @@ const fetchList = async () => {
       const { id: sku, title: name, thumbnail: image } = prod;
       secItems.append(createProductItemElement({ sku, name, image }));
     });
-    loading.style.display = 'block';
-    setTimeout(() => (loading.style.display = 'none'), 2150);
-    carregaLista(); // Carrega o carrinho.
   } catch (error) {
     console.log(error);
   }
 };
 
+loading.style.display = 'block';
+setTimeout(() => (loading.style.display = 'none'), 2150);
+carregaLista(); // Carrega o carrinho.
 fetchList(); // Carrega itens para selecionar.
