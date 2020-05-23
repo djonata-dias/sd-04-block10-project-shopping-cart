@@ -14,6 +14,10 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+// Salvar intens localStorage
+const saveItens = () => localStorage.setItem('cart', document.querySelector('.cart__items').innerHTML);
+
+// Removendo o item do carrinho ao click
 function cartItemClickListener(event) {
   event.target.remove();
   sumPrices();
