@@ -1,3 +1,5 @@
+let cartList;
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -6,8 +8,7 @@ function createProductImageElement(imageSource) {
 }
 
 function cartItemClickListener(event) {
-  const ol = document.querySelector('.cart__items');
-  ol.removeChild(event.target);
+  cartList.removeChild(event.target);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -33,11 +34,10 @@ const buscarNoObj = ({ id, title, price, thumbnail }, fun) => {
 };
 
 async function cartItem(id) {
-  const ol = document.querySelector('.cart__items');
   try {
     const searchId = await window.fetch(`${API_URL_CART}${id}`);
     const json = await extraiPesquisa(searchId);
-    await ol.appendChild(buscarNoObj(json, createCartItemElement));
+    await cartList.appendChild(buscarNoObj(json, createCartItemElement));
   } catch (error) {
     console.log('Ixi, deu erro no requisito 2: ', error);
   }
@@ -90,5 +90,5 @@ const addlist = async () => {
 
 window.onload = () => {
   addlist();
-  cartItem();
+  cartList = document.querySelector('.cart__items');
 };
