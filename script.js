@@ -97,7 +97,7 @@ function doRequisition() {
       });
     });
   })
-  .then(document.querySelector('.loading').remove())
+  .then(setTimeout((document.querySelector('.loading').remove()), 500))
   .catch(err => console.error('Failed retrieving information', err));
 }
 
