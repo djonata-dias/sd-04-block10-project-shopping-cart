@@ -14,6 +14,15 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+const sumPrices = async () => {
+  const sumTotalPrices = document.getElementsByClassName('total-price');
+  const classCartitem = document.getElementsByClassName('cart__item');
+  const totalToCart = [...classCartitem]
+    .map(element => element.innerText.match(/([0-9.]){1,}$/))
+    .reduce((acc, currValue) => acc + parseFloat(currValue), 0);
+  sumTotalPrices[0].innerHTML = totalToCart;
+};
+
 // Salvar intens localStorage
 const saveItens = () => localStorage.setItem('cart', document.querySelector('.cart__items').innerHTML);
 
