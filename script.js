@@ -1,5 +1,10 @@
 const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
-const myObj = { method: 'GET' };
+
+async function fetchAPI(url) {
+  const response = await fetch(url);
+  const responseJson = await response.json();
+  return responseJson;
+}
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -39,18 +44,15 @@ function createCartItemElement({ sku, name, salePrice }) {
 // Requirement 2
 
 const addProductByCart = async ({ sku }) => {
-  await fetch(`https://api.mercadolibre.com/items/${sku}`)
-    .then(data => data.json())
-    .then((product) => {
-      document.getElementsByClassName('cart__items')[0].appendChild(
-        createCartItemElement({
-          sku: product.id,
-          name: product.title,
-          salePrice: product.price,
-        }),
-      );
-      salveCartLocalStorage();
-    });
+  const skuJson = await fetchAPI(`https://api.mercadolibre.com/items/${sku}`);
+  document.getElementsByClassName('cart__items')[0].appendChild(
+    createCartItemElement({
+      sku: skuJson.id,
+      name: skuJson.title,
+      salePrice: skuJson.price,
+    }),
+  );
+  salveCartLocalStorage();
 };
 
 function createCustomElement(element, className, innerText) {
@@ -80,47 +82,22 @@ function createProductItemElement({ sku, name, image }) {
 //  Requirement 1
 
 const createList = async () => {
-  try {
-    const response = await fetch(API_URL, myObj);
-    const responseJson = await response.json();
-    const items = document.querySelector('.items');
-    responseJson.results.map(function (data) {
-      return items.appendChild(
-        createProductItemElement({
-          sku: data.id,
-          name: data.title,
-          image: data.thumbnail,
-        }),
-      );
-    });
-    setTimeout(() => {
-      document.getElementsByClassName('loading')[0].remove(); //  7
-    }, 500);
-  } catch (error) {
-    console.log('Error');
-  }
-};
-/*
-const createList = async () => {
-  await fetch(API_URL, myObj)
-    .then(response => response.json())
-    .then((data) => {
-      const items = document.querySelector('.items');
-      data.results.map(function (dados) {
-        return items.appendChild(
-          createProductItemElement({
-            sku: dados.id,
-            name: dados.title,
-            image: dados.thumbnail,
-          }),
-        );
-      });
-    });
+  const urlJson = await fetchAPI(API_URL);
+  const items = document.querySelector('.items');
+  urlJson.results.map(function (data) {
+    return items.appendChild(
+      createProductItemElement({
+        sku: data.id,
+        name: data.title,
+        image: data.thumbnail,
+      }),
+    );
+  });
   setTimeout(() => {
     document.getElementsByClassName('loading')[0].remove(); //  7
   }, 500);
 };
- */
+
 //  Requeriment 3, 4 and 6
 
 window.onload = async function onload() {
