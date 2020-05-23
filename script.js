@@ -46,7 +46,7 @@ const somaTudo = async (price, sinal) => {
     } else {
       tot -= price;
     }
-    total.innerHTML = tot;
+    total.innerHTML = parseFloat(tot.toFixed(2));
   } catch (err) {
     console.log(err);
   }
