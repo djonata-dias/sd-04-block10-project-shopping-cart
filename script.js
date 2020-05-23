@@ -16,7 +16,7 @@ const limpaLista = () => {
   carrinho.innerText = '';
   cart = [];
   tot = 0;
-  total.innerHTML = 'R$ 0,00';
+  total.innerHTML = 'Total: R$ 0,00';
   saveToStorage();
 };
 
@@ -43,8 +43,7 @@ const somaTudo = async (price, sinal) => {
     } else {
       tot -= price;
     }
-    // total.innerHTML = tot.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-    total.innerHTML = tot.toFixed(2);
+    total.innerHTML = `Total: R$ ${tot.toFixed(2)}`;
   } catch (err) {
     console.log(err);
   }

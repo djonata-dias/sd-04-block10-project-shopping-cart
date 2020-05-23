@@ -108,9 +108,10 @@ body {
   font-size: 16pt;
   font-weight: 700;
   justify-content: center;
+  padding: 15px;
 }
 
-.total-price p span {
+.total-price span {
   color: green;
 }
 
