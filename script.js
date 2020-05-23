@@ -1,3 +1,5 @@
+Teste teste teste
+
 window.onload = function onload() { };
 
 function createProductImageElement(imageSource) {
