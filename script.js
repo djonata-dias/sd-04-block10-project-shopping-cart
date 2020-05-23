@@ -40,9 +40,9 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-
   return section;
 }
+
 
 // summing prices asynchronously for each items each time we do a fetch:
 const sumCart = async () => {
@@ -53,12 +53,28 @@ const sumCart = async () => {
   priceSpan.innerHTML = sum.toFixed(13).replace(/\.0000000000000$/, '');
 };
 
-// adding to localStorage, this function is called each time we do a fetch:
 let arrLStorage = [];
+// adding empty car functionality:
+const emptyCart = () => {
+  arrLStorage = [];
+  localStorage.clear();
+  sumCart();
+  while (cartSection.firstChild) {
+    cartSection.firstChild.remove();
+  }
+};
+emptyButton.addEventListener('click', emptyCart);
+
+// adding to localStorage, this function is called each time we do a fetch:
 const addingToStorage = (product) => {
-  if (localStorage.getItem('items') != null) arrLStorage = JSON.parse(localStorage.getItem('items'));
-  arrLStorage.push(product.innerHTML);
-  localStorage.setItem('items', JSON.stringify(arrLStorage));
+  if (localStorage.getItem('items') != null) {
+    arrLStorage = JSON.parse(localStorage.getItem('items'));
+    arrLStorage.push(product.innerHTML);
+    localStorage.setItem('items', JSON.stringify(arrLStorage));
+  } else {
+    arrLStorage.push(product.innerHTML);
+    localStorage.setItem('items', JSON.stringify(arrLStorage));
+  }
 };
 
 // removing the item from localStorage, this function is called each time we remove an item:
@@ -100,15 +116,6 @@ const loadingLS = () => {
     cartSection.appendChild(li);
   });
 };
-
-// adding empty car functionality:
-const emptyCart = () => {
-  localStorage.setItem('items', []);
-  while (cartSection.firstChild) {
-    cartSection.firstChild.remove();
-  }
-};
-emptyButton.addEventListener('click', emptyCart);
 
 // adding items to cart by clicking their buttons:
 const fetchToCart = async (event) => {
