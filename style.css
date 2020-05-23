@@ -103,16 +103,12 @@ body {
 }
 
 .total-price {
-  color: black;
+  color: green;
   display: flex;
   font-size: 16pt;
   font-weight: 700;
   justify-content: center;
   padding: 15px;
-}
-
-.total-price span {
-  color: green;
 }
 
 .empty-cart {
