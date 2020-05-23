@@ -142,10 +142,12 @@ window.onload = function onload() {
   return fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${queryInput}`)
     .then((data) => data.json())
     .then((json) => json.results)
-    .then((products) => productInfo(products)
-      .forEach((product) => {
+    .then((products) => {
+      document.querySelector('.loading').remove();
+      productInfo(products).forEach((product) => {
         mainSection.appendChild(createProductItemElement(product));
-      }));
+      });
+    });
 };
 
 // function getSkuFromProductItem(item) {
