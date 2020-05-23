@@ -57,7 +57,7 @@ const sumCart = async () => {
   // getting the price from local storage string:
   const pricesArr = storageArr.map(item => Number(item.split('PRICE: $')[1]));
   const sum = pricesArr.reduce((total, num) => total + num, 0);
-  priceSpan.innerHTML = `<p>R$${sum.toFixed(2)}</p>`;
+  priceSpan.innerHTML = `<p>${sum.toFixed(2)}</p>`;
 };
 
 // removing itens from the cart by clicking on them:
