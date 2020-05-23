@@ -64,14 +64,12 @@ const sumCart = async () => {
 let arrLStorage = [];
 function cartItemClickListener(event) {
   arrLStorage = JSON.parse(localStorage.getItem('items'));
-  // removing element only if it's a list
+  // removing element only if it's a list:
   if (event.target && event.target.nodeName === 'LI') event.target.remove();
-  console.log(event.target);
-  // removing the product from the storage array
+  // removing the product from the storage array:
   const i = arrLStorage.indexOf(event.target.innerHTML);
   arrLStorage.splice(i, 1);
-  console.log(arrLStorage);
-  // than setting the new array as the current storage
+  // then setting the new array as the current storage:
   localStorage.setItem('items', JSON.stringify(arrLStorage));
   // updating the total, after removing items from the cart:
   sumCart();
@@ -96,6 +94,7 @@ const loadingLS = () => {
   });
 };
 
+// adding items to cart by clicking their buttons:
 const fetchToCart = async (event) => {
   if (event.target.classList.contains('item__add')) {
     const itemID = event.target.parentNode.firstChild.innerText;
@@ -106,8 +105,6 @@ const fetchToCart = async (event) => {
     await sumCart();
   }
 };
-
-// adding items to cart by clicking their buttons:
 mainSection.addEventListener('click', fetchToCart);
 
 // loading local storage, only if it's not empty:
