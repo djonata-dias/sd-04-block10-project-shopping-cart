@@ -4,19 +4,16 @@ async function totalPrice() {
   const items = document.querySelectorAll('.cart__item');
   const totalHtml = document.querySelector('.total-price');
   let total = 0;
-  if (items.length === 0) {
-    console.log(total.toFixed(2));
-  } else {
+  if (items.length !== 0) {
     items.forEach((item) => {
       const string = item.innerText.split('$')[1];
       total += parseFloat(string);
-      console.log(total.toFixed(2));
     });
   }
   if (Number.isInteger(total)) {
     totalHtml.innerText = Math.trunc(total);
   } else {
-    totalHtml.innerText = total.toFixed(2);
+    totalHtml.innerText = total;
   }
 }
 
