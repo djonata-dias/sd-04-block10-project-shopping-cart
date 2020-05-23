@@ -86,7 +86,7 @@ window.onload = function onload() {
     fetch(API_URL)
       .then(response => response.json())
       .then(data => infoProduct(data.results))
-      .catch(console.log('Erro ao carregar página'))
+      .catch(console.log('Erro ao carregar página'));
     createClearButton();
   }, 5000);
 };
