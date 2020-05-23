@@ -137,7 +137,8 @@ if (localStorage.getItem('items') != null) {
 
 // fetching products informations to the main section:
 const fetchToSection = async () => {
-  const queryInput = document.querySelector('.query-input').value;
+  const queryInput = await document.querySelector('.query-input').value;
+  await document.querySelector('.loading').remove();
   const fetchSection = await fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${queryInput}`);
   const dataJson = await fetchSection.json();
   const products = await productInfo(dataJson.results).forEach((product) => {
@@ -147,9 +148,6 @@ const fetchToSection = async () => {
 };
 
 window.onload = function onload() {
-  setTimeout(() => {
-    document.querySelector('.loading').remove();
-  }, 1500);
   fetchToSection();
 };
 
