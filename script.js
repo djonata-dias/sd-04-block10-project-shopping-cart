@@ -61,4 +61,3 @@ const searchProduct = (product) => {
 
 // chamada da função abaixo pq a função não foi criada
 searchProduct('computador');
-
