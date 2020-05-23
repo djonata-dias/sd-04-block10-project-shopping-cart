@@ -1,5 +1,15 @@
 window.onload = function onload() { };
 
+const searchProduct = (product) => {
+  const url = `https://api.mercadolibre.com/sites/MLB/search?q=${product}`;
+  fetch(url)
+  .then(response => response.json())
+  .then(kaecio => convertObject(kaecio.results))
+  .catch(() => {
+  });
+};
+
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -13,6 +23,7 @@ function createCustomElement(element, className, innerText) {
   e.innerText = innerText;
   return e;
 }
+
 
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
@@ -41,3 +52,13 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+
+const convertObject = (dataArray) => {
+  const itemClass = document.querySelector('.items');
+  dataArray.forEach(({ id, title, thumbnail }) => {
+    itemClass.appendChild(createProductItemElement({ sku: id, name: title, image: thumbnail }));
+    console.log(itemClass);
+  });
+};
+// chamada da função abaixo pq a função não foi criada
+searchProduct('computador');
