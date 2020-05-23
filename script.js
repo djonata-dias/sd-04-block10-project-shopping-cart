@@ -1,4 +1,3 @@
-window.onload = function onload() {};
 const secItems = document.querySelector('.items'); // Manipula section items.
 const carrinho = document.querySelector('.cart__items');
 const btnLimpa = document.querySelector('.empty-cart'); // Manipula o botão que limpa ista.
@@ -6,6 +5,11 @@ const loading = document.querySelector('.loading'); // Maniluça o loading.
 const total = document.querySelector('.total-price'); // Manipula o span #total.
 let tot = 0;
 let cart = []; // Array para os ids de cada produto.
+
+window.onload = function onload() {
+  loading.style.display = 'block';
+  setTimeout(() => (loading.style.display = 'none'), 2150);
+};
 
 const saveToStorage = () => {
   localStorage.setItem('itens_carrinho', JSON.stringify(cart));
@@ -143,12 +147,10 @@ const fetchList = async () => {
       const { id: sku, title: name, thumbnail: image } = prod;
       secItems.append(createProductItemElement({ sku, name, image }));
     });
+    carregaLista(); // Carrega o carrinho.
   } catch (error) {
     console.log(error);
   }
 };
 
-loading.style.display = 'block';
-setTimeout(() => (loading.style.display = 'none'), 2150);
-carregaLista(); // Carrega o carrinho.
 fetchList(); // Carrega itens para selecionar.
