@@ -108,7 +108,7 @@ const emptyCart = () => {
     cartSection.firstChild.remove();
   }
 };
-emptyButton.addEventListener('click', emptyCart)
+emptyButton.addEventListener('click', emptyCart);
 
 // adding items to cart by clicking their buttons:
 const fetchToCart = async (event) => {
