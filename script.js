@@ -53,10 +53,10 @@ function createCartItemElement({ id, title, price }) {
 
 // summing prices asynchronously for each items each time we do a fetch:
 const sumCart = async () => {
-  const storageArr = JSON.parse(localStorage.getItem('items'));
+  const storageArr = await JSON.parse(localStorage.getItem('items'));
   // getting the price from local storage string:
-  const pricesArr = storageArr.map(item => Number(item.split('PRICE: $')[1]));
-  const sum = pricesArr.reduce((total, num) => total + num, 0);
+  const pricesArr = await storageArr.map(item => Number(item.split('PRICE: $')[1], 0));
+  const sum = await pricesArr.reduce((total, num) => total + num, 0);
   priceSpan.innerHTML = `<p>${sum}</p>`;
 };
 
