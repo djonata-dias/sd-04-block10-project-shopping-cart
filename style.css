@@ -102,11 +102,15 @@ body {
   background: rgb( 0 , 125 , 100 );
 }
 
-.total-price {
-  color: green;
-  display: flex;
+.total {
+  align-self: center;
+  color: black;
   font-size: 16pt;
   font-weight: 700;
+}
+
+.total-price {
+  color: green;
   justify-content: center;
   padding: 15px;
 }

@@ -6,11 +6,6 @@ const total = document.querySelector('.total-price'); // Manipula o span #total.
 let tot = 0;
 let cart = []; // Array para os ids de cada produto.
 
-window.onload = function onload() {
-  loading.style.display = 'block';
-  setTimeout(() => (loading.style.display = 'none'), 2150);
-};
-
 const saveToStorage = () => {
   localStorage.setItem('itens_carrinho', JSON.stringify(cart));
 };
@@ -151,6 +146,11 @@ const fetchList = async () => {
   } catch (error) {
     console.log(error);
   }
+};
+
+window.onload = function onload() {
+  loading.style.display = 'block';
+  setTimeout(() => (loading.style.display = 'none'), 2150);
 };
 
 fetchList(); // Carrega itens para selecionar.
