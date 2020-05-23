@@ -52,12 +52,23 @@ function createCartItemElement({ id, title, price }) {
 }
 
 // summing prices asynchronously for each items each time we do a fetch:
-const sumCart = async () => {
-  const storageArr = await JSON.parse(localStorage.getItem('items'));
-  // getting the price from local storage string:
-  const pricesArr = await storageArr.map(item => Number(item.split('PRICE: $')[1]));
-  const sum = await pricesArr.reduce((total, num) => total + num, 0);
-  priceSpan.innerHTML = `<p>${sum}</p>`;
+const sumCart = () => {
+  const priceArr = [];
+  let total = 0;
+  const cartItems = document.querySelector('.cart__items').children;
+  for (let i = 0; i < cartItems.length; i += 1) {
+    const itemArr = cartItems[i].innerText.split(' ');
+    const price = itemArr[itemArr.length - 1];
+    const number = Number(price.substring(1));
+    priceArr.push(number);
+  }
+  total = priceArr.reduce((acc, curr) => acc + curr, 0);
+  priceSpan.innerHTML = total;
+  // const storageArr = await JSON.parse(localStorage.getItem('items'));
+  // // getting the price from local storage string:
+  // const pricesArr = await storageArr.map(item => Number(item.split('PRICE: $')[1]));
+  // const sum = await pricesArr.reduce((total, num) => total + num, 0);
+  // priceSpan.innerHTML = `<p>${sum}</p>`;
 };
 
 // removing itens from the cart by clicking on them:
