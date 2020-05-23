@@ -6,11 +6,11 @@ const total = document.querySelector('.total-price'); // Manipula o span #total.
 let tot = 0;
 let cart = []; // Array para os ids de cada produto.
 
-const saveToStorage = () => {
+const saveToStorage = () => { // Salvo no Storage.
   localStorage.setItem('itens_carrinho', JSON.stringify(cart));
 };
 
-const limpaLista = () => {
+const limpaLista = () => { // Limpa os itens do carrinho.
   carrinho.innerText = '';
   cart = [];
   tot = 0;
@@ -34,7 +34,7 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-const somaTudo = async (price, sinal) => {
+const somaTudo = async (price, sinal) => { // Soma o valor dos itens do carrinho.
   try {
     if (sinal) {
       tot += price;
@@ -65,19 +65,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-// const addToCart = async (code) => {
-//   fetch(`https://api.mercadolibre.com/items/${code}`)
-//   .then(responsta => responsta.json())
-//   .then(({ id, title, price }) => {
-//     const item = createCartItemElement({ sku: id, name: title, salePrice: price });
-//     cart.push(id);
-//     carrinho.append(item);
-//     somaTudo(parseFloat(price), true);
-//     saveToStorage();
-//   })
-//   .catch(error => console.log(error));
-// };
-const addToCart = async (code) => {
+const addToCart = async (code) => { // Adiciona itens no carrinho.
   try {
     const resposta = await fetch(`https://api.mercadolibre.com/items/${code}`);
     const json = await resposta.json();
@@ -92,7 +80,7 @@ const addToCart = async (code) => {
   }
 };
 
-const completaAdd = (e) => {
+const completaAdd = (e) => { // Complementa a addToCart().
   const code = e.target.parentNode.firstChild.innerText;
   addToCart(code);
 };
@@ -122,19 +110,7 @@ const carregaLista = () => {
   }
 };
 
-// const fetchList = () => {
-//   fetch('https://api.mercadolibre.com/sites/MLB/search?q=$computador')
-//   .then(responsta => responsta.json())
-//   .then((json) => {
-//     json.results.forEach((prod) => {
-//       const { id: sku, title: name, thumbnail: image } = prod;
-//       secItems.append(createProductItemElement({ sku, name, image }));
-//     });
-//   })
-//   .catch(error => console.log(error));
-//   carregaLista();
-// };
-const fetchList = async () => {
+const fetchList = async () => { // Preenche a tela com os itens.
   try {
     const resposta = await fetch('https://api.mercadolibre.com/sites/MLB/search?q=$computador');
     const json = await resposta.json();
@@ -142,7 +118,7 @@ const fetchList = async () => {
       const { id: sku, title: name, thumbnail: image } = prod;
       secItems.append(createProductItemElement({ sku, name, image }));
     });
-    carregaLista(); // Carrega o carrinho.
+    carregaLista(); // Carrega o carrinho se estiver salvo.
   } catch (error) {
     console.log(error);
   }
