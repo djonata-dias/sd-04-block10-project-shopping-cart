@@ -112,14 +112,14 @@ window.onload = function onload() {
   const section = document.querySelector('.items');
   section.appendChild(createCustomElement('span', 'loading', 'loading...'));
   // fetch(API_URL)
-  // setTimeout(() => {
-  //   getItemsFromAPI(API_URL)
-  //   .then(data => data.json())
-  //   .then(dataJson => trataDadosJson(dataJson))
-  //   .catch(error => console.log(error));
-  // }, 2000)
-  getItemsFromAPI(apiItems)
+  setTimeout(() => {
+    getItemsFromAPI(apiItems)
     .then(data => data.json())
     .then(dataJson => trataDadosJson(dataJson))
     .catch(error => console.log(error));
+  }, 3000);
+  // getItemsFromAPI(apiItems)
+  //   .then(data => data.json())
+  //   .then(dataJson => trataDadosJson(dataJson))
+  //   .catch(error => console.log(error));
 };
