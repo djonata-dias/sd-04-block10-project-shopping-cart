@@ -148,9 +148,8 @@ const fetchList = async () => {
   }
 };
 
-window.onload = function onload() {
-  loading.style.display = 'block';
-  setTimeout(() => (loading.style.display = 'none'), 2150);
-};
-
 fetchList(); // Carrega itens para selecionar.
+
+window.onload = function onload() {
+  setTimeout(() => loading.remove(), 2150);
+};
