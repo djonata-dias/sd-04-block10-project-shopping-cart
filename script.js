@@ -122,12 +122,12 @@ function removeLoader() {
 }
 
 const getQuery = async () => {
-  addLoader();
+  await addLoader();
   const query = await fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador');
   const jsonResult = await query.json();
   const queryResults = await jsonResult.results;
   await createItemObject(queryResults);
-  removeLoader();
+  await removeLoader();
   await addToCartButton();
   await getCartListLocalStorage();
   await updatePrice();
