@@ -42,7 +42,7 @@ const somaTudo = async (price, sinal) => {
     } else {
       tot -= price;
     }
-    total.innerHTML = tot.toFixed(2);
+    total.innerHTML = tot;
   } catch (err) {
     console.log(err);
   }
