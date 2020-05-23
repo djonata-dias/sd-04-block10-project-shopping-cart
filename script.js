@@ -113,4 +113,6 @@ const getQuery = async () => {
 
 window.onload = function onload() {
   getQuery();
+  const cartList = document.querySelector('.cart__items');
+  cartList.innerHTML = '';
 };
