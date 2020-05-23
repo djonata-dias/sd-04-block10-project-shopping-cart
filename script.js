@@ -1,3 +1,4 @@
+window.onload = function onload() {};
 const secItems = document.querySelector('.items'); // Manipula section items.
 const carrinho = document.querySelector('.cart__items');
 const btnLimpa = document.querySelector('.empty-cart'); // Manipula o botão que limpa ista.
@@ -142,14 +143,12 @@ const fetchList = async () => {
       const { id: sku, title: name, thumbnail: image } = prod;
       secItems.append(createProductItemElement({ sku, name, image }));
     });
+    loading.style.display = 'block';
+  setTimeout(() => (loading.style.display = 'none'), 2150);
+    carregaLista(); // Carrega o carrinho.
   } catch (error) {
     console.log(error);
   }
 };
 
-window.onload = function onload() {
-  fetchList(); // Carrega itens para selecionar.
-  carregaLista(); // Carrega o carrinho.
-  loading.style.display = 'block';
-  setTimeout(() => (loading.style.display = 'none'), 2150);
-};
+fetchList(); // Carrega itens para selecionar.
