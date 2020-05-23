@@ -338,7 +338,7 @@ Preste atenção que o JSON deve conter apenas **um** item.
 
 Você **deve** utilizar a função `createCartItemElement()` para criar os componentes _HTML_ referentes a um item do carrinho.
 
-Adicione o elemento retornado da função `createCartItemElement(product)` como filho do elemento `<ol class="cart__items">`.
+Adicione o elemento retornado da função `cart__items` como filho do elemento `<ol class="cart__items">`.
 
 ### 3. Remova o item do carrinho de compras ao clicar nele
 

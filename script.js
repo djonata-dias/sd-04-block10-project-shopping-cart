@@ -15,6 +15,12 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+function armazenando() {
+  const liCartItem = document.querySelector('.cart__items').innerHTML;
+  localStorage.setItem('produto_carrinho', JSON.stringify(liCartItem));
+  console.log(liCartItem);
+}
+
 // as variáveis `sku`, no código fornecido, se referem aos campos `id` retornados pela API.
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
@@ -28,37 +34,39 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
+// function getSkuFromProductItem(item) {
+//   return item.querySelector('span.item__sku').innerText;
+// }
 
 function cartItemClickListener(event) {
   event.target.remove();
-  window.localStorage.removeItem(event.target.innerHTML);
+  armazenando();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
-  li.className = 'cart__item';
+  li.className = 'cart__item'; // apensa no ol
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
 
 // 2 - Adicione o produto ao carrinho de compras
-function addById() {
-  document.querySelectorAll('.item').forEach((elementos) => {
-    elementos.addEventListener('click', () => {
-      // const itemId = document.querySelector('span.item__sku').innerText;
-      fetch(`https://api.mercadolibre.com/items/${getSkuFromProductItem(elementos)}`)
-      .then(responseJ => responseJ.json()).then((dadosItem) => {
-        document.querySelector('.cart__items').appendChild(createCartItemElement({
-          sku: dadosItem.id, name: dadosItem.title, salePrice: dadosItem.price }));
-      });
-      localStorage.setItem('carrinho', document.querySelector('.cart__itens').innerHTML);
-    });
-  });
+function adiconarProdutoById(itemId) {
+  const iditem = itemId.target.parentNode.firstChild.innerText;
+  fetch(`https://api.mercadolibre.com/items/${iditem}`) // assincrona
+  .then(responseJ => responseJ.json())
+  .then((dadosJ) => {
+    const objItem = {
+      sku: dadosJ.id, name: dadosJ.title, salePrice: dadosJ.price };
+    document.querySelector('.cart__items').appendChild(createCartItemElement(objItem));
+  })
+  .then(() => armazenando());
+  // se o armazenamento tiver fora do .then ele
+  // chama o armazenamento antes do 1º .then
+  // então tem que garantir a ordem de execução
 }
+
 
 // 1 - Listagem de produtos;
 
@@ -73,27 +81,36 @@ function doRequisition() {
   /* retorna o array results da promise(deve-se iteragir com results e retornar os parâmetros da
   funçao  `createProdutItemElement` num objeto e apensá-los no html)*/
   // .then ((dadosEmJson) => console.log(dadosEmJson.results))
-  .then(dadosEmJson => dadosEmJson.results.forEach((elementos) => {
-    const itemProduto = {
-      sku: elementos.id,
-      name: elementos.title,
-      image: elementos.thumbnail,
-    };
-    document.querySelector('.items').appendChild(createProductItemElement(itemProduto));
-  }))
-  .then(() => {
-    addById();
+  .then((dadosEmJson) => {
+    dadosEmJson.results.forEach((elementos) => {
+      const itemProduto = {
+        sku: elementos.id,
+        name: elementos.title,
+        image: elementos.thumbnail,
+      };
+      document.querySelector('.items').appendChild(createProductItemElement(itemProduto));
+    });
+    // depois da criaçao de todos os botoes adiciona o evento
+    document.querySelectorAll('.item__add').forEach((elementos) => {
+      elementos.addEventListener('click', (even) => {
+        // chamando a funçao que trata dos dados q o evento me retorna
+        adiconarProdutoById(even);
+      });
+    });
   })
+  .then(document.querySelector('.loading').remove())
   .catch(err => console.error('Failed retrieving information', err));
 }
 
 function esvaziarCarrinho() {
   document.querySelector('.cart__items').innerHTML = ' ';
-  window.localStorage.clear();
+  armazenando();
 }
+
 
 window.onload = function onload() {
   doRequisition();
   document.querySelector('.empty-cart').addEventListener('click', esvaziarCarrinho);
-  // document.querySelector('.cart__itens').innerHTML = localStorage.getItem('carrinho');
+  // document.querySelector('.cart__items').innerText =
+  console.log(localStorage.getItem('produto_carrinho'));
 };
