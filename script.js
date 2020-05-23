@@ -137,15 +137,17 @@ if (localStorage.getItem('items') != null) {
 
 // fetching products informations to the main section:
 window.onload = function onload() {
+  const loading = '<p class="loading">loading...</p>';
   const queryInput = document.querySelector('.query-input').value;
   return fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${queryInput}`)
     .then((data) => data.json())
     .then((json) => json.results)
     .then((products) => {
-      document.querySelector('.loading').remove();
+      mainSection.innerHTML = loading;
       productInfo(products).forEach((product) => {
         mainSection.appendChild(createProductItemElement(product));
       });
+      document.querySelector('.loading').remove();
     });
 };
 
