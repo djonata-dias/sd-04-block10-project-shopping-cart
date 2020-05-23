@@ -70,7 +70,6 @@ const infoProduct = (information) => {
 };
 
 const createClearButton = () => {
-  if (Storage) document.querySelector('ol.cart__items').innerHTML = localStorage.cartItems;
   const clearButton = document.querySelector('.empty-cart');
   clearButton.addEventListener('click', function () {
     document.querySelector('ol.cart__items').innerHTML = '';
@@ -87,6 +86,9 @@ window.onload = function onload() {
       .then(response => response.json())
       .then(data => infoProduct(data.results))
       .catch(console.log('Erro ao carregar página'));
+    if (Storage) {
+      document.querySelector('ol.cart__items').innerHTML = localStorage.cartItems;
+    }
     createClearButton();
   }, 5000);
 };
