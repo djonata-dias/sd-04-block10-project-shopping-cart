@@ -28,13 +28,14 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-// function getSkuFromProductItem(item) {
-//   return item.querySelector('span.item__sku').innerText;
-// }
+function getSkuFromProductItem(item) {
+  return item.querySelector('span.item__sku').innerText;
+}
 
-// function cartItemClickListener(event) {
-//   // coloque seu código aqui
-// }
+function cartItemClickListener(event) {
+  // coloque seu código aqui
+  event.target.remove();
+}
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
@@ -42,6 +43,21 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
+}
+
+// 2 - Adicione o produto ao carrinho de compras
+function addById() {
+  document.querySelectorAll('.item').forEach((elementos) => {
+    elementos.addEventListener('click', () => {
+      // const itemId = document.querySelector('span.item__sku').innerText;
+      fetch(`https://api.mercadolibre.com/items/${getSkuFromProductItem(elementos)}`)
+      .then(responseJ => responseJ.json()).then((dadosItem) => {
+        document.querySelector('.cart__items').appendChild(createCartItemElement({
+          sku: dadosItem.id, name: dadosItem.title, salePrice: dadosItem.price,
+        }));
+      });
+    });
+  });
 }
 
 // 1 - Listagem de produtos;
@@ -65,26 +81,12 @@ function doRequisition() {
     };
     document.querySelector('.items').appendChild(createProductItemElement(itemProduto));
   }))
+  .then(() => {
+    addById();
+  })
   .catch(err => console.error('Failed retrieving information', err));
-}
-
-// 2 - Adicione o produto ao carrinho de compras
-
-function addById() {
-  document.querySelectorAll('.item').forEach((elementos) => {
-    elementos.addEventListener('click', () => {
-      const itemID = document.querySelector('span.item__sku').innerHTML;
-      fetch(`https://api.mercadolibre.com/items/${itemID}`)
-      .then(responseJ => responseJ.json().then((dadosItem) => {
-        documento.querySelector('.cart__items').appendChild(createCartItemElement({
-          sku: dadosItem.id, name: dadosItem.title, salePrice: dadosItem.price,
-        }));
-      }));
-    });
-  });
 }
 
 window.onload = function onload() {
   doRequisition();
-  addById();
 };
