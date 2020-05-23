@@ -3,7 +3,7 @@ const secItems = document.querySelector('.items'); // Manipula section items.
 const carrinho = document.querySelector('.cart__items');
 const btnLimpa = document.querySelector('.empty-cart'); // Manipula o botão que limpa ista.
 const loading = document.querySelector('.loading'); // Maniluça o loading.
-const total = document.getElementById('total'); // Manipula o span #total.
+const total = document.querySelector('.total-price'); // Manipula o span #total.
 let tot = 0;
 let cart = []; // Array para os ids de cada produto.
 
