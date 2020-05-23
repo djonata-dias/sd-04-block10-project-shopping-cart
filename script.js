@@ -120,8 +120,8 @@ function addLoader() {
 }
 
 function removeLoader() {
-  const loader = document.querySelector('.loading');
-  loader.innerHTML = '';
+  const itemsSection = document.querySelector('.items');
+  itemsSection.removeChild(document.querySelector('.loading'));
 }
 
 const getQuery = async () => {
