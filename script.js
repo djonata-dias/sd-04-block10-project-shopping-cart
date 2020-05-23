@@ -1,4 +1,4 @@
-window.onload = function onload() { };
+
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -29,7 +29,7 @@ function createProductItemElement({ sku, name, image }) {
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
-
+window.onload = function onload() { 
 function cartItemClickListener(event) {
   // coloque seu código aqui
   const selecionado = event.target;
@@ -72,3 +72,5 @@ const getObject = (busca) => {
 };
 
 getObject('Computador');
+
+}
