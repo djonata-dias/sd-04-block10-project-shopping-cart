@@ -43,14 +43,6 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-// creating elements for each item in the cart section:
-function createCartItemElement({ id, title, price }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${id} | NAME: ${title} | PRICE: $${price}`;
-  return li;
-}
-
 // summing prices asynchronously for each items each time we do a fetch:
 const sumCart = async () => {
   const storageArr = await JSON.parse(localStorage.getItem('items'));
@@ -81,11 +73,21 @@ const removingFromStorage = (item) => {
 // removing itens from the cart by clicking on them:
 function cartItemClickListener(event) {
   // removing element only if it's a list:
-  if (event.target && event.target.nodeName === 'LI') event.target.remove();
-  removingFromStorage(event.target);
+  if (event.target && event.target.nodeName === 'LI') {
+    event.target.parentNode.removeChild(event.target);
+    removingFromStorage(event.target);
+  }
   sumCart(); // updating the total, after removing items from the cart
 }
-cartSection.addEventListener('click', cartItemClickListener);
+
+// creating elements for each item in the cart section:
+function createCartItemElement({ id, title, price }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${id} | NAME: ${title} | PRICE: $${price}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
+}
 
 // loading localStorage when the page loads:
 const loadingLS = () => {
