@@ -1,26 +1,8 @@
-window.onload = function onload() {
-// ### Fetch para buscar informações na API do mercadolivre
-const $QUERY = 'computador'; // Variavel para buscar produto, que no futuro pode ser um input.
-const URL_TO_FETCH = `https://api.mercadolibre.com/sites/MLB/search?q=${$QUERY}`; // constante com api de busca de produtos
-fetch(URL_TO_FETCH) // Busca os produtos e retorna uma promise.
-  .then(response => response.json()) // Pega o retorno da API e transforma em um JSON
-  .then(data => productInfo(data.results)); // coleta dentro do json a chave result, contendo id, title e thumbnail.
-                                           //  Executa a função, productInfo.
-
-// ### Gera os displays, com os produtos.
-const productInfo = (productArray) => {
-  const items = document.getElementsByClassName('items');
-  console.log(items);
-
-  productArray.forEach((product) => {
-    const { id, title, thumbnail } = product;
-    const item = {
-      sku: id,
-      name: title,
-      image: thumbnail,
-    };
-    items[0].appendChild(createProductItemElement(item));
-})};
+function saveCart() {
+  //  salva cart no local storage
+  const lista = document.querySelector('.cart__items').innerHTML;
+  localStorage.setItem('cart_list', lista);
+}
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -39,12 +21,10 @@ function createCustomElement(element, className, innerText) {
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
-
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-
   return section;
 }
 
@@ -52,9 +32,11 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-
 function cartItemClickListener(event) {
-
+  // coloque seu código aqui
+  clear();
+  event.target.remove();
+  saveCart();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -64,4 +46,67 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+
+function adicionarCarrinho(datajson) {
+  const produto = document.querySelector('.cart__items');
+  produto.appendChild(
+    createCartItemElement({
+      sku: datajson.id,
+      name: datajson.title,
+      salePrice: datajson.price,
+    }),
+  );
+  saveCart();
+}
+
+// ### Gera os displays, com os produtos.
+const productInfo = (productArray) => {
+  productArray.forEach((e) => {
+    const sku = e.id;
+    const name = e.title;
+    const image = e.thumbnail;
+    document.querySelector('.items').appendChild(createProductItemElement({ sku, name, image }));
+  });
+  // Aqui vai ser criado os itens do carrinho.
+  const product = document.querySelectorAll('.item');
+  product.forEach((element) => {
+    element.lastElementChild.addEventListener('click', () => {
+      fetch(`https://api.mercadolibre.com/items/${getSkuFromProductItem(element)}`)
+        .then((data) => data.json())
+        .then((datajson) => adicionarCarrinho(datajson))
+        .catch((error) => console.log(error.message));
+    });
+  });
+};
+
+// Chama API
+function recuperaApiML() {
+  fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
+    .then((response) => response.json())
+    .then((data) => productInfo(data.results));
+}
+
+//  esvaziar cart
+const clear = () => {
+  //  seleciona elemento com classe 'empty-cart'
+  const btnClearAll = document.querySelector('.empty-cart');
+  btnClearAll.addEventListener('click', () => {
+    //  remove todos os elementos com classe cart__item (produtos do carrinho)
+    const cartItems = document.querySelectorAll('.cart__item');
+    cartItems.forEach((item) => item.remove());
+  });
+};
+
+function loadCart() {
+  //  carrega cart salvo no local storage
+  const savedList = localStorage.getItem('cart_list');
+  document.querySelector('.cart__items').innerHTML = savedList;
+  const cart = document.querySelector('.cart__items');
+  cart.addEventListener('click', cartItemClickListener);
+  clear();
+}
+
+window.onload = function onload() {
+  recuperaApiML().catch((error) => console.error(error));
+  loadCart();
 };
