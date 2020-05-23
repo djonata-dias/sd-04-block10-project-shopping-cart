@@ -38,7 +38,6 @@ function cartItemClickListener(event) {
   selecionado.parentNode.removeChild(selecionado);
 }
 
-
 function createCartItemElement({ sku, name, salePrice }) {
 //  console.log(sku, name, salePrice)
   const li = document.createElement('li');
