@@ -6,6 +6,7 @@ const cartSection = document.querySelector('.cart__items');
 const priceSpan = document.querySelector('.total-price');
 const emptyButton = document.querySelector('.empty-cart');
 
+// converting .json.results to an array of obj = [...{sku, image, name, salePrice}]:
 const productInfo = (products) =>
   products.map(({ id, title, thumbnail, price }) => {
     const obj = {
@@ -17,6 +18,7 @@ const productInfo = (products) =>
     return obj;
   });
 
+// creating thumbnail element:
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -57,7 +59,7 @@ const sumCart = async () => {
   // getting the price from local storage string:
   const pricesArr = await storageArr.map(item => Number(item.split('PRICE: $')[1]));
   const sum = await pricesArr.reduce((total, num) => total + num, 0);
-  priceSpan.innerHTML = sum.toFixed(13).replace(/\.0000000000000$/, '');
+  priceSpan.innerHTML = sum.toFixed(2).replace(/\.00$/, '');
 };
 
 let arrLStorage = [];
@@ -122,8 +124,8 @@ const fetchToCart = async (event) => {
     const itemID = event.target.parentNode.firstChild.innerText;
     const fetchCart = await fetch(`https://api.mercadolibre.com/items/${itemID}`);
     const data = await fetchCart.json();
-    const liElem = await cartSection.appendChild(createCartItemElement(data));
-    await addingToStorage(liElem);
+    const liElem = cartSection.appendChild(createCartItemElement(data));
+    addingToStorage(liElem);
     await sumCart();
   }
 };
@@ -138,7 +140,6 @@ if (localStorage.getItem('items') != null) {
 // fetching products informations to the main section:
 const fetchToSection = async () => {
   const queryInput = await document.querySelector('.query-input').value;
-  await document.querySelector('.loading').remove();
   const fetchSection = await fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${queryInput}`);
   const dataJson = await fetchSection.json();
   const products = await productInfo(dataJson.results).forEach((product) => {
@@ -147,7 +148,11 @@ const fetchToSection = async () => {
   return products;
 };
 
+// calling fetchToSection and removing loading status:
 window.onload = function onload() {
+  setTimeout(() => {
+    document.querySelector('.loading').remove();
+  }, 500);
   fetchToSection();
 };
 
