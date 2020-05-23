@@ -11,7 +11,10 @@ function createProductImageElement(imageSource) {
 //  Requirement 4
 
 const salveCartLocalStorage = () => {
-  localStorage.setItem('cartItems', document.getElementsByClassName('cart__items')[0].innerHTML);
+  localStorage.setItem(
+    'cartItems',
+    document.getElementsByClassName('cart__items')[0].innerHTML,
+  );
 };
 
 function getSkuFromProductItem(item) {
@@ -76,15 +79,12 @@ function createProductItemElement({ sku, name, image }) {
 
 //  Requirement 1
 
-
-
 const createList = async () => {
   try {
-    const response = await fetch(API_URL, myObj)
-    const responseJson = await response.json()
-    const data = await responseJson.results;
+    const response = await fetch(API_URL, myObj);
+    const responseJson = await response.json();
     const items = document.querySelector('.items');
-    data.map(function (data) {
+    responseJson.results.map(function (data) {
       return items.appendChild(
         createProductItemElement({
           sku: data.id,
@@ -94,8 +94,8 @@ const createList = async () => {
       );
     });
   } catch (error) {
-    console.log('Error')
-  };
+    console.log('Error');
+  }
 };
 /*
 const createList = async () => {
@@ -129,9 +129,9 @@ window.onload = async function onload() {
       document.getElementsByClassName('cart__items')[0].innerHTML = ''; //  6
     });
 
-  document
-    .getElementsByClassName('cart__items')[0]
-    .innerHTML = localStorage.getItem('cartItems'); //  4
+  document.getElementsByClassName(
+    'cart__items',
+  )[0].innerHTML = localStorage.getItem('cartItems'); //  4
 
   document
     .querySelectorAll('li')
