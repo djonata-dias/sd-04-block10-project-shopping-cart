@@ -136,7 +136,6 @@ body {
 
 .loading {
   animation: load 2s alternate infinite linear;
-  display: none;
   font-size: 18pt;
   font-weight: 700;
   margin-top: 25px;

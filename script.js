@@ -65,17 +65,31 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-const addToCart = (code) => {
-  fetch(`https://api.mercadolibre.com/items/${code}`)
-  .then(responsta => responsta.json())
-  .then(({ id, title, price }) => {
-    const item = createCartItemElement({ sku: id, name: title, salePrice: price });
-    cart.push(id);
-    carrinho.append(item);
-    somaTudo(parseFloat(price), true);
-    saveToStorage();
-  })
-  .catch(error => console.log(error));
+// const addToCart = async (code) => {
+//   fetch(`https://api.mercadolibre.com/items/${code}`)
+//   .then(responsta => responsta.json())
+//   .then(({ id, title, price }) => {
+//     const item = createCartItemElement({ sku: id, name: title, salePrice: price });
+//     cart.push(id);
+//     carrinho.append(item);
+//     somaTudo(parseFloat(price), true);
+//     saveToStorage();
+//   })
+//   .catch(error => console.log(error));
+// };
+const addToCart = async (code) => {
+  try {
+    const resposta = await fetch(`https://api.mercadolibre.com/items/${code}`);
+    const json = await resposta.json();
+    const { id, title, price } = await json;
+    const item = await createCartItemElement({ sku: id, name: title, salePrice: price });
+    await cart.push(id);
+    await carrinho.append(item);
+    await somaTudo(parseFloat(price), true);
+    await saveToStorage();
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const completaAdd = (e) => {
@@ -106,8 +120,6 @@ const carregaLista = () => {
   if (localStorage.itens_carrinho) {
     salvos.forEach(code => addToCart(code));
   }
-  loading.style.display = 'block';
-  setTimeout(() => (loading.style.display = 'none'), 2100);
 };
 
 // const fetchList = () => {
@@ -136,6 +148,8 @@ const fetchList = async () => {
 };
 
 window.onload = function onload() {
+  loading.style.display = 'block';
+  setTimeout(() => (loading.style.display = 'none'), 2150);
   carregaLista(); // Carrega o carrinho.
   fetchList(); // Carrega itens para selecionar.
 };
