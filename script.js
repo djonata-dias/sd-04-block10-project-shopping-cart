@@ -50,8 +50,7 @@ const toCartList = (data) => {
   };
   const listSelect = document.querySelector('.cart__items');
   listSelect.appendChild(createCartItemElement(obj));
-  
-};
+}
 
 const productList = (results) => {
   const product = {};
@@ -80,7 +79,7 @@ window.onload = function onload() {
   if (localStorage !== null) {
     savedItens.innerHTML = localStorage.getItem('item');
   }
-  
+
   const myObject = {
     method: 'GET',
     headers: { Accept: 'application/json' },
