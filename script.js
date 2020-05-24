@@ -1,5 +1,9 @@
 const query = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
 const queryItem = 'https://api.mercadolibre.com/items/';
+let tPrice = 0;
+// n permite usar querySelector no escopo global
+// const s = 'SKU: MLB1417806063 | NAME: Disco Rígido Externo Seagate Expansion Stea1000400 1tb Preto | PRICE: $397.99';
+// console.log(s.substring(s.indexOf('$', 0), s.length - 1));
 
 const fFetch = (q, call) => { // c
   fetch(q)
@@ -8,10 +12,19 @@ const fFetch = (q, call) => { // c
     .catch(() => console.log('res error'));
 };
 
+async function addSubPricesCart(price, op) {
+  const elTPrice = document.querySelector('.total-price');
+  if (op === 'add') tPrice += await price;
+  if (op === 'sub') tPrice -= await price;
+  elTPrice.innerText = tPrice;
+}
+
 function cartItemClickListener(event) { // usada
   // coloque seu código aqui
   event.target.parentNode.removeChild(event.target);
-  const id = event.target.innerText.substring(5, 18);
+  const str = event.target.innerText; 
+  const id = str.substring(5, 18);
+  const price =  Number(str.substring(str.indexOf('$', 0) + 1, str.length));
   const its = JSON.parse(localStorage.getItem('items'));
   for (let i = 0; i < its.length; i += 2) {
     if (its[i] === id) {
@@ -21,6 +34,7 @@ function cartItemClickListener(event) { // usada
       break;
     }
   }
+  addSubPricesCart(price, 'sub');
 }
 
 function createCartItemElement({ sku, name, salePrice }) { // usada
@@ -43,6 +57,7 @@ const addCart = (itsTreat) => { // c
     salePrice: itsTreat.price,
   };
   document.querySelector('ol.cart__items').appendChild(createCartItemElement(o));
+  addSubPricesCart(itsTreat.price, 'add');
 };
 
 // refatoração com fFetch() pq CC apontava duplicação de código
