@@ -94,7 +94,7 @@ const loads = () => {
 
 window.onload = function onload() {
   getStorage();
-  loads()
+  loads();
   fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
 
     .then(object => object.json())
