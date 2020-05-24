@@ -82,3 +82,7 @@ body {
   font-size: 16pt;
   text-align: center;
 }
+
+.loading {
+  font-size: large;
+}
