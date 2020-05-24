@@ -1,4 +1,4 @@
-window.onload = function onload() { };
+// --- Embeddeds
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -41,3 +41,17 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+
+// --- Fim embeddeds
+
+const createRemoveLoading = () => {
+  const elP = document.createElement('p');
+  elP.className = 'loading';
+  elP.innerHTML = 'loading...';
+  document.body.appendChild(elP);
+  setTimeout(() => elP.remove(), 3000);
+};
+
+window.onload = function onload() {
+  createRemoveLoading();
+};
