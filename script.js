@@ -14,6 +14,7 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -30,7 +31,7 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-const totalPrice = () => { // Sum price values from the cart list
+const totalPrice = async () => {
   const cartItems = document.querySelector('.cart__items');
   const totalSpan = document.querySelector('.total-price');
   const priceArr = [];
@@ -39,9 +40,9 @@ const totalPrice = () => { // Sum price values from the cart list
   const list = cartItems.children;
   for (let i = 0; i < list.length; i += 1) {
     const itemArr = list[i].innerText.split(' ');
-    const price = itemArr[itemArr.length - 1];
-    const number = Number(price.substring(1));
-    priceArr.push(number);
+    const notTratedValue = itemArr[itemArr.length - 1];
+    const tratedValue = Number(notTratedValue.substring(1));
+    priceArr.push(tratedValue);
   }
   total = priceArr.reduce((acc, curr) => acc + curr, 0);
   totalSpan.innerHTML = total;
