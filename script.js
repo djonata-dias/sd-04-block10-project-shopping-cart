@@ -1,6 +1,6 @@
 const query = 'computador';
 const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=';
-
+// função para pegar as infos do produto.
 const pegaInfos = ({ id, title, salePrice, thumbnail }, callback) => {
   const obj = {
     sku: id,
@@ -19,6 +19,7 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+// função para puxar o ID do produto a partir da Section, onde foi clicado para add ao carrinho.
 const request2 = async (id) => {
   try {
     const response = await fetch(`https://api.mercadolibre.com/items/${id}`);
@@ -34,7 +35,10 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-const cartItemClickListener = e => e.target.remove();
+// função para remover produto do carrinho.
+const cartItemClickListener = e => {
+  e.target.remove();
+}
 
 // Função que cria o elemento no Carrinho de compras.
 function createCartItemElement({ sku, name, salePrice }) {
@@ -51,7 +55,15 @@ const moveToCart = (e) => {
   e.addEventListener('click', function () {
     const id = getSkuFromProductItem(e.parentNode);
     const json = request2(id);
+    localStorage.setItem(`product#${Math.random().toPrecision(3)}`, id);
     return ol.appendChild(pegaInfos(json, createCartItemElement));
+  });
+};
+
+const recuperaCarrinho = () => {
+  const ol = document.querySelector('ol.cart__items');
+  Object.values(localStorage).forEach((e) => {
+    ol.appendChild(pegaInfos(e, createCartItemElement));
   });
 };
 
@@ -82,6 +94,7 @@ const limpaCarrinho = () => {
   const listCartProducts = document.querySelector('ol.cart__items');
   btnLimpa.addEventListener('click', function () {
     listCartProducts.innerHTML = '';
+    localStorage.clear();
   });
 };
 
@@ -102,4 +115,5 @@ const criaList = async () => {
 window.onload = () => {
   criaList();
   limpaCarrinho();
+  recuperaCarrinho();
 };
