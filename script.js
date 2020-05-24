@@ -119,7 +119,6 @@ const callAPI = () => {
     .then(response => response.json())
     .then(data => funcObjectToList(data.results))
     .catch(console.log('error'));
-    
 };
 
 callAPI();
