@@ -95,6 +95,9 @@ const addCartListener = () => {
   btnClear.onclick = limpaCarrinho;
 };
 const funcObjectToList = (data) => {
+  setTimeout(() => {
+    document.querySelector('.loading').remove();
+  }, 3000);
   data.forEach((product) => {
     const sku = product.id;
     const name = product.title;
