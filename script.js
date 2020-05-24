@@ -1,8 +1,10 @@
 let cartList;
+let priceItems;
 
 const save = () => {
   if (typeof (Storage) !== 'undefined') {
     window.localStorage.itens = cartList.innerHTML;
+    window.localStorage.totalprice = priceItems.innerHTML;
   } else {
     console.log('Não há suporte para storage');
   }
@@ -15,20 +17,30 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+const priceCart = () => {
+  const arrayLi = cartList.childNodes;
+  let total = 0;
+  arrayLi.forEach((li) => { total += Number(li.id); });
+  priceItems.innerHTML = `Total Price = $${total.toFixed(2)}`;
+};
+
 function cartItemClickListener(event) {
   event.target.remove();
+  priceCart();
   save();
 }
 
 const loadSave = () => {
   cartList.innerHTML = window.localStorage.itens;
   cartList.childNodes.forEach(li => li.addEventListener('click', cartItemClickListener));
+  priceItems.innerHTML = window.localStorage.totalprice;
 };
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.id = salePrice;
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
@@ -52,9 +64,10 @@ async function cartItem(id) {
     const searchId = await window.fetch(`${API_URL_CART}${id}`);
     const json = await extraiPesquisa(searchId);
     await cartList.appendChild(buscarNoObj(json, createCartItemElement));
+    await priceCart();
     await save();
   } catch (error) {
-    console.log('Ixi, deu erro no requisito 2: ', error);
+    console.log('Ixi, deu erro no carrinho: ', error);
   }
 }
 
@@ -106,7 +119,7 @@ const addlist = async () => {
     });
     await document.querySelector('.loading').remove();
   } catch (error) {
-    console.log('Ixi, deu erro no requisito 1: ', error);
+    console.log('Ixi, deu erro no carregamento dos produtos: ', error);
   }
 };
 
@@ -114,6 +127,7 @@ const clearAll = () => {
   const btnClear = document.querySelector('.empty-cart');
   btnClear.addEventListener('click', () => {
     cartList.innerHTML = '';
+    priceItems.innerHTML = '';
   });
 };
 
@@ -122,6 +136,7 @@ window.onload = () => {
   setTimeout(() => addlist(), 1000);
   loading();
   cartList = document.querySelector('.cart__items');
+  priceItems = document.querySelector('.total-price');
   loadSave();
   clearAll();
 };
