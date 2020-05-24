@@ -38,30 +38,30 @@ function createCartItemElement(sku, name, salePrice) {
   return li;
 }
 
-// função para acessa a section
+// função para Receber o click, puxar o ID via getskuFromProductItem , rodar API e adicionar ao carrinho e LocalStorage.
 const moveToCart = (e) => {
   const ol = document.querySelector('ol.cart__items');
   e.addEventListener('click', function () {
     const id = getSkuFromProductItem(e.parentNode);
-    fetch(`https://api.mercadolibre.com/items/${id}`)
-      .then(response => response.json())
-      .then((data) => {
-        const sku = data.id;
-        const name = data.title;
-        const price = data.price;
-        localStorage.setItem(`product#${Math.random().toPrecision(3)}`, id);
-        return ol.appendChild(createCartItemElement(sku, name, price));
-      });
-  });
+    recebeId(id);
+  })
+};
+
+const recebeId = (id) => {
+  const ol = document.querySelector('ol.cart__items');
+  fetch(`https://api.mercadolibre.com/items/${id}`)
+    .then(response => response.json())
+    .then((data) => {
+      const sku = data.id;
+      const name = data.title;
+      const price = data.price;
+      localStorage.setItem(id, price);
+      return ol.appendChild(createCartItemElement(sku, name, price));
+    });
 };
 
 // Carrega o Carrinho de compra armazenado do localStorage.
-const recuperaCarrinho = () => {
-  const ol = document.querySelector('ol.cart__items');
-  Object.values(localStorage).forEach((e) => {
-    ol.appendChild(pegaInfos(e, createCartItemElement));
-  });
-};
+const recuperaCarrinho = () => Object.keys(localStorage).forEach(e => recebeId(e));
 
 // Função que Cria os Buttons e addo listener com a função para jogar no carrinho.
 function createCustomElement(element, className, innerText) {
@@ -108,6 +108,17 @@ const criaList = async () => {
   } catch (error) {
     console.log(`ERROR: ${error}`);
   }
+};
+
+const totalPrice = () => {
+  localStorage
+};
+
+const prices = () => {
+  const cart = document.querySelector('.cart__title');
+  const span = document.createElement('span');
+  span.className = 'total-price';
+  span.innerText = `Valor Total: ${totalPrice()}`;
 };
 
 const chamaTudo = () => {
