@@ -125,4 +125,3 @@ callAPI();
 window.onload = () => {
   loading();
 };
-
