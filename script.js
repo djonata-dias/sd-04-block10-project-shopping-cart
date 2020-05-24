@@ -66,7 +66,7 @@ const fFetch = (q, call) => { // c
   fetch(q)
     .then((res) => {
       pLoading.style.display = 'none';
-      return res.json()
+      return res.json();
     })
     .then(resTreat => call(resTreat))
     .catch(() => console.log('res error'));
