@@ -10,10 +10,16 @@ const fFetch = (q, call) => { // c
     .catch(() => console.log('res error'));
 };
 
-async function addSubPricesCart(price, op) {
+const addSubPricesCart = (price, op) => {
   const elTPrice = document.querySelector('.total-price');
-  if (op === 'add') tPrice += await price;
-  if (op === 'sub') tPrice -= await price;
+  if (op === 'add') {
+    tPrice += price;
+    localStorage.setItem('tPrice', tPrice);
+  }
+  if (op === 'sub') {
+    tPrice -= price;
+    localStorage.setItem('tPrice', tPrice);
+  }
   elTPrice.innerText = tPrice;
 }
 
@@ -104,9 +110,11 @@ const addProd = (pds) => { // c
   });
 };
 
-const verifyLocalStorage = () => { // c
+async function verifyLocalStorage() { // c
   const elOl = document.querySelector('ol.cart__items');
-  const its = JSON.parse(localStorage.getItem('items'));
+  const its = await JSON.parse(localStorage.getItem('items'));
+  tPrice = await JSON.parse(localStorage.getItem('tPrice'));
+  document.querySelector('.total-price').innerText = tPrice;
   for (let i = 1; i < its.length; i += 2) {
     const li = document.createElement('li');
     const content = its[i];
@@ -118,6 +126,7 @@ const verifyLocalStorage = () => { // c
 
 // Chama a API e adiciona os items nos componentes depois q todo html for carregado
 window.onload = function onload() {
+  if (!localStorage.getItem('tPrice')) localStorage.setItem('tPrice', JSON.stringify(0));
   if (!localStorage.getItem('items')) localStorage.setItem('items', JSON.stringify([]));
   fFetch(query, addProd);
   verifyLocalStorage();
