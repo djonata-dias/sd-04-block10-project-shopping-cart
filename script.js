@@ -103,9 +103,17 @@ const addlist = async () => {
   }
 };
 
+const clearAll = () => {
+  const btnClear = document.querySelector('.empty-cart');
+  btnClear.addEventListener('click', () => {
+    cartList.innerHTML = '';
+  });
+};
+
 // ----------------------------------------------
 window.onload = () => {
   addlist();
   cartList = document.querySelector('.cart__items');
   loadSave();
+  clearAll();
 };
