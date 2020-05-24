@@ -23,8 +23,8 @@ function createProductImageElement(imageSource) {
 const request2 = async (id) => {
   try {
     const response = await fetch(`https://api.mercadolibre.com/items/${id}`);
-    const productJson = await response.json();
-    await productJson;
+    const responseJson = await response.json();
+    console.log(responseJson.results);
   } catch (error) {
     console.log(`ERROR: ${error}`);
   }
@@ -60,6 +60,7 @@ const moveToCart = (e) => {
   });
 };
 
+// Carrega o Carrinho de compra armazenado do localStorage.
 const recuperaCarrinho = () => {
   const ol = document.querySelector('ol.cart__items');
   Object.values(localStorage).forEach((e) => {
@@ -89,6 +90,7 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
+// Limpa o carrinho de Compra e da um clear no localStorage.
 const limpaCarrinho = () => {
   const btnLimpa = document.querySelector('.empty-cart');
   const listCartProducts = document.querySelector('ol.cart__items');
@@ -98,6 +100,7 @@ const limpaCarrinho = () => {
   });
 };
 
+// Cria a Lista de Produtos
 const criaList = async () => {
   const listItens = document.querySelector('.items');
   try {
@@ -121,7 +124,7 @@ const chamaTudo = () => {
 const loading = () => {
   const div = document.createElement('div');
   div.className = 'loading';
-  div.innerHTML = 'L O A D I N G';
+  div.innerHTML = 'loading...';
   return document.querySelector('section.items').appendChild(div);
 };
 
