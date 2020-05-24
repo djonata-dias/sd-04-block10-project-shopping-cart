@@ -61,12 +61,14 @@ function createCartItemElement({ sku, name, salePrice }) { // usada
 }
 
 const fFetch = (q, call) => { // c
-  const pLoading = document.querySelector('.loading');
-  pLoading.innerText = 'loading...';
+  const p = document.createElement('p');
+  p.className = 'loading';
+  p.innerText = 'loading...';
+  document.body.appendChild(p);
   setTimeout(() => {
     fetch(q)
       .then((res) => {
-        pLoading.innerText = '';
+        p.innerText = '';
         return res.json();
       })
       .then(resTreat => call(resTreat))
