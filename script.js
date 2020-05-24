@@ -80,11 +80,8 @@ const product = (products) => {
 };
 
 document.querySelector('.empty-cart').addEventListener('click', function () {
-  const xis = document.querySelector('ol');
-  if (!xis) {
-    alert('não há itens adicionados');
-  }
-  xis.parentNode.removeChild(xis);
+  const Olist = document.querySelector('.cart__items');
+  Olist.innerHTML = '';
 });
 
 window.onload = function onload() {
