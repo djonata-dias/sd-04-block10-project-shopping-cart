@@ -65,7 +65,7 @@ const fFetch = (q, call) => { // c
   p.className = 'loading';
   p.innerText = 'loading...';
   document.body.appendChild(p);
-  setTimeout(() => {
+  // setTimeout(() => {
     fetch(q)
       .then((res) => {
         p.innerText = '';
@@ -73,7 +73,7 @@ const fFetch = (q, call) => { // c
       })
       .then(resTreat => call(resTreat))
       .catch(() => console.log('res error'));
-  }, 2000);
+  // }, 2000);
 };
 
 // - Refatoração com fFetch() pq CC apontava duplicação de código
