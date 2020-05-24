@@ -1,7 +1,6 @@
 const query = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
 const queryItem = 'https://api.mercadolibre.com/items/';
 let tPrice = 0;
-// n permite usar querySelector no escopo global
 
 const fFetch = (q, call) => { // c
   fetch(q)
@@ -27,7 +26,7 @@ function cartItemClickListener(event) { // usada
   // coloque seu código aqui
   event.target.parentNode.removeChild(event.target);
   const str = event.target.innerText;
-  const id = str.substring(5, 18);
+  const id = str.substring(str.indexOf('M', 0), str.indexOf(' |', 0));
   const price = Number(str.substring(str.indexOf('$', 0) + 1, str.length));
   const its = JSON.parse(localStorage.getItem('items'));
   for (let i = 0; i < its.length; i += 2) {
