@@ -62,14 +62,16 @@ function createCartItemElement({ sku, name, salePrice }) { // usada
 
 const fFetch = (q, call) => { // c
   const pLoading = document.querySelector('.loading');
-  pLoading.innerText = 'loading...';
-  fetch(q)
-    .then((res) => {
-      pLoading.innerText = '';
-      return res.json();
-    })
-    .then(resTreat => call(resTreat))
-    .catch(() => console.log('res error'));
+  pLoading.innerText = 'loading...'
+  setTimeout(() => {
+    fetch(q)
+      .then((res) => {
+        pLoading.innerText = '';
+        return res.json();
+      })
+      .then(resTreat => call(resTreat))
+      .catch(() => console.log('res error'));
+  }, 2000);
 };
 
 // - Refatoração com fFetch() pq CC apontava duplicação de código
@@ -111,7 +113,7 @@ function createProductItemElement({ sku, name, image }) { // usada
 
 // --- window onload
 
-async function verifyLocalStorage() { // c
+async function constructCartAndPrice() { // c
   const elOl = document.querySelector('ol.cart__items');
   const its = await JSON.parse(localStorage.getItem('items'));
   tPrice = await JSON.parse(localStorage.getItem('tPrice'));
@@ -154,7 +156,7 @@ const addEvButEmpCart = () => { // c
 window.onload = function onload() {
   if (!localStorage.getItem('tPrice')) localStorage.setItem('tPrice', JSON.stringify(0));
   if (!localStorage.getItem('items')) localStorage.setItem('items', JSON.stringify([]));
-  verifyLocalStorage();
+  constructCartAndPrice();
   fFetch(query, addProd);
   addEvButEmpCart();
 };
