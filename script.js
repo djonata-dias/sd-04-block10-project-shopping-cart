@@ -100,6 +100,7 @@ function loadCart() {
 }
 // let query = 'computador'; // this query is the keyword of fltch search
 const launchFetch = (query) => {
+  console.log('query inside', query);
   const cartListOl = document.getElementsByClassName('items');
   while (cartListOl[0].firstChild) {
     cartListOl[0].removeChild(cartListOl[0].firstChild);
@@ -134,7 +135,7 @@ document.body.addEventListener('click', function (event) {  // find the Id of th
   }
   if (event.target.className === 'empty-cart') removeCartItems();
   if (event.target.className === 'cart__item') cartItemClickListener(event);
-  if (event.target.className === 'search-button') launchFetch(searchInput.value);
+  if (event.target.className.includes('search-button')) launchFetch(searchInput.value);
 });
 
 window.onload = function onload() {
