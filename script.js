@@ -30,7 +30,7 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-const totalPrice = async () => {
+const totalPrice = () => { // Sum price values from the cart list
   const cartItems = document.querySelector('.cart__items');
   const totalSpan = document.querySelector('.total-price');
   const priceArr = [];
@@ -39,9 +39,9 @@ const totalPrice = async () => {
   const list = cartItems.children;
   for (let i = 0; i < list.length; i += 1) {
     const itemArr = list[i].innerText.split(' ');
-    const notTratedValue = itemArr[itemArr.length - 1];
-    const tratedValue = Number(notTratedValue.substring(1));
-    priceArr.push(tratedValue);
+    const price = itemArr[itemArr.length - 1];
+    const number = Number(price.substring(1));
+    priceArr.push(number);
   }
   total = priceArr.reduce((acc, curr) => acc + curr, 0);
   totalSpan.innerHTML = total;
