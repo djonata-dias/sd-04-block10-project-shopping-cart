@@ -21,7 +21,7 @@ const priceCart = () => {
   const arrayLi = cartList.childNodes;
   let total = 0;
   arrayLi.forEach((li) => { total += Number(li.id); });
-  priceItems.innerHTML = `Total Price = $${total.toFixed(2)}`;
+  priceItems.innerHTML = `Total Price = $${total}`;
 };
 
 function cartItemClickListener(event) {
