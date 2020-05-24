@@ -104,15 +104,26 @@ const funcObjectToList = (data) => {
   });
   addCartListener();
   limpaCarrinho();
+  document.querySelector('.loading').remove();
 };
 
+const loading = () => {
+  const nodeLoading = createCustomElement('div', 'loading', 'loading...');
+  const nodeItems = document.querySelector('.items');
+  nodeItems.appendChild(nodeLoading);
+};
 
 const callAPI = () => {
-  const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=$computador';
+  const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=$jogos';
   fetch(API_URL)
     .then(response => response.json())
     .then(data => funcObjectToList(data.results))
     .catch(console.log('error'));
+    
 };
 
 callAPI();
+window.onload = () => {
+  loading();
+};
+
