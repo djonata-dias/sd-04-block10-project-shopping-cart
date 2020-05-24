@@ -22,7 +22,7 @@ const sumPrice = async () => {
   getItem.forEach(
     item => (totalPrice += parseFloat(item.innerText.split('$')[1])),
   );
-  document.querySelector('.total-price').innerText = 'valor Total $ ' + totalPrice;
+  document.querySelector('.total-price').innerText = totalPrice;
 };
 
 //  Requirement 4
