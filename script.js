@@ -45,17 +45,6 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-const convertObject = (paramet) => {
-  // criando a função
-  const itemClass = document.querySelector('.items'); // itemClass recebe toda a calsse Item
-  paramet.forEach(({ id, title, thumbnail }) => {
-    itemClass.appendChild(
-      createProductItemElement({ sku: id, name: title, image: thumbnail })
-    ); /* passando valor para para keys do obj */
-  });
-  addCarItens();
-};
-
 const funcObjCar = (a) => {
   const obj = { sku: a.id, name: a.title, salePrice: a.price }; // criando variavel recebe  o obj
   const carItm = document.querySelector('.cart__items'); // criando variavel selecionando classe cart_items
@@ -73,6 +62,17 @@ const addCarItens = () => {
         .then(a => funcObjCar(a));
     });
   });
+};
+
+const convertObject = (paramet) => {
+  // criando a função
+  const itemClass = document.querySelector('.items'); // itemClass recebe toda a calsse Item
+  paramet.forEach(({ id, title, thumbnail }) => {
+    itemClass.appendChild(
+      createProductItemElement({ sku: id, name: title, image: thumbnail })
+    ); /* passando valor para para keys do obj */
+  });
+  addCarItens();
 };
 
 console.log(convertObject);
