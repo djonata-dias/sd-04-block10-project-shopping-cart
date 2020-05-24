@@ -1,4 +1,6 @@
 const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
+const getCartItems = document.getElementsByClassName('cart__items');
+const classTotalPrice = document.getElementsByClassName('total-price');
 
 async function fetchAPI(url) {
   const response = await fetch(url);
@@ -13,24 +15,33 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+//  Requirement 5
+
+const sumPrice = async () => {
+  const getItem = document.querySelectorAll('.cart__item');
+  let totalPrice = 0;
+  getItem.forEach((item) => (totalPrice += parseFloat(item.innerText.split('$')[1])));
+  document.querySelector('.total-price').innerText = totalPrice;
+};
+
 //  Requirement 4
 
 const salveCartLocalStorage = () => {
-  localStorage.setItem(
-    'cartItems',
-    document.getElementsByClassName('cart__items')[0].innerHTML,
-  );
+  localStorage.setItem('cartItems', getCartItems[0].innerHTML);
 };
 
+/*
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
+*/
 
 //  Requirement 3
 
 function cartItemClickListener(event) {
   event.target.remove();
   salveCartLocalStorage();
+  sumPrice();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -45,7 +56,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 const addProductByCart = async ({ sku }) => {
   const skuJson = await fetchAPI(`https://api.mercadolibre.com/items/${sku}`);
-  document.getElementsByClassName('cart__items')[0].appendChild(
+  getCartItems[0].appendChild(
     createCartItemElement({
       sku: skuJson.id,
       name: skuJson.title,
@@ -53,6 +64,7 @@ const addProductByCart = async ({ sku }) => {
     }),
   );
   salveCartLocalStorage();
+  sumPrice();
 };
 
 function createCustomElement(element, className, innerText) {
@@ -102,18 +114,18 @@ const createList = async () => {
 
 window.onload = async function onload() {
   await createList();
+  await sumPrice();
+
   document
     .getElementsByClassName('empty-cart')[0]
     .addEventListener('click', () => {
       localStorage.setItem('cartItems', ''); //  4
-      document.getElementsByClassName('cart__items')[0].innerHTML = ''; //  6
+      getCartItems[0].innerHTML = ''; //  6
     });
 
-  document.getElementsByClassName(
-    'cart__items',
-  )[0].innerHTML = localStorage.getItem('cartItems'); //  4
+  getCartItems[0].innerHTML = localStorage.getItem('cartItems'); //  4
 
   document
     .querySelectorAll('li')
     .forEach(li => li.addEventListener('click', cartItemClickListener)); //  3
-};
+  };
