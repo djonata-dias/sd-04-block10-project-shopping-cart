@@ -20,7 +20,7 @@ const addSubPricesCart = (price, op) => {
     tPrice -= price;
     localStorage.setItem('tPrice', tPrice);
   }
-  elTPrice.innerText = Number(tPrice.toFixed(2));
+  elTPrice.innerText = tPrice.toFixed(2);
 };
 
 function cartItemClickListener(event) { // usada
@@ -61,7 +61,7 @@ const addCart = (itsTreat) => { // c
     salePrice: itsTreat.price,
   };
   document.querySelector('ol.cart__items').appendChild(createCartItemElement(o));
-  addSubPricesCart(Number(itsTreat.price.toFixed(2)), 'add');
+  addSubPricesCart(itsTreat.price, 'add');
 };
 
 // refatoração com fFetch() pq CC apontava duplicação de código
@@ -114,7 +114,7 @@ async function verifyLocalStorage() { // c
   const elOl = document.querySelector('ol.cart__items');
   const its = await JSON.parse(localStorage.getItem('items'));
   tPrice = await JSON.parse(localStorage.getItem('tPrice'));
-  document.querySelector('.total-price').innerText = Number(tPrice.toFixed(2));
+  document.querySelector('.total-price').innerText = tPrice.toFixed(2);
   for (let i = 1; i < its.length; i += 2) {
     const li = document.createElement('li');
     const content = its[i];
