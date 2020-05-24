@@ -1,4 +1,4 @@
-window.onload = function onload() { };
+window.onload = function onload() {};
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -14,7 +14,7 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-
+// keys dos objetos//
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -22,7 +22,9 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+  section.appendChild(
+    createCustomElement('button', 'item__add', 'Adicionar ao carrinho!')
+  );
 
   return section;
 }
@@ -43,20 +45,44 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-const convertObject = (dataArray) => {
-  const itemClass = document.querySelector('.items');
-  dataArray.forEach(({ id, title, thumbnail }) => {
-    itemClass.appendChild(createProductItemElement({ sku: id, name: title, image: thumbnail }));
-    console.log(itemClass);
+const convertObject = (paramet) => {
+  // criando a função
+  const itemClass = document.querySelector('.items'); // itemClass recebe toda a calsse Item
+  paramet.forEach(({ id, title, thumbnail }) => {
+    itemClass.appendChild(
+      createProductItemElement({ sku: id, name: title, image: thumbnail })
+    ); /* passando valor para para keys do obj */
+  });
+  addCarItens();
+};
+
+const addCarItens = () => {
+  const buttAdd = document.querySelectorAll('.item');
+  buttAdd.forEach((element) => {
+    element.lastElementChild.addEventListener('click', () => {
+      const id_sku = element.firstElementChild.innerHTML; // cria variavel e joga primeiro
+      const url = `https://api.mercadolibre.com/items/${id_sku}`;
+      fetch(url)
+        .then(response => response.json())
+        .then(a => funcObjCar(a));
+    });
   });
 };
+
+const funcObjCar = (a) => {
+  const obj = { sku: a.id, name: a.title, salePrice: a.price }; // criando variavel recebe  o obj
+  const carItm = document.querySelector('.cart__items'); // criando variavel selecionando classe cart_items
+  carItm.appendChild(createCartItemElement(obj));
+};
+
+console.log(convertObject);
+
 const searchProduct = (product) => {
   const url = `https://api.mercadolibre.com/sites/MLB/search?q=${product}`;
   fetch(url)
-  .then(response => response.json())
-  .then(kaecio => convertObject(kaecio.results))
-  .catch(() => {
-  });
+    .then(response => response.json())
+    .then(kaecio => convertObject(kaecio.results))
+    .catch(() => {});
 };
 
 // chamada da função abaixo pq a função não foi criada
