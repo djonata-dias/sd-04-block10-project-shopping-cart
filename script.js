@@ -84,7 +84,7 @@ document.querySelector('.empty-cart').addEventListener('click', function () {
   Olist.innerHTML = '';
 });
 
-const load = () => {
+const loads = () => {
   const load = document.createElement('div');
   load.className = 'loading...';
   load.innerText = 'Carregando';
@@ -94,6 +94,7 @@ const load = () => {
 
 window.onload = function onload() {
   getStorage();
+  loads()
   fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
 
     .then(object => object.json())
