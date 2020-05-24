@@ -62,7 +62,7 @@ function createCartItemElement({ sku, name, salePrice }) { // usada
 
 const fFetch = (q, call) => { // c
   const pLoading = document.querySelector('.loading');
-  pLoading.innerText = 'loading...'
+  pLoading.innerText = 'loading...';
   setTimeout(() => {
     fetch(q)
       .then((res) => {
