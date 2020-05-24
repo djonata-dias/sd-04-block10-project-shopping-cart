@@ -88,7 +88,7 @@ function createCustomElement(element, className, innerText) {
 }
 
 const addProductToCart = async (productElement) => {
-  loading(true);
+  // loading(true);
   fetch(itemApiUrl + getSkuFromProductItem(productElement))
     .then((response) => response.json())
     .then((data) => {
@@ -97,7 +97,7 @@ const addProductToCart = async (productElement) => {
       return productData;
     })
     .then((productData) => {
-      loading(false);
+      // loading(false);
       calculateTotal();
       document.querySelector('.loading').hidden = true;
       document.querySelector('.cart__items').appendChild(
@@ -120,11 +120,11 @@ function createProductItemElement({ sku, name, image }) {
 }
 
 const searchProducts = async (search) => {
-  loading(true);
+  // loading(true);
   fetch(searchApiUrl + search)
     .then((response) => response.json())
     .then((data) => {
-      loading(false);
+      // loading(false);
       data.results.forEach((item) => {
         const productData = { sku: item.id, name: item.title, image: item.thumbnail };
         const productElement = createProductItemElement(productData);
