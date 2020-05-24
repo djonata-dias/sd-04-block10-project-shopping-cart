@@ -116,7 +116,7 @@ function createProductItemElement({ sku, name, image }) { // usada
 // --- window onload
 
 async function constructCartAndPrice() { // c
-  const elOl = document.querySelector('ol.cart__items');
+  const elOl = document.querySelector('.cart__items');
   const its = await JSON.parse(localStorage.getItem('items'));
   tPrice = await JSON.parse(localStorage.getItem('tPrice'));
   document.querySelector('.total-price').innerText = Number(tPrice.toFixed(2));
@@ -141,10 +141,10 @@ const addProd = (pds) => { // c
 
 const addEvButEmpCart = () => { // c
   const butEmpCart = document.querySelector('.empty-cart');
-  const olCart = document.querySelector('.cart__items');
+  const elOl = document.querySelector('.cart__items');
   const elTPrice = document.querySelector('.total-price');
   butEmpCart.addEventListener('click', () => {
-    olCart.innerText = '';
+    elOl.innerText = '';
     tPrice = 0;
     localStorage.setItem('tPrice', JSON.stringify(0));
     localStorage.setItem('items', JSON.stringify([]));
