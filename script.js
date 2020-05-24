@@ -112,8 +112,25 @@ const criaList = async () => {
   }
 };
 
-window.onload = () => {
+const chamaTudo = () => {
   criaList();
   limpaCarrinho();
   recuperaCarrinho();
+};
+
+const loading = () => {
+  const div = document.createElement('div');
+  div.className = 'loading';
+  div.innerHTML = 'L O A D I N G';
+  return document.querySelector('section.items').appendChild(div);
+};
+
+const limpaLoading = () => document.querySelector('div').remove();
+
+window.onload = () => {
+  loading();
+  setTimeout(() => {
+    limpaLoading();
+    chamaTudo();
+  }, 5000);
 };
