@@ -19,6 +19,7 @@ body {
 
 .top-bar .input-terms-group {
   align-items: flex-start;
+  color: dimgray;
   display: flex;
 }
 
@@ -65,6 +66,7 @@ body {
 
 .item .item__add {
   background-color: rgb( 52 , 131 , 250 );
+  color: white;
   border: 0;
   border-radius: 5px;
   cursor: pointer;
@@ -82,4 +84,8 @@ body {
   flex-basis: 1;
   font-size: 16pt;
   text-align: center;
+}
+
+.empty-cart {
+  margin: 5px;
 }

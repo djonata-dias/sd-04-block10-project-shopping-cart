@@ -133,7 +133,7 @@ document.body.addEventListener('click', function (event) {  // find the Id of th
     createCartAsync(
       event.target.parentNode.querySelector('span.item__sku').innerText);
   }
-  if (event.target.className === 'empty-cart') removeCartItems();
+  if (event.target.className.includes('empty-cart')) removeCartItems();
   if (event.target.className === 'cart__item') cartItemClickListener(event);
   if (event.target.className.includes('search-button')) launchFetch(searchInput.value);
 });
