@@ -79,6 +79,14 @@ const product = (products) => {
   });
 };
 
+document.querySelector('.empty-cart').addEventListener('click', function () {
+  const xis = document.querySelector('ol');
+  if (!xis) {
+    alert('não há itens adicionados');
+  }
+  xis.parentNode.removeChild(xis);
+});
+
 window.onload = function onload() {
   getStorage();
   fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
