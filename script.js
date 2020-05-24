@@ -10,7 +10,7 @@ const addEvButEmpCart = () => {
     olCart.innerText = '';
     tPrice = 0;
     localStorage.setItem('tPrice', JSON.stringify(0));
-    localStorage.setItem('items', JSON.stringify([]))
+    localStorage.setItem('items', JSON.stringify([]));
     elTPrice.innerText = tPrice;
   });
 };
