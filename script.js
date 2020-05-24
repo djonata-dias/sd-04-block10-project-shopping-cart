@@ -21,7 +21,7 @@ const addSubPricesCart = (price, op) => {
     localStorage.setItem('tPrice', tPrice);
   }
   elTPrice.innerText = tPrice;
-}
+};
 
 function cartItemClickListener(event) { // usada
   // coloque seu código aqui
@@ -122,7 +122,7 @@ async function verifyLocalStorage() { // c
     li.innerText = content;
     elOl.appendChild(li);
   }
-};
+}
 
 // Chama a API e adiciona os items nos componentes depois q todo html for carregado
 window.onload = function onload() {
