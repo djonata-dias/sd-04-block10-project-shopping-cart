@@ -119,7 +119,7 @@ const clearAll = () => {
 
 // ----------------------------------------------
 window.onload = () => {
-  addlist();
+  setTimeout(() => addlist(), 1000);
   loading();
   cartList = document.querySelector('.cart__items');
   loadSave();
