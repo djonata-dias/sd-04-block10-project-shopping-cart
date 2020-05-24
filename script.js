@@ -23,35 +23,20 @@ function createProductItemElement({ sku, name, image }) {
   );
   return section;
 }
-
+// Save in localstorage all the HTML ot the cart list
 function storeCart() {
-  // To be improved must use Json
+  // To be improved must use aJson
   const cartListOl = document.getElementsByClassName('cart__items');
   localStorage.setItem('cartItem', cartListOl[0].innerHTML);
 }
 
+// Sum the price of all items in the cart return number
 async function sumPrice() {
-  // Must improved and refracted
-  const cartListOl = document.getElementsByClassName('cart__items');
-  console.log('cartListOl BEGIN', cartListOl[0]);
-  console.log('cartListOl BEGIN ineer', cartListOl[0].innerText);
+  // Could be reduce?????
   const cartListLi = document.querySelectorAll('.cart__item');
-  sum = 0;
-  for (let index = 0; index < cartListLi.length; index += 1) {
-    console.log('index', index, cartListLi[index].innerText);
-    const s = cartListLi[index].innerText;
-    const splited = s.split('$');
-    console.log('splited', splited[1]);
-    // const extracted = (splited[2].match(/\d+/g) || []).map(n => parseInt(n));
-    const extracted = parseFloat(splited[1]);
-    console.log('extrated', extracted);
-    sum += extracted;
-    console.log('sum', sum);
-  }
-  console.log('temp message sumPrice', sum);
-  const spanTotaPrice = document.querySelector('.total-price');
-  // spanTotaPrice.innerText = `Total R$ ${sum}`;
-  spanTotaPrice.innerText = sum;
+  let sum = 0;
+  cartListLi.forEach(index => (sum += parseFloat(index.innerText.split('$')[1])));
+  document.querySelector('.total-price').innerText = sum;
 }
 
 function cartItemClickListener(event) {
@@ -67,7 +52,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-// Fetch to call the infomation related to Id and call createCartItemElemen
+// Fetch to call the infomation related to Id and call createCartItemElement
 async function fetchId(idToFecth) {
   fetch(`https://api.mercadolibre.com/items/${idToFecth}`)
   .then(response => response.json())
@@ -80,42 +65,48 @@ async function fetchId(idToFecth) {
         salePrice: data.price,
       }),
       );
-    storeCart();
-    sumPrice();
+    storeCart(); // Save the cart in LocalStorage
+    sumPrice(); // Sum all items'Price of the cart
   })
     .catch(error => console.log(error));
 }
 
+// Async function to call the sum only after fetch return all data
+// to avoid summing empty data
 async function createCartAsync(idToFecth) {
   await fetchId(idToFecth);
   sumPrice();
 }
 
+// remove all items of the cart
 function removeCartItems() {
   const cartListOl = document.getElementsByClassName('cart__items');
   while (cartListOl[0].firstChild) {
     cartListOl[0].removeChild(cartListOl[0].firstChild);
   }
-  storeCart();
-  sumPrice();
+  storeCart(); // Save the cart in LocalStorage
+  sumPrice(); // Sum all items'Price of the cart
 }
 
+// Load the cart information stored in Localstorage
 function loadCart() {
-  // To be improved
+  // To be improved using a janson
   console.log(localStorage.getItem('cartItem'));
   const cartListOl = document.getElementsByClassName('cart__items');
   cartListOl[0].innerHTML = localStorage.getItem('cartItem');
 }
-const query = 'computador';
+
+const query = 'computador'; // this query is the keyword of fltch search
 const sectionItems = document.getElementsByClassName('items');
 const containerElement = document.getElementsByClassName('cart__title');
 const span = document.createElement('span');
-span.innerText = 'loading...';
-span.className = 'loading';
+span.innerText = 'loading...'; // text displayed during flecth loading
+span.className = 'loading'; // Class of flecth loading
+
 window.onload = function onload() {
   loadCart();
   sumPrice();
-  containerElement[0].appendChild(span);
+  containerElement[0].appendChild(span); // create a tempory span during flecth loading
   fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${query}`)
     .then(response => response.json())
     .then((data) => {
