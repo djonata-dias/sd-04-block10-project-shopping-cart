@@ -87,6 +87,9 @@ function removeCartItems() {
   storeCart(); // Save the cart in LocalStorage
   sumPrice(); // Sum all items'Price of the cart
 }
+const span = document.createElement('span');
+const containerElement = document.getElementsByClassName('cart__title');
+const sectionItems = document.getElementsByClassName('items');
 
 // Load the cart information stored in Localstorage
 function loadCart() {
@@ -95,30 +98,14 @@ function loadCart() {
   const cartListOl = document.getElementsByClassName('cart__items');
   cartListOl[0].innerHTML = localStorage.getItem('cartItem');
 }
-
-const query = 'computador'; // this query is the keyword of fltch search
-const sectionItems = document.getElementsByClassName('items');
-const containerElement = document.getElementsByClassName('cart__title');
-const span = document.createElement('span');
-span.innerText = 'loading...'; // text displayed during flecth loading
-span.className = 'loading'; // Class of flecth loading
-
-document.body.addEventListener('click', function (event) {  // find the Id of the clicked add to cart button
-  console.log(event.target.className); // to remove
-  console.log('hello'); // to remove
-  if (event.target.className === 'item__add') {
-    createCartAsync(
-      event.target.parentNode.querySelector('span.item__sku').innerText);
+// let query = 'computador'; // this query is the keyword of fltch search
+const launchFetch = (query) => {
+  const cartListOl = document.getElementsByClassName('items');
+  while (cartListOl[0].firstChild) {
+    cartListOl[0].removeChild(cartListOl[0].firstChild);
   }
-  if (event.target.className === 'empty-cart') removeCartItems();
-  if (event.target.className === 'cart__item') cartItemClickListener(event);
-});
-
-window.onload = function onload() {
-  loadCart();
-  sumPrice();
   containerElement[0].appendChild(span); // create a tempory span during flecth loading
-  fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${query}`)
+  fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${query})`)
     .then(response => response.json())
     .then((data) => {
       data.results.forEach((result) => {
@@ -131,4 +118,27 @@ window.onload = function onload() {
       }, 1000);
     })
     .catch(error => console.log(error));
+};
+
+// const query = 'computador'; // this query is the keyword of fltch search
+const searchInput = document.querySelector('.search-input');
+span.innerText = 'loading...'; // text displayed during flecth loading
+span.className = 'loading'; // Class of flecth loading
+
+document.body.addEventListener('click', function (event) {  // find the Id of the clicked add to cart button
+  console.log(event.target.className); // to remove
+  console.log('hello'); // to remov
+  if (event.target.className === 'item__add') {
+    createCartAsync(
+      event.target.parentNode.querySelector('span.item__sku').innerText);
+  }
+  if (event.target.className === 'empty-cart') removeCartItems();
+  if (event.target.className === 'cart__item') cartItemClickListener(event);
+  if (event.target.className === 'search-button') launchFetch(searchInput.value);
+});
+
+window.onload = function onload() {
+  loadCart();
+  sumPrice();
+  launchFetch('computador');
 }; // End of window load
