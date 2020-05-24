@@ -56,6 +56,12 @@ const convertObject = (paramet) => {
   addCarItens();
 };
 
+const funcObjCar = (a) => {
+  const obj = { sku: a.id, name: a.title, salePrice: a.price }; // criando variavel recebe  o obj
+  const carItm = document.querySelector('.cart__items'); // criando variavel selecionando classe cart_items
+  carItm.appendChild(createCartItemElement(obj));
+};
+
 const addCarItens = () => {
   const buttAdd = document.querySelectorAll('.item');
   buttAdd.forEach((element) => {
@@ -67,12 +73,6 @@ const addCarItens = () => {
         .then(a => funcObjCar(a));
     });
   });
-};
-
-const funcObjCar = (a) => {
-  const obj = { sku: a.id, name: a.title, salePrice: a.price }; // criando variavel recebe  o obj
-  const carItm = document.querySelector('.cart__items'); // criando variavel selecionando classe cart_items
-  carItm.appendChild(createCartItemElement(obj));
 };
 
 console.log(convertObject);
