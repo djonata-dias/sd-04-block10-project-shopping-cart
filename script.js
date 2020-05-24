@@ -81,9 +81,9 @@ const limpaCarrinho = () => {
   const btnLimpa = document.querySelector('.empty-cart');
   const listCartProducts = document.querySelector('ol.cart__items');
   btnLimpa.addEventListener('click', function () {
-    return listCartProducts.innerHTML = '';
-  })
-}
+  listCartProducts.innerHTML = '';
+  });
+};
 
 const criaList = async () => {
   const listItens = document.querySelector('.items');
