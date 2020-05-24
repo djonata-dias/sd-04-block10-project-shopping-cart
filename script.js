@@ -44,13 +44,13 @@ function cartItemClickListener(event) {
 }
 
 const cleanCart = () => {
-  document.querySelectorAll('.cart__item')
-    .forEach((item) => {
-      item.remove();
-    });
   // Remove from localStorage
   cleanCartItems()
-    .then(() => calculateTotal());
+    .then(() => {
+      calculateTotal();
+      document.querySelectorAll('.cart__item')
+        .forEach((item) => item.remove());
+    });
 };
 
 function createProductImageElement(imageSource) {
@@ -124,13 +124,12 @@ const searchProducts = async (search) => {
 
 const initApp = () => {
   const items = getCartItems();
+  calculateTotal();
   items.forEach((item) => {
     document.querySelector('.cart__items').appendChild(
       createCartItemElement(item),
     );
   });
-
-  calculateTotal();
 };
 
 window.onload = function onload() {
