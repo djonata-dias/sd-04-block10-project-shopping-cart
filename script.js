@@ -30,7 +30,7 @@ function createProductItemElement({ sku, name, image }) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
 
-const cartItemClickListener = (event) => event.target.remove();
+const cartItemClickListener = event => event.target.remove();
 // removendo o event de dentro da função e usando fora, funciona normalmente
 
 
