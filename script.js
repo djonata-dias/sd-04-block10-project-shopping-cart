@@ -62,7 +62,7 @@ const convertObject = (dataArray) => {
     // UM LOOP É INICIADO PARA QUE OS ITEMS ID, TITLE E PRICE SEJAM COPIADOS
     // DA LISTA DE TODOS OS ITEMS
     itemClass.appendChild(
-      createProductItemElement({ sku: id, name: title, image: thumbnail })); 
+      createProductItemElement({ sku: id, name: title, image: thumbnail }));
     // OS VALORES COPIADOS SÃO SETADOS NOS CAMPOS SKU, NAME E IMAGE, AUTOMATICAMENTE ESTES
     // VALORES SÃO INSERIDOS NO ELEMENTO HTML ATRAVÉS DE ITEMCLASS
     itemClass.lastElementChild.addEventListener('click', () => {
