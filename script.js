@@ -23,8 +23,7 @@ const request2 = async (id) => {
   try {
     const response = await fetch(`https://api.mercadolibre.com/items/${id}`);
     const productJson = await response.json();
-    const result = productJson.results;
-    console.log(result);
+    await productJson;
   } catch (error) {
     console.log(`ERROR: ${error}`);
   }
@@ -78,12 +77,13 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-// const limpaCarrinho = () => {
-//   const ol = document.querySelector('ol.cart__items');
-//   ol.addEventListener('click', function () {
-//     return ol.innerHTML = '';
-//   })
-// }
+const limpaCarrinho = () => {
+  const btnLimpa = document.querySelector('.empty-cart');
+  const listCartProducts = document.querySelector('ol.cart__items');
+  btnLimpa.addEventListener('click', function () {
+    return listCartProducts.innerHTML = '';
+  })
+}
 
 const criaList = async () => {
   const listItens = document.querySelector('.items');
@@ -101,4 +101,5 @@ const criaList = async () => {
 
 window.onload = () => {
   criaList();
+  limpaCarrinho();
 };
