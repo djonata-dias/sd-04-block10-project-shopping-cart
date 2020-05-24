@@ -50,13 +50,12 @@ function createCartItemElement({ sku, name, salePrice }) { // usada
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
 
-  // lógica de inserção do id e title no localStorage
+  // - Lógica de inserção do id e title no localStorage
   // quando o botão 'Adicionar ao carrinho!' é clicado
   const its = JSON.parse(localStorage.getItem('items')); // +
   its.push(sku); // +
   its.push(li.innerText); // +
   localStorage.setItem('items', JSON.stringify(its)); // +
-  // fim
 
   return li;
 }
@@ -68,7 +67,7 @@ const fFetch = (q, call) => { // c
     .catch(() => console.log('res error'));
 };
 
-// refatoração com fFetch() pq CC apontava duplicação de código
+// - Refatoração com fFetch() pq CC apontava duplicação de código
 const addCart = (itsTreat) => { // c
   const o = {
     sku: itsTreat.id,
@@ -79,7 +78,7 @@ const addCart = (itsTreat) => { // c
   addSubPricesCart(Number(itsTreat.price), 'add');
 };
 
-// refatoração com fFetch() pq CC apontava duplicação de código
+// - Refatoração com fFetch() pq CC apontava duplicação de código
 const evAddCart = (e) => { // c
   const id = e.target.parentNode.firstChild.innerText;
   fFetch(queryItem + id, addCart);
@@ -121,8 +120,11 @@ async function verifyLocalStorage() { // c
   }
 }
 
-// refatoração com fFetch() pq CC apontava duplicação de código
+// - Refatoração com fFetch() pq CC apontava duplicação de código
+// - Função addProd recebe a resposta da API tratada
 const addProd = (pds) => { // c
+  const pLoading = document.querySelector('.loading');
+  pLoading.style.display = 'none';
   pds.results.forEach((result) => {
     const { id: sku, title: name, thumbnail: image } = result;
     const o = { sku, name, image };
@@ -143,9 +145,9 @@ const addEvButEmpCart = () => { // c
   });
 };
 
-// Ao carregar verifica se há valores armazenados no localStorage, se não há insere-os
-// Chama a API e adiciona os items nos componentes depois q todo html for carregado
-// Adiciona evento e lógica necessária para esvaziar carrinho
+// - Ao carregar verifica se há valores armazenados no localStorage, se não há insere-os
+// - Chama a API e adiciona os items nos componentes depois q todo html for carregado
+// - Adiciona evento e lógica necessária para esvaziar carrinho
 window.onload = function onload() {
   if (!localStorage.getItem('tPrice')) localStorage.setItem('tPrice', JSON.stringify(0));
   if (!localStorage.getItem('items')) localStorage.setItem('items', JSON.stringify([]));
