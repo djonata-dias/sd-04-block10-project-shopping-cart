@@ -65,7 +65,7 @@ const fFetch = (q, call) => { // c
   pLoading.innerText = 'loading...';
   fetch(q)
     .then((res) => {
-      pLoading.style.display = 'none';
+      pLoading.innerText = '';
       return res.json();
     })
     .then(resTreat => call(resTreat))
