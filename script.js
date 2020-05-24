@@ -2,27 +2,18 @@ const query = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
 const queryItem = 'https://api.mercadolibre.com/items/';
 let tPrice = 0;
 
-const addEvButEmpCart = () => {
-  const butEmpCart = document.querySelector('.empty-cart');
-  const olCart = document.querySelector('.cart__items');
-  const elTPrice = document.querySelector('.total-price');
-  butEmpCart.addEventListener('click', () => {
-    olCart.innerText = '';
-    tPrice = 0;
-    localStorage.setItem('tPrice', JSON.stringify(0));
-    localStorage.setItem('items', JSON.stringify([]));
-    elTPrice.innerText = tPrice;
-  });
-};
+function getSkuFromProductItem(item) { // ???
+  return item.querySelector('span.item__sku').innerText; // retorna o id
+}
 
-const fFetch = (q, call) => { // c
-  fetch(q)
-    .then(res => res.json())
-    .then(resTreat => call(resTreat))
-    .catch(() => console.log('res error'));
-};
+function createProductImageElement(imageSource) {
+  const img = document.createElement('img');
+  img.className = 'item__image';
+  img.src = imageSource;
+  return img;
+}
 
-const addSubPricesCart = (price, op) => {
+const addSubPricesCart = (price, op) => { // c
   const elTPrice = document.querySelector('.total-price');
   if (op === 'add') {
     tPrice += price;
@@ -58,10 +49,15 @@ function createCartItemElement({ sku, name, salePrice }) { // usada
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  
+  // lógica de inserção do id e title no localStorage
+  // quando o botão 'Adicionar ao carrinho!' é clicado
   const its = JSON.parse(localStorage.getItem('items')); // +
   its.push(sku); // +
   its.push(li.innerText); // +
   localStorage.setItem('items', JSON.stringify(its)); // +
+  // fim
+
   return li;
 }
 
@@ -81,13 +77,6 @@ const evAddCart = (e) => { // c
   const id = e.target.parentNode.firstChild.innerText;
   fFetch(queryItem + id, addCart);
 };
-
-function createProductImageElement(imageSource) {
-  const img = document.createElement('img');
-  img.className = 'item__image';
-  img.src = imageSource;
-  return img;
-}
 
 function createCustomElement(element, className, innerText) { // usada
   const e = document.createElement(element);
@@ -109,18 +98,7 @@ function createProductItemElement({ sku, name, image }) { // usada
   return section;
 }
 
-function getSkuFromProductItem(item) { // !!!
-  return item.querySelector('span.item__sku').innerText; // retorna o id
-}
-
-// refatoração com fFetch() pq CC apontava duplicação de código
-const addProd = (pds) => { // c
-  pds.results.forEach((result) => {
-    const { id: sku, title: name, thumbnail: image } = result;
-    const o = { sku, name, image };
-    document.querySelector('section.items').appendChild(createProductItemElement(o));
-  });
-};
+// --- window onload
 
 async function verifyLocalStorage() { // c
   const elOl = document.querySelector('ol.cart__items');
@@ -136,11 +114,42 @@ async function verifyLocalStorage() { // c
   }
 }
 
+// refatoração com fFetch() pq CC apontava duplicação de código
+const addProd = (pds) => { // c
+  pds.results.forEach((result) => {
+    const { id: sku, title: name, thumbnail: image } = result;
+    const o = { sku, name, image };
+    document.querySelector('section.items').appendChild(createProductItemElement(o));
+  });
+};
+
+const fFetch = (q, call) => { // c
+  fetch(q)
+    .then(res => res.json())
+    .then(resTreat => call(resTreat))
+    .catch(() => console.log('res error'));
+};
+
+const addEvButEmpCart = () => { // c
+  const butEmpCart = document.querySelector('.empty-cart');
+  const olCart = document.querySelector('.cart__items');
+  const elTPrice = document.querySelector('.total-price');
+  butEmpCart.addEventListener('click', () => {
+    olCart.innerText = '';
+    tPrice = 0;
+    localStorage.setItem('tPrice', JSON.stringify(0));
+    localStorage.setItem('items', JSON.stringify([]));
+    elTPrice.innerText = tPrice;
+  });
+};
+
+// Ao carregar verifica se há valores armazenados no localStorage, se não há insere-os
 // Chama a API e adiciona os items nos componentes depois q todo html for carregado
+// Adiciona evento e lógica necessária para esvaziar carrinho
 window.onload = function onload() {
   if (!localStorage.getItem('tPrice')) localStorage.setItem('tPrice', JSON.stringify(0));
   if (!localStorage.getItem('items')) localStorage.setItem('items', JSON.stringify([]));
-  fFetch(query, addProd);
   verifyLocalStorage();
+  fFetch(query, addProd);
   addEvButEmpCart();
 };
