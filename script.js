@@ -75,6 +75,12 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+const loading = () => {
+  const spanLoad = createCustomElement('div', 'loading', 'loading...');
+  const containerItem = document.querySelector('.items');
+  containerItem.appendChild(spanLoad);
+};
+
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -98,6 +104,7 @@ const addlist = async () => {
     await json.results.forEach((elementos) => {
       containerItem.appendChild(buscarNoObj(elementos, createProductItemElement));
     });
+    await document.querySelector('.loading').remove();
   } catch (error) {
     console.log('Ixi, deu erro no requisito 1: ', error);
   }
@@ -113,6 +120,7 @@ const clearAll = () => {
 // ----------------------------------------------
 window.onload = () => {
   addlist();
+  loading();
   cartList = document.querySelector('.cart__items');
   loadSave();
   clearAll();
