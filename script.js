@@ -40,7 +40,7 @@ async function sumPrice() {
 }
 
 function cartItemClickListener(event) {
-  event.target.parentNode.removeChild(event.target);
+  event.target.remove();
   sumPrice();
 }
 
@@ -103,6 +103,17 @@ const span = document.createElement('span');
 span.innerText = 'loading...'; // text displayed during flecth loading
 span.className = 'loading'; // Class of flecth loading
 
+document.body.addEventListener('click', function (event) {  // find the Id of the clicked add to cart button
+  console.log(event.target.className); // to remove
+  console.log('hello'); // to remove
+  if (event.target.className === 'item__add') {
+    createCartAsync(
+      event.target.parentNode.querySelector('span.item__sku').innerText);
+  }
+  if (event.target.className === 'empty-cart') removeCartItems();
+  if (event.target.className === 'cart__item') cartItemClickListener(event);
+});
+
 window.onload = function onload() {
   loadCart();
   sumPrice();
@@ -120,13 +131,4 @@ window.onload = function onload() {
       }, 1000);
     })
     .catch(error => console.log(error));
-  document.body.addEventListener('click', function (event) {  // find the Id of the clicked add to cart button
-    console.log(event.target.className); // to remove
-    if (event.target.className === 'item__add') {
-      createCartAsync(
-        event.target.previousSibling.previousSibling.previousSibling.innerText,
-      ); // To be improved
-    }
-    if (event.target.className === 'empty-cart') removeCartItems();
-  });
 }; // End of window load
