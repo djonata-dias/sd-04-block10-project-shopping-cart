@@ -128,5 +128,5 @@ window.onload = function onload() {
   if (!localStorage.getItem('tPrice')) localStorage.setItem('tPrice', JSON.stringify(0));
   if (!localStorage.getItem('items')) localStorage.setItem('items', JSON.stringify([]));
   fFetch(query, addProd);
-  verifyLocalStorage();
+  await verifyLocalStorage();
 };
