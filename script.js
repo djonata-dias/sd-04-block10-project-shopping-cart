@@ -61,8 +61,13 @@ function createCartItemElement({ sku, name, salePrice }) { // usada
 }
 
 const fFetch = (q, call) => { // c
+  const pLoading = document.querySelector('.loading');
+  pLoading.innerText = 'loading...';
   fetch(q)
-    .then(res => res.json())
+    .then((res) => {
+      pLoading.style.display = 'none';
+      return res.json()
+    })
     .then(resTreat => call(resTreat))
     .catch(() => console.log('res error'));
 };
@@ -123,8 +128,6 @@ async function verifyLocalStorage() { // c
 // - Refatoração com fFetch() pq CC apontava duplicação de código
 // - Função addProd recebe a resposta da API tratada
 const addProd = (pds) => { // c
-  const pLoading = document.querySelector('.loading');
-  pLoading.style.display = 'none';
   pds.results.forEach((result) => {
     const { id: sku, title: name, thumbnail: image } = result;
     const o = { sku, name, image };
