@@ -36,9 +36,9 @@ function getSkuFromProductItem(item) {
 }
 
 // função para remover produto do carrinho.
-const cartItemClickListener = e => {
+const cartItemClickListener = (e) => {
   e.target.remove();
-}
+};
 
 // Função que cria o elemento no Carrinho de compras.
 function createCartItemElement({ sku, name, salePrice }) {
