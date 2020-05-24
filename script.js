@@ -14,7 +14,6 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -104,13 +103,6 @@ const funcObjectToList = (data) => {
   });
   addCartListener();
   limpaCarrinho();
-  document.querySelector('.loading').remove();
-};
-
-const loading = () => {
-  const nodeLoading = createCustomElement('div', 'loading', 'loading...');
-  const nodeItems = document.querySelector('.items');
-  nodeItems.appendChild(nodeLoading);
 };
 
 const callAPI = () => {
@@ -122,6 +114,3 @@ const callAPI = () => {
 };
 
 callAPI();
-window.onload = () => {
-  loading();
-};
