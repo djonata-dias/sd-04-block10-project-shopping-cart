@@ -129,6 +129,7 @@ const initApp = () => {
       createCartItemElement(item),
     );
   });
+
   calculateTotal();
 };
 
