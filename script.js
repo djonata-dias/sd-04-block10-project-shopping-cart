@@ -49,7 +49,7 @@ function createCartItemElement({ sku, name, salePrice }) { // usada
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
-  
+
   // lógica de inserção do id e title no localStorage
   // quando o botão 'Adicionar ao carrinho!' é clicado
   const its = JSON.parse(localStorage.getItem('items')); // +
@@ -60,6 +60,13 @@ function createCartItemElement({ sku, name, salePrice }) { // usada
 
   return li;
 }
+
+const fFetch = (q, call) => { // c
+  fetch(q)
+    .then(res => res.json())
+    .then(resTreat => call(resTreat))
+    .catch(() => console.log('res error'));
+};
 
 // refatoração com fFetch() pq CC apontava duplicação de código
 const addCart = (itsTreat) => { // c
@@ -121,13 +128,6 @@ const addProd = (pds) => { // c
     const o = { sku, name, image };
     document.querySelector('section.items').appendChild(createProductItemElement(o));
   });
-};
-
-const fFetch = (q, call) => { // c
-  fetch(q)
-    .then(res => res.json())
-    .then(resTreat => call(resTreat))
-    .catch(() => console.log('res error'));
 };
 
 const addEvButEmpCart = () => { // c
