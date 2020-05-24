@@ -125,8 +125,4 @@ window.onload = async function onload() {
     });
 
   getCartItems[0].innerHTML = localStorage.getItem('cartItems'); //  4
-
-  document
-    .querySelectorAll('li')
-    .forEach(li => li.addEventListener('click', cartItemClickListener)); //  3
 };
