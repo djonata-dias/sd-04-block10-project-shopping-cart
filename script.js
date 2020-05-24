@@ -66,13 +66,13 @@ const fFetch = (q, call) => { // c
   p.innerText = 'loading...';
   document.body.appendChild(p);
   // setTimeout(() => {
-    fetch(q)
-      .then((res) => {
-        p.innerText = '';
-        return res.json();
-      })
-      .then(resTreat => call(resTreat))
-      .catch(() => console.log('res error'));
+  fetch(q)
+    .then((res) => {
+      p.innerText = '';
+      return res.json();
+    })
+    .then(resTreat => call(resTreat))
+    .catch(() => console.log('res error'));
   // }, 2000);
 };
 
