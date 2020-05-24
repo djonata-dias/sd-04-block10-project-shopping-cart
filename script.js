@@ -22,18 +22,15 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
-  section.appendChild(
-    createCustomElement('button', 'item__add', 'Adicionar ao carrinho!')
-  );
-
+  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
   return section;
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
+// function getSkuFromProductItem(item) {
+//   return item.querySelector('span.item__sku').innerText;
+// }
 
-function cartItemClickListener(event) {
+function cartItemClickListener() {
   // coloque seu código aqui
 }
 
@@ -55,8 +52,8 @@ const addCarItens = () => {
   const buttAdd = document.querySelectorAll('.item');
   buttAdd.forEach((element) => {
     element.lastElementChild.addEventListener('click', () => {
-      const id_sku = element.firstElementChild.innerHTML; // cria variavel e joga primeiro
-      const url = `https://api.mercadolibre.com/items/${id_sku}`;
+      const idSku = element.firstElementChild.innerHTML; // cria variavel e joga primeiro
+      const url = `https://api.mercadolibre.com/items/${idSku}`;
       fetch(url)
         .then(response => response.json())
         .then(a => funcObjCar(a));
@@ -68,10 +65,8 @@ const convertObject = (paramet) => {
   // criando a função
   const itemClass = document.querySelector('.items'); // itemClass recebe toda a calsse Item
   paramet.forEach(({ id, title, thumbnail }) => {
-    itemClass.appendChild(
-      createProductItemElement({ sku: id, name: title, image: thumbnail })
-    ); /* passando valor para para keys do obj */
-  });
+    itemClass.appendChild(createProductItemElement({ sku: id, name: title, image: thumbnail }));
+  });/* passando valor para keys do obj */
   addCarItens();
 };
 
