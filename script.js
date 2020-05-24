@@ -57,6 +57,8 @@ function listItems(array) {
   array.forEach((computerObj) => {
     const { id: sku, title: name, thumbnail: image } = computerObj;
     const newObj = { sku, name, image };
+    // Adicione o elemento retornado da função createProductItemElement(product)
+    // como filho do elemento <section class="items">.
     sectionItems.appendChild(createProductItemElement(newObj));
   });
 }
@@ -66,10 +68,12 @@ const fetchList = () => {
     method: 'GET',
     headers: { Accept: 'application/json' },
   };
+  // Você deve criar uma listagem de produtos que devem ser consultados através da API do Mercado Livre.
   fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador', myObj)
     .then(response => response.json())
-    .then(data => data.results)
-    .then(listItems);
+    .then(data => data.results) //A lista de produtos que devem ser exibidos é o array results no JSON acima.
+    .then(listItems); // Você deve utilizar a função createProductItemElement(product) para criar os componentes HTML referentes a um produto.
+
 };
 
 function addToCartObj(obj) {
