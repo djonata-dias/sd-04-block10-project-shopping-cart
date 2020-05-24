@@ -21,7 +21,7 @@ const priceCart = () => {
   const arrayLi = cartList.childNodes;
   let total = 0;
   arrayLi.forEach((li) => { total += Number(li.id); });
-  priceItems.innerHTML = `Total Price = $${total}`;
+  priceItems.innerHTML = `${total}`;
 };
 
 function cartItemClickListener(event) {
@@ -127,7 +127,7 @@ const clearAll = () => {
   const btnClear = document.querySelector('.empty-cart');
   btnClear.addEventListener('click', () => {
     cartList.innerHTML = '';
-    priceItems.innerHTML = '';
+    priceItems.innerHTML = 0;
   });
 };
 
