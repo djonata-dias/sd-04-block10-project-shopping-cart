@@ -50,7 +50,7 @@ const buscaEAplica = (busca, entrada) => {
 };
 
 const addButtomCard = (id) => {
-  document.querySelector('.loading').innerHTML = 'loading';
+  document.querySelector('.loading').innerHTML = 'loading...';
   fetch(`https://api.mercadolibre.com/items/${id}`)
   .then(otherData => otherData.json())
   .then(otherDataJson => buscaEAplica('.cart__items', otherDataJson))
