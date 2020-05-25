@@ -6,7 +6,10 @@
     "no-alert": "off",
     "no-console": "off",
     "prefer-arrow-callback": "off",
-    "func-names": "off"
+    "func-names": "off",
+    "arrow-parens": "off",
+    "quotes": ["error", "double"],
+    "comma-dangle": "off"
   },
   "env": {
     "browser": true
