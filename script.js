@@ -52,6 +52,21 @@ const createRemoveLoading = () => {
   setTimeout(() => elP.remove(), 3000);
 };
 
+async function takeResultsApi(url) {
+  try {
+    const oApi = await fetch(url);
+    const resJson = await oApi.json();
+    resJson.results.forEach((item) => {
+      const { id: sku, title: name, thumbnail: image } = item;
+      const o = { sku, name, image };
+      document.querySelector('.items').appendChild(createProductItemElement(o));
+    });
+  } catch (er) {
+    console.log(er);
+  }
+}
+
 window.onload = function onload() {
   createRemoveLoading();
+  takeResultsApi('https://api.mercadolibre.com/sites/MLB/search?q=computador');
 };
