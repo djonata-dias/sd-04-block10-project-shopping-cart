@@ -131,14 +131,11 @@ window.onload = function onload() {
   const apiItems = `https://api.mercadolibre.com/sites/MLB/search?q=${query}`;
   const section = document.querySelector('.items');
   section.appendChild(createCustomElement('span', 'loading', 'loading...'));
-  // fetch(API_URL)
-//  setTimeout(() => {
-    getItemsFromAPI(apiItems)
-    .then(data => data.json())
-    .then(dataJson => trataDadosJson(dataJson))
-    .then(() => document.querySelector('.loading').remove())
-    .catch(error => console.log(error));
-  //}, 3000);
+  getItemsFromAPI(apiItems)
+  .then(data => data.json())
+  .then(dataJson => trataDadosJson(dataJson))
+  .then(() => document.querySelector('.loading').remove())
+  .catch(error => console.log(error));
   // getItemsFromAPI(apiItems)
   //   .then(data => data.json())
   //   .then(dataJson => trataDadosJson(dataJson))
