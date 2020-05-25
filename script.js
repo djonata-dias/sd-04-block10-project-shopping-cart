@@ -1,3 +1,6 @@
+
+const url = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -19,16 +22,30 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-
+  const button = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!')
+  button.addEventListener('click', (event) => {
+    const item = getSkuFromProductItem(event.target.parentElement);
+    fetch(`https://api.mercadolibre.com/items/${item}`)
+      .then(response => response.json())
+      .then(data => {
+        receberDadosCart(data);
+      });
+  });
+  section.appendChild(button);
   return section;
 }
-/*
+
+function receberDadosCart(data) {
+  const dados = data;
+  createCartItemElement({sku: data.id, name: data.title, salePrice: data.price}) //{ sku, name, salePrice }
+}
+
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
+}
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  event.target.remove();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -36,9 +53,11 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  const ol= document.querySelector('.cart__items');
+  ol.appendChild(li);
   return li;
 }
-*/
+
 
 function receberDados(data) {
   const lista = data;
@@ -51,10 +70,9 @@ function receberDados(data) {
   });
 }
 
-const url = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
-
 window.onload = function onload() {
   fetch(url)
     .then(response => response.json())
     .then(data => receberDados(data.results));
 };
+
