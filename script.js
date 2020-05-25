@@ -92,6 +92,10 @@ const loads = () => {
   return load;
 };
 
+function sTo() {
+  setTimeout(function () { document.querySelector('.loading').remove(); }, 1000);
+}
+
 window.onload = function onload() {
   getStorage();
   loads();
@@ -99,6 +103,6 @@ window.onload = function onload() {
 
     .then(object => object.json())
     .then(obj => product(obj.results))
-    .then(() => document.querySelector('.loading').remove('innerText'))
+    .then(() => sTo())
     .catch(error => console.log(error));
 };
