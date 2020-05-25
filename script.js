@@ -46,7 +46,10 @@ const buscaEAplica = (busca, entrada) => {
   document.querySelectorAll(busca)[0]
   .appendChild(createCartItemElement(opc));
   save();
-  document.querySelector('.loading').innerHTML = '';
+  setTimeout(() => {
+    document.querySelector('.loading').innerHTML = '';
+  }, 1000);
+  
 };
 
 const addButtomCard = (id) => {
@@ -108,7 +111,9 @@ const limpaCart = () => {
 };
 
 const iniciar = () => {
-  document.querySelector('.loading').innerHTML = '';
+  setTimeout(() => {
+    document.querySelector('.loading').innerHTML = '';
+  }, 1000);
   const apagarCart = document.querySelector('.empty-cart');
   apagarCart.addEventListener('click', () => limpaCart());
   load();
