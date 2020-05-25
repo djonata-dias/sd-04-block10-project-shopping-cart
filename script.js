@@ -109,7 +109,16 @@ const limpaCart = () => {
   save();
 };
 
+const addLoading = () => {
+  const pai = document.querySelector('.container');
+  const loading = document.createElement('section');
+  loading.className = 'loading';
+  loading.innerHTML = 'loading...';
+  pai.appendChild(loading);
+};
+
 const iniciar = () => {
+  addLoading();
   setTimeout(() => {
     document.querySelector('.loading').innerHTML = '';
   }, 1000);
