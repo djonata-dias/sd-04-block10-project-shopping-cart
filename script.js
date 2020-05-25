@@ -38,15 +38,6 @@ function createCartItemElement(sku, name, salePrice) {
   return li;
 }
 
-// função para Receber o click, puxar o ID via getskuFromProductItem , rodar API e adicionar ao carrinho e LocalStorage.
-const moveToCart = (e) => {
-  const ol = document.querySelector('ol.cart__items');
-  e.addEventListener('click', function () {
-    const id = getSkuFromProductItem(e.parentNode);
-    recebeId(id);
-  })
-};
-
 const recebeId = (id) => {
   const ol = document.querySelector('ol.cart__items');
   fetch(`https://api.mercadolibre.com/items/${id}`)
@@ -58,6 +49,15 @@ const recebeId = (id) => {
       localStorage.setItem(id, price);
       return ol.appendChild(createCartItemElement(sku, name, price));
     });
+};
+
+// função para Receber o click, puxar o ID via getskuFromProductItem,
+// rodar API e adicionar ao carrinho e LocalStorage.
+const moveToCart = (e) => {
+  e.addEventListener('click', function () {
+    const id = getSkuFromProductItem(e.parentNode);
+    recebeId(id);
+  });
 };
 
 // Carrega o Carrinho de compra armazenado do localStorage.
@@ -110,21 +110,32 @@ const criaList = async () => {
   }
 };
 
-const totalPrice = () => {
-  localStorage
-};
+// const totalPrice = () => {
+//   let soma = 0;
+//   const storege = Object.values(localStorage);
+//   storege.forEach(e => {
+//     parseFloat(e).reduce((acc, atual) => {
+//       console.log(`ACC: ${acc}, ATUAL: ${atual}`);
+//       Number(acc) + Number(atual);
+//       console.log(acc);
+//     });
+//   });
+// };
 
 const prices = () => {
-  const cart = document.querySelector('.cart__title');
+  const cart = document.querySelector('.cart');
   const span = document.createElement('span');
   span.className = 'total-price';
-  span.innerText = `Valor Total: ${totalPrice()}`;
+  const price = totalPrice();
+  span.innerText = `Valor Total: ${price}`;
+  cart.appendChild(span);
 };
 
 const chamaTudo = () => {
   criaList();
   limpaCarrinho();
   recuperaCarrinho();
+  prices();
 };
 
 const loading = () => {
