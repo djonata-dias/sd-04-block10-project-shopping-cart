@@ -86,7 +86,7 @@ document.querySelector('.empty-cart').addEventListener('click', function () {
 
 const loads = () => {
   const load = document.createElement('div');
-  load.className = 'loading...';
+  load.className = 'loading';
   load.innerText = 'Carregando';
   document.body.appendChild(load);
   return load;
@@ -99,5 +99,6 @@ window.onload = function onload() {
 
     .then(object => object.json())
     .then(obj => product(obj.results))
+    .then(() => document.querySelector('.loading').remove())
     .catch(error => console.log(error));
 };
