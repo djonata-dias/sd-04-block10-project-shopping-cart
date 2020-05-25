@@ -11,6 +11,12 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+async function sumPrices(price) {
+  const elTPrice = document.querySelector('.total-price');
+  const content = await elTPrice.innerText;
+  elTPrice.innerText = +(content) + price;
+}
+
 function cartItemClickListener(event) {
   // coloque seu código aqui
   event.target.remove();
@@ -21,6 +27,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  sumPrices(salePrice);
   return li;
 }
 
