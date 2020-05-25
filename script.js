@@ -14,6 +14,22 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+async function SomaPrice() {
+  const prices = await document.querySelector('.total-price');
+  const cart = await document.querySelector('.cart__items');
+  const allPrices = [];
+  let totalPrices = 0;
+  let pegaInner = [];
+
+  await cart.childNodes.forEach((element) => {
+    pegaInner = element.innerHTML.split(' ');
+    const aux = pegaInner[pegaInner.length - 1].replace('$', '');
+    allPrices.push(parseFloat(aux));
+  });
+  totalPrices = await allPrices.reduce((acc, price) => acc + price, 0);
+  prices.innerHTML = await `Total: $${totalPrices}`;
+}
+
 const save = () => {
   const cart = document.querySelector('.cart__items');
   contadorStore = 0;
@@ -30,6 +46,7 @@ function cartItemClickListener(event) {
   cart.removeChild(event.target);
   localStorage.clear();
   save();
+  SomaPrice();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -46,6 +63,7 @@ const buscaEAplica = (busca, entrada) => {
   document.querySelectorAll(busca)[0]
   .appendChild(createCartItemElement(opc));
   save();
+  SomaPrice();
 };
 
 const addButtomCard = (id) => {
@@ -97,12 +115,14 @@ const load = () => {
     document.querySelectorAll('.cart__items')[0]
     .appendChild(reconstroiCart(i));
   }
+  SomaPrice();
 };
 
 const limpaCart = () => {
   const cart = document.querySelector('.cart__items');
   cart.innerHTML = '';
   save();
+  SomaPrice();
 };
 
 const addLoading = (pai) => {
