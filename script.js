@@ -30,7 +30,7 @@ const addPrice = () => {
   let total = 0;
   // Soma os valores dos itens atraves do id que equivale ao salePrice do produto;
   cartList.forEach((list) => { total += Number(list.id); });
-  document.querySelector('.total-price').innerHTML = `Valor total do carrinho: ${total}`;
+  document.querySelector('.total-price').innerHTML = `${total}`;
 };
 
 const createClearButton = () => {
