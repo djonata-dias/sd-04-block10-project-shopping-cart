@@ -11,6 +11,10 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+function cartItemClickListener(event) {
+  // coloque seu código aqui
+}
+
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -55,10 +59,6 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
 
   return section;
-}
-
-function cartItemClickListener(event) {
-  // coloque seu código aqui
 }
 
 // --- Fim embeddeds
