@@ -1,9 +1,9 @@
 function getItensLocalStorage() {
-  ItensCarrinho = localStorage.getItem('carrinho');
-  document.querySelector('.cart__items').innerHTML = ItensCarrinho
-  document
-    .querySelectorAll('li')
-    .forEach(li => li.addEventListener('click', cartItemClickListener));
+  let ItensCarrinho = [];
+  if (localStorage.getItem('carrinho')) {
+    ItensCarrinho = JSON.parse(localStorage.getItem('carrinho'));
+  }
+  return ItensCarrinho;
 }
 
 function createProductImageElement(imageSource) {
@@ -34,10 +34,6 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-const salvarNoLocal = () => {
-  localStorage.setItem('carrinho', document.querySelector('.cart__items').innerHTML);
-}
-
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item_sku').innerText;
 }
@@ -45,21 +41,39 @@ function getSkuFromProductItem(item) {
 async function somaProdutos({ salePrice }) {
   let valorTotal = 0;
   const prices = document.getElementsByClassName('total-price')[0];
+  const price = document.createElement('span');
+  if (prices.firstChild) {
+    prices.removeChild(prices.firstChild);
+  }
   if (localStorage.valorTotal) {
     const valorStorage = localStorage.getItem('valorTotal');
     valorTotal = +valorStorage + +salePrice;
   } else {
-    valorTotal = +salePrice;
+    valorTotal = salePrice;
   }
-  prices.innerText = valorTotal;
-  localStorage.setItem('valorTotal', valorTotal)
+  price.innerText = valorTotal;
+  prices.appendChild(price);
+  localStorage.setItem('valorTotal', valorTotal);
+}
+
+function saveProductsCart(produto) {
+  somaProdutos(produto);
+  let carrinho = [];
+  if (localStorage.carrinho) {
+    carrinho = JSON.parse(localStorage.getItem('carrinho'));
+  }
+  carrinho.push(produto);
+  localStorage.setItem('carrinho', JSON.stringify(carrinho));
 }
 
 function cartItemClickListener(event) {
   event.target.remove();
-  salvarNoLocal();
-  const elemValue = event.target.innerText.split(' | ')[2].substr(8); // pega Id do evento
-  const newValue = localStorage.getItem('valorTotal') - elemValue;
+  const elemId = event.target.innerText.split(' | ')[0].substr(5); // pega Id do evento
+  const ItensCarrinho = getItensLocalStorage(); // pega os itens armazenados
+  const elemRemove = ItensCarrinho.find(item => item.sku === elemId);
+  ItensCarrinho.splice(ItensCarrinho.indexOf(elemRemove), 1);
+  localStorage.setItem('carrinho', JSON.stringify(ItensCarrinho));
+  const newValue = localStorage.getItem('valorTotal') - elemRemove.salePrice;
   localStorage.setItem('valorTotal', newValue);
   somaProdutos({ salePrice: '0' });
 }
@@ -86,8 +100,7 @@ function getProductForCarItem(event) {
         salePrice: data.price,
       };
       createCartItemElement(parameter);
-      salvarNoLocal()
-      somaProdutos(parameter);
+      saveProductsCart(parameter);
     })
     .catch(console.error);
 }
@@ -120,24 +133,19 @@ function buscarElemento(result) {
   });
 }
 
-async function initial (query) {
-  console.log(query)
-  document.getElementById('items').innerHTML = '';
-  fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${query}`)
-  .then(response => response.json())
-  .then(data => buscarElemento(data.results))
-  .catch(console.error);
-}
-
 window.onload = function onload() {
-  initial('livros')
-  const query = document.getElementById('entrada');
-  query.addEventListener('change', () => initial(query.value));
-  setTimeout(() => {
-    document.getElementsByClassName('loading')[0].remove();
-  }, 500)
+  fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
+    .then(response => response.json())
+    .then(data => buscarElemento(data.results))
+    .then(setTimeout(() => {
+      document.getElementsByClassName('loading')[0].remove();
+    }, 500))
+    .catch(console.error);
   if (localStorage.carrinho) {
-    getItensLocalStorage();
+    const ItensCarrinho = getItensLocalStorage();
+    ItensCarrinho.forEach(item => createCartItemElement(item));
     somaProdutos({ salePrice: '0' });
+  } else {
+    localStorage.setItem('carrinho', '');
   }
 };

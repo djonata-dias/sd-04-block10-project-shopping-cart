@@ -11,15 +11,15 @@
 
   <body>
     <section class="container">
-      <section calss="top-bar">
-        <span class="loading">Loading</span>
-      </section>
       <section class="items" id="items"></section>
       <section class="cart">
+        <span class="loading">Loading</span>
+        <label for="entrada" class='try'>O que deseja encontrar? Nós achamos para você!</label>
+        <input type="text" id="entrada" class='try'>
         <span class="cart__title">Carrinho de compras</span>
         <button class="empty-cart">Esvaziar carrinho</button>
         <ol class="cart__items"></ol>
-        <div class="total-price">Valor Total: $</div>
+        <div>Preço Total: $<span class="total-price"></span></div>
       </section>
     </section>
   </body>
