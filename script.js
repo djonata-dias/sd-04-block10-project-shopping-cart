@@ -107,7 +107,7 @@ const limpaCart = () => {
 };
 
 const iniciar = () => {
-  const apagarCart = document.getElementById('empty-cart');
+  const apagarCart = document.getElementsByClassName('empty-cart')[0];
   load();
   apagarCart.addEventListener('click', () => limpaCart());
 };
