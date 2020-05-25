@@ -99,13 +99,6 @@ const load = () => {
   }
 };
 
-const limpaCart = () => {
-  const cart = document.querySelector('.cart__items');
-  cart.childNodes.forEach(element => cart.removeChild(element));
-  cart.removeChild(cart.firstChild);
-  save();
-};
-
 const iniciar = () => {
   load();
 };
