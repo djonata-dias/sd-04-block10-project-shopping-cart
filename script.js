@@ -49,7 +49,6 @@ const buscaEAplica = (busca, entrada) => {
   setTimeout(() => {
     document.querySelector('.loading').innerHTML = '';
   }, 1000);
-  
 };
 
 const addButtomCard = (id) => {
