@@ -98,7 +98,6 @@ const adicionaEventListener = () => {
 };
 
 const trataDadosJson = (data) => {
-  document.querySelector('.loading').remove();
   data.results.forEach((product) => {
     const obj = createObj(product);
     const section = document.querySelector('.items');
@@ -133,12 +132,13 @@ window.onload = function onload() {
   const section = document.querySelector('.items');
   section.appendChild(createCustomElement('span', 'loading', 'loading...'));
   // fetch(API_URL)
-  setTimeout(() => {
+//  setTimeout(() => {
     getItemsFromAPI(apiItems)
     .then(data => data.json())
     .then(dataJson => trataDadosJson(dataJson))
+    .then(() => document.querySelector('.loading').remove())
     .catch(error => console.log(error));
-  }, 3000);
+  //}, 3000);
   // getItemsFromAPI(apiItems)
   //   .then(data => data.json())
   //   .then(dataJson => trataDadosJson(dataJson))
