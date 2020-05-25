@@ -1,3 +1,4 @@
+let contadorStore = 0;
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -13,22 +14,38 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function cartItemClickListener() {
+const save = () => {
+  const cart = document.querySelector('.cart__items');
+  contadorStore = 0;
+
+  cart.childNodes.forEach((element) => {
+    localStorage.setItem(`id ${contadorStore}`, `${element.innerHTML}`);
+    contadorStore += 1;
+  });
+  localStorage.setItem('tamanho', `${contadorStore}`);
+};
+
+function cartItemClickListener(event) {
+  const cart = document.querySelector('.cart__items');
+  cart.removeChild(event.target);
+  localStorage.clear();
+  save();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
+  li.addEventListener('click', () => cartItemClickListener(event));
   return li;
 }
 
 const buscaEAplica = (busca, entrada) => {
-  const opc = { sku: entrada.id, name: entrada.title, price: entrada.price };
+  const opc = { sku: entrada.id, name: entrada.title, salePrice: entrada.price };
 
   document.querySelectorAll(busca)[0]
   .appendChild(createCartItemElement(opc));
+  save();
 };
 
 const addButtomCard = (id) => {
@@ -66,9 +83,39 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+const reconstroiCart = (indice) => {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = localStorage.getItem(`id ${indice}`);
+  li.addEventListener('click', () => cartItemClickListener(event));
+  return li;
+};
+
+const load = () => {
+  const tamanho = localStorage.getItem('tamanho');
+  for (let i = 0; i < tamanho; i += 1) {
+    document.querySelectorAll('.cart__items')[0]
+    .appendChild(reconstroiCart(i));
+  }
+};
+
+const limpaCart = () => {
+  const cart = document.querySelector('.cart__items');
+  cart.childNodes.forEach(element => cart.removeChild(element));
+  cart.removeChild(cart.firstChild);
+  save();
+};
+
+const iniciar = () => {
+  const apagarCart = document.getElementById('empty-cart');
+  load();
+  apagarCart.addEventListener('click', () => limpaCart());
+};
+
 window.onload = () => {
   fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
   .then(data => data.json())
   .then(dataJson => resumeData(dataJson))
   .catch(error => console.log(error));
+  iniciar();
 };
