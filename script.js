@@ -71,7 +71,8 @@ const funcObjToCart = (data) => {
     salePrice: data.price,
   };
   const cartItems = document.querySelector('.cart__items');
-  cartItems.appendChild(createCartItemElement(obj));
+  const objetoTratado = createCartItemElement(obj);
+  cartItems.appendChild(objetoTratado);
   totalPrice();
 };
 
@@ -111,7 +112,7 @@ const funcObjectToList = (data) => {
 
 const callAPI = async () => {
   try {
-    const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=$jogos';
+    const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=$computador';
     fetch(API_URL)
       .then(response => response.json())
       .then(data => funcObjectToList(data.results));
