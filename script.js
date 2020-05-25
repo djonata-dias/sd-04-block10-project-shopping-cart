@@ -123,6 +123,5 @@ window.onload = async function onload() {
       localStorage.setItem('cartItems', ''); //  4
       getCartItems[0].innerHTML = ''; //  6
     });
-
-  /*   getCartItems[0].innerHTML = localStorage.getItem('cartItems'); */ //  4
+  getCartItems[0].innerHTML = localStorage.getItem('cartItems'); //  4
 };
