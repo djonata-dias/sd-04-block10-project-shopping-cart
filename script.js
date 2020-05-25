@@ -18,6 +18,7 @@ const updatePrice = async () => {
   return totalPrice;
 };
 
+// Funcao pre-definida
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -25,6 +26,7 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+// Funcao pre-definida
 function cartItemClickListener(event) {
   const itemsList = document.querySelector('ol.cart__items');
   itemsList.removeChild(event.target);
@@ -32,6 +34,7 @@ function cartItemClickListener(event) {
   updatePrice();
 }
 
+// Funcao pre-definida
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -61,6 +64,7 @@ function addToCart(id) {
     .then(list => (localStorage.list = list.innerHTML));
 }
 
+// Funcao pre-definida
 function createCustomElement(element, className, innerText, id = null) {
   const e = document.createElement(element);
   if (element === 'button') {
@@ -73,6 +77,7 @@ function createCustomElement(element, className, innerText, id = null) {
   return e;
 }
 
+// Funcao pre-definida
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -85,6 +90,7 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
+// Funcao pre-definida
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
