@@ -46,13 +46,9 @@ const buscaEAplica = (busca, entrada) => {
   document.querySelectorAll(busca)[0]
   .appendChild(createCartItemElement(opc));
   save();
-  setTimeout(() => {
-    document.querySelector('.loading').innerHTML = '';
-  }, 1000);
 };
 
 const addButtomCard = (id) => {
-  document.querySelector('.loading').innerHTML = 'loading...';
   fetch(`https://api.mercadolibre.com/items/${id}`)
   .then(otherData => otherData.json())
   .then(otherDataJson => buscaEAplica('.cart__items', otherDataJson))
