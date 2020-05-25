@@ -27,7 +27,7 @@ async function SomaPrice() {
     allPrices.push(parseFloat(aux));
   });
   totalPrices = await allPrices.reduce((acc, price) => acc + price, 0);
-  prices.innerHTML = await `Total: $${totalPrices}`;
+  prices.innerHTML = await totalPrices;
 }
 
 const save = () => {
