@@ -1,5 +1,10 @@
-window.onload = function onload() {};
-
+window.onload = function onload() {
+  const allItems = document.querySelector('.cart__items');
+  const btnClearCar = document.querySelector('.empty-cart');
+  btnClearCar.addEventListener('click', function () {
+    allItems.innerHTML = null;
+  });
+};
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -33,7 +38,6 @@ function createProductItemElement({ sku, name, image }) {
 const cartItemClickListener = event => event.target.remove();
 // removendo o event de dentro da função e usando fora, funciona normalmente
 
-
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -66,7 +70,7 @@ const convertObject = (paramet) => {
   const itemClass = document.querySelector('.items'); // itemClass recebe toda a calsse Item
   paramet.forEach(({ id, title, thumbnail }) => {
     itemClass.appendChild(createProductItemElement({ sku: id, name: title, image: thumbnail }));
-  });/* passando valor para keys do obj */
+  }); /* passando valor para keys do obj */
   addCarItens();
 };
 
