@@ -13,8 +13,7 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
-  const parent = event.target.parentNode;
-  parent.removeChild(event.target);
+  event.target.remove();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
