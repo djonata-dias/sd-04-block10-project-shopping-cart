@@ -108,8 +108,8 @@ const limpaCart = () => {
 
 const iniciar = () => {
   const apagarCart = document.getElementsByClassName('empty-cart')[0];
-  apagarCart.addEventListener('click', () => limpaCart());
   load();
+  apagarCart.addEventListener('click', () => limpaCart());
 };
 
 window.onload = () => {
