@@ -1,6 +1,8 @@
 {
+  "plugins": ["html", "prettier"],
   "extends": "airbnb",
   "rules": {
+    "prettier/prettier": ["error"],
     "no-alert": "off",
     "no-console": "off",
     "prefer-arrow-callback": "off",
