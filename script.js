@@ -90,7 +90,10 @@ async function takeResultsApi(url) {
 const delCart = () => {
   const butDelCart = document.querySelector('.empty-cart');
   const elCart = document.querySelector('.cart__items');
-  butDelCart.addEventListener('click', () => elCart.innerHTML = '');
+  butDelCart.addEventListener('click', () => {
+    elCart.innerHTML = '';
+    return true;
+  });
 };
 
 window.onload = function onload() {
