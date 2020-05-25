@@ -129,8 +129,8 @@ window.onload = function onload() {
   loadCart();
   const query = 'computador';
   const apiItems = `https://api.mercadolibre.com/sites/MLB/search?q=${query}`;
-  const section = document.querySelector('.items');
-  section.appendChild(createCustomElement('span', 'loading', 'loading...'));
+  // const section = document.querySelector('.items');
+  // section.appendChild(createCustomElement('span', 'loading', 'loading...'));
   getItemsFromAPI(apiItems)
   .then(data => data.json())
   .then(dataJson => trataDadosJson(dataJson))
