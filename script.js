@@ -114,7 +114,7 @@ const callAPI = async () => {
     const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=$jogos';
     fetch(API_URL)
       .then(response => response.json())
-      .then(data => funcObjectToList(data.results))
+      .then(data => funcObjectToList(data.results));
   } catch (error) {
     console.log(error);
   }
