@@ -1,11 +1,3 @@
-function getItensLocalStorage() {
-  ItensCarrinho = localStorage.getItem('carrinho');
-  document.querySelector('.cart__items').innerHTML = ItensCarrinho
-  document
-    .querySelectorAll('li')
-    .forEach(li => li.addEventListener('click', cartItemClickListener));
-}
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -36,11 +28,11 @@ function createProductItemElement({ sku, name, image }) {
 
 const salvarNoLocal = () => {
   localStorage.setItem('carrinho', document.querySelector('.cart__items').innerHTML);
-}
+};
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item_sku').innerText;
-}
+//  function getSkuFromProductItem(item) {
+//    return item.querySelector('span.item_sku').innerText;
+//  }
 
 async function somaProdutos({ salePrice }) {
   let valorTotal = 0;
@@ -52,7 +44,7 @@ async function somaProdutos({ salePrice }) {
     valorTotal = +salePrice;
   }
   prices.innerText = valorTotal;
-  localStorage.setItem('valorTotal', valorTotal)
+  localStorage.setItem('valorTotal', valorTotal);
 }
 
 function cartItemClickListener(event) {
@@ -86,7 +78,7 @@ function getProductForCarItem(event) {
         salePrice: data.price,
       };
       createCartItemElement(parameter);
-      salvarNoLocal()
+      salvarNoLocal();
       somaProdutos(parameter);
     })
     .catch(console.error);
@@ -120,8 +112,15 @@ function buscarElemento(result) {
   });
 }
 
-async function initial (query) {
-  console.log(query)
+function getItensLocalStorage() {
+  ItensCarrinho = localStorage.getItem('carrinho');
+  document.querySelector('.cart__items').innerHTML = ItensCarrinho;
+  document
+    .querySelectorAll('li')
+    .forEach(li => li.addEventListener('click', cartItemClickListener));
+}
+
+async function initial(query) {
   document.getElementById('items').innerHTML = '';
   fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${query}`)
   .then(response => response.json())
@@ -130,12 +129,12 @@ async function initial (query) {
 }
 
 window.onload = function onload() {
-  initial('livros')
+  initial('livros');
   const query = document.getElementById('entrada');
   query.addEventListener('change', () => initial(query.value));
   setTimeout(() => {
     document.getElementsByClassName('loading')[0].remove();
-  }, 500)
+  }, 500);
   if (localStorage.carrinho) {
     getItensLocalStorage();
     somaProdutos({ salePrice: '0' });
