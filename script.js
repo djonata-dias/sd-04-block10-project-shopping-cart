@@ -109,12 +109,15 @@ const funcObjectToList = (data) => {
   limpaCarrinho();
 };
 
-const callAPI = () => {
-  const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=$jogos';
-  fetch(API_URL)
-    .then(response => response.json())
-    .then(data => funcObjectToList(data.results))
-    .catch(console.log('error'));
+const callAPI = async () => {
+  try {
+    const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=$jogos';
+    fetch(API_URL)
+      .then(response => response.json())
+      .then(data => funcObjectToList(data.results))
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 callAPI();
