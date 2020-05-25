@@ -99,6 +99,6 @@ window.onload = function onload() {
 
     .then(object => object.json())
     .then(obj => product(obj.results))
-    .then(() => document.querySelector('.loading').remove())
+    .then(() => document.querySelector('.loading').remove('innerText'))
     .catch(error => console.log(error));
 };
