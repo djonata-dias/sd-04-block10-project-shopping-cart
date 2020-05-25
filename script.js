@@ -105,8 +105,7 @@ const limpaCart = () => {
   save();
 };
 
-const addLoading = () => {
-  const pai = document.querySelector('.container');
+const addLoading = (pai) => {
   const loading = document.createElement('section');
   loading.className = 'loading';
   loading.innerHTML = 'loading...';
@@ -114,9 +113,10 @@ const addLoading = () => {
 };
 
 const iniciar = () => {
-  addLoading();
+  const pai = document.querySelector('.container');
+  addLoading(pai);
   setTimeout(() => {
-    document.querySelector('.loading').innerHTML = '';
+    pai.removeChild(pai.lastChild);
   }, 1000);
   const apagarCart = document.querySelector('.empty-cart');
   apagarCart.addEventListener('click', () => limpaCart());
