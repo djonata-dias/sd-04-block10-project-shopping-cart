@@ -1,32 +1,6 @@
-function getAllProdutos(data) {
-  const produtos = data;
-  produtos.map((e) => {
-    const obj = { sku: e.id, name: e.title, salePrice: e.price, image: e.thumbnail };
-    document.getElementById('items').appendChild(createProductItemElement(obj));
-    return produtos;
-  });
-}
-
 function addObjCarrino(obj) {
   const { id: sku, title: name, price: salePrice } = obj;
   return { sku, name, salePrice };
-}
-
-function createCartItemElement({ sku, name, salePrice }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
-}
-
-function addCarrinho(id) {
-  fetch(`https://api.mercadolibre.com/items/${id}`)
-    .then(response => response.json())
-    .then(data => data)
-    .then(addObjCarrino)
-    .then(createCartItemElement)
-    .then(item => document.querySelector('ol.cart__items').appendChild(item));
 }
 
 function createCustomElement(element, className, innerText, id = null) {
@@ -57,6 +31,23 @@ function cartItemClickListener(event) {
   event.target.remove();
 }
 
+function addCarrinho(id) {
+  fetch(`https://api.mercadolibre.com/items/${id}`)
+    .then(response => response.json())
+    .then(data => data)
+    .then(addObjCarrino)
+    .then(createCartItemElement)
+    .then(item => document.querySelector('ol.cart__items').appendChild(item));
+}
+
+function createCartItemElement({ sku, name, salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
+}
+
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -67,6 +58,15 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!', sku));
 
   return section;
+}
+
+function getAllProdutos(data) {
+  const produtos = data;
+  produtos.map((e) => {
+    const obj = { sku: e.id, name: e.title, salePrice: e.price, image: e.thumbnail };
+    document.getElementById('items').appendChild(createProductItemElement(obj));
+    return produtos;
+  });
 }
 
 window.onload = function onload() {
