@@ -121,8 +121,8 @@ window.onload = async function onload() {
     .getElementsByClassName('empty-cart')[0]
     .addEventListener('click', () => {
       localStorage.setItem('cartItems', ''); //  4
-      //  getCartItems[0].innerHTML = ''; //  6
+      getCartItems[0].innerHTML = ''; //  6
     });
 
-/*   getCartItems[0].innerHTML = localStorage.getItem('cartItems'); */ //  4
+  /*   getCartItems[0].innerHTML = localStorage.getItem('cartItems'); */ //  4
 };
