@@ -119,8 +119,7 @@ const esvaziarCarrinho = () => {
 };
 
 const loadCart = () => {
-  const innerHtml = localStorage.getItem('items');
-  document.querySelector('.cart__items').innerHTML = innerHtml;
+  document.querySelector('.cart__items').innerHTML = localStorage.getItem('items');
   const arrayDeLi = document.querySelectorAll('.cart__item');
   arrayDeLi.forEach(li => li.addEventListener('click', cartItemClickListener));
   esvaziarCarrinho();
