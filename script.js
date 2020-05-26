@@ -59,7 +59,7 @@ function doRequisition() {
     });
     document.querySelectorAll('.item__add').forEach((elementos) => {
       elementos.addEventListener('click', (even) => {
-        adiconarProdutoById(even);
+        adicionarProdutoById(even);
       });
     });
   })
