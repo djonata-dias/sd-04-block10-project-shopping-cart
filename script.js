@@ -69,9 +69,9 @@ function doRequisition() {
 
 // Adicionar ao carrinho - requisito 2
 
-function adiconarProdutoById(itemId) {
+function adicionarProdutoById(itemId) {
   const idItem = itemId.target.parentNode.firstChild.innerText;
-  fetch(`https://api.mercadolibre.com/items/${iditem}`)
+  fetch(`https://api.mercadolibre.com/items/${idItem}`)
   .then(responseJ => responseJ.json())
   .then((dadosJ) => {
     document.querySelector('.cart__items').appendChild(createCartItemElement({
