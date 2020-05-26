@@ -17,15 +17,14 @@ function getSkuFromProductItem(item) {
 /* Armazena carrinho no localStorage*/
 function salvaCarrinho() {
   const items = document.querySelector('.cart__items').textContent;
-  localStorage.setItem('carrinho', items);
+  localStorage.setItem('carrinho', JSON.stringify(items, null, "-- -"));
 }
 
 function cartItemClickListener(event) {
-  /* coloque seu código aqui
-  event.target.remove();*/
-  const items = document.querySelector('.cart__items');
-  items.removeChild(event.target);
-}
+  /* coloque seu código aqui */
+  event.target.remove();
+  salvaCarrinho();
+  }
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
@@ -79,6 +78,11 @@ function getAllProdutos(data) {
   });
 }
 
+function limpaCarrinho(){
+  document.querySelector('.cart__items').innerHTML = ' ';
+  salvaCarrinho();
+}
+
 window.onload = function onload() {
   fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
     .then(response => response.json())
@@ -86,4 +90,5 @@ window.onload = function onload() {
 
   /* Veririca localStorage*/
   document.querySelector('.cart__items').innerHTML = localStorage.getItem('carrinho');
+  document.querySelector('.empty-cart').addEventListener('click', limpaCarrinho);
 };
