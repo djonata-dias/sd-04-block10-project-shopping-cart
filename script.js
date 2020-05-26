@@ -7,6 +7,9 @@ const sectionItems = document.getElementsByClassName("items");
 const newCart = document.getElementsByClassName("cart__items");
 const btnEmpty = document.getElementsByClassName("empty-cart");
 const loading = document.getElementsByClassName("loading__title");
+const totalPrice = document.getElementsByClassName("total-price");
+let cartTotal = 0;
+const priceReg = /[^$]\d+/;
 
 function loadingStatus(x) {
   if (x === "add") {
@@ -134,12 +137,20 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
+  const itemPrice = Number(priceReg.exec(event.target.innerText));
+  cartTotal -= itemPrice;
   event.target.remove();
+  if (newCart[0].childNodes.length === 0) {
+    cartTotal = 0;
+  }
+  totalPrice[0].innerHTML = `$${Math.round(cartTotal * 100) / 100}`;
 }
 
 function emptyCart() {
   const olAll = document.querySelector(".cart__items");
   olAll.innerHTML = "";
+  cartTotal = 0;
+  totalPrice[0].innerHTML = "$0";
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -151,21 +162,29 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-function fetchCartItem(itemID, cartID) {
-  const API_URL = `https://api.mercadolibre.com/items/${itemID}`;
-  // prettier-ignore
-  fetch(API_URL, myObject)
-    .then((response) => response.json())
-    .then((productData) => {
-      cartID[0].appendChild(
-        createCartItemElement({
-          sku: productData.id,
-          name: productData.title,
-          salePrice: productData.price,
-        }),
-      );
+function appendAndReturnPrice(data, cart) {
+  cart[0].appendChild(
+    createCartItemElement({
+      sku: data.id,
+      name: data.title,
+      salePrice: data.price
     })
-    .catch((error) => console.log(error.message));
+  );
+  return data.price;
+}
+
+async function fetchCartItem(itemID, cartID) {
+  try {
+    const API_URL = `https://api.mercadolibre.com/items/${itemID}`;
+    // prettier-ignore
+    const response = await fetch(API_URL, myObject);
+    const productData = await response.json();
+    const price = await appendAndReturnPrice(productData, cartID);
+    cartTotal += Number(price);
+    totalPrice[0].innerHTML = `$${Math.round(cartTotal * 100) / 100}`;
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 function appendEventToItems(cart, btns) {
@@ -179,9 +198,13 @@ function appendEventToItems(cart, btns) {
 
 function loadCart(cart) {
   const cartItems = localStorage.getItem("todoList");
+  const localCart = localStorage.getItem("cartTotal");
   const cartContent = cart;
   if (cartItems !== "undefined") {
     const listContents = JSON.parse(cartItems);
+    const sumCart = JSON.parse(localCart);
+    cartTotal = Number(sumCart);
+    totalPrice[0].innerHTML = `$${sumCart}`;
     cartContent[0].innerHTML = listContents;
     const items = document.querySelectorAll(".cart__item");
     items.forEach(e => {
@@ -194,7 +217,9 @@ function saveCart() {
   localStorage.clear();
   const listContents = newCart[0].innerHTML;
   localStorage.setItem("todoList", JSON.stringify(listContents));
+  localStorage.setItem("cartTotal", JSON.stringify(cartTotal));
 }
+
 window.onload = function onload() {
   async function loadItems() {
     try {
