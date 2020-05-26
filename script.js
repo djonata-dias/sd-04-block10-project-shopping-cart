@@ -55,7 +55,7 @@ function addCarrinho(id) {
     .then(createCartItemElement)
     .then(item => document.querySelector('ol.cart__items').appendChild(item))
     .then(itens => salvaCarrinho(itens)); /* Salva o carrinho no localStorage*/
-    updatePrice();
+  updatePrice();
 }
 
 function createCustomElement(element, className, innerText, id = null) {
@@ -105,5 +105,5 @@ window.onload = function onload() {
 
   /* Veririca localStorage*/
   document.querySelector('ol.cart__items').innerHTML = localStorage.getItem('carrinho');
-  document.querySelector('.empty-cart').addEventListener('click', limpaCarrinho)
+  document.querySelector('.empty-cart').addEventListener('click', limpaCarrinho);
 };
