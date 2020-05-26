@@ -65,10 +65,10 @@ window.onload = async function onload() {
     .then(res => res.json())
     .then((json) => {
       json.results.forEach((products) => {
-        document.getElementsByClassName('items')[0] // busco o produto no site 
+        document.getElementsByClassName('items')[0]
         .appendChild(
           createProductItemElement(
-            { sku: products.id, name: products.title, image: products.thumbnail })); //crio o objeto com essas finalidades
+            { sku: products.id, name: products.title, image: products.thumbnail }));
       });
     });
   document.getElementsByClassName('cart__items')[0].innerHTML = localStorage.getItem('carrinho');
