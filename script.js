@@ -3,6 +3,26 @@ const myObject = {
   method: "GET",
   headers: { Accept: "application/json" }
 };
+const sectionItems = document.getElementsByClassName("items");
+const newCart = document.getElementsByClassName("cart__items");
+
+function loadCart(cart) {
+  const cartItems = localStorage.getItem("todoList");
+  const cartContent = cart;
+  if (cartItems !== "undefined") {
+    const listContents = JSON.parse(cartItems);
+    cartContent[0].innerHTML = listContents;
+    const items = document.querySelectorAll(".cart__item");
+    items.forEach(e => {
+      e.addEventListener("click", cartItemClickListener);
+    });
+  }
+}
+
+function saveCart() {
+  const listContents = newCart[0].innerHTML;
+  localStorage.setItem("todoList", JSON.stringify(listContents));
+}
 
 /* PRODUCTS ELEMENTS FUNCTIONS
   - createProductImageElement(imageSource)
@@ -137,7 +157,7 @@ function fetchCartItem(itemID, cartID) {
   fetch(API_URL, myObject)
     .then((response) => response.json())
     .then((productData) => {
-      cartID.appendChild(
+      cartID[0].appendChild(
         createCartItemElement({
           sku: productData.id,
           name: productData.title,
@@ -160,8 +180,7 @@ function appendCart(cart, btns) {
 window.onload = function onload() {
   async function loadItems() {
     try {
-      const sectionItems = await document.querySelectorAll(".items");
-      const newCart = await document.querySelector(".cart__items");
+      await loadCart(newCart);
       const btns = await fetchAllItems("computador", sectionItems);
       await appendCart(newCart, btns);
     } catch (e) {
@@ -169,4 +188,8 @@ window.onload = function onload() {
     }
   }
   loadItems();
+};
+
+window.onbeforeunload = function unload() {
+  saveCart();
 };
