@@ -31,7 +31,37 @@ function createProductItemElement({ sku, name, image }) {
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
-function cartItemClickListener(event) {
+
+const sumTotal = async () => { // cada vez que a função é chamada o cálculo é feito,
+  // essa função é chamada durante os clicks capturados nas funções de inserir
+  // e add items, esvaziar, linhas 56, 86, 110
+  const cartItems = document.querySelector('.cart__items');
+  // Mapeando as varíaveis de acordo com os campos HTML desejados
+  const totalCampo = document.querySelector('.total-price');
+  const listPrice = [];
+  let total = 0;
+  const listItems = cartItems.children; // listando os items HTML do carrinho
+  for (let i = 0; i < listItems.length; i += 1) {
+    const itemArr = listItems[i].innerText.split(' '); // cada item do carrinho será
+    // dividido em um array, separado por (" ")
+    console.log(itemArr);// EXEMPLO ABAIXO
+    // ["SKU:", "MLB1408608362", "|", "NAME:", "Computador", "Pc", "Completo", "Intel",
+    // "Core", "I5", "8gb", "Hd", "500gb", "|", "PRICE:", "$1999"]
+    const valorString = itemArr[itemArr.length - 1];
+    // Agora capturamos o valor do ultimo campo, no caso: $1999
+    const valorNumber = Number(valorString.substring(1));
+    // Utilizamos a função substr para retirar o '$'
+    listPrice.push(valorNumber);
+    // Inserimos o campo dentro do array de lista de preços já convertido em Number
+  }
+  total = listPrice.reduce((acc, curr) => acc + curr, 0);
+  // calculamos o valor do array com base nos valores inseridos na linha 127
+  totalCampo.innerHTML = total.toFixed(2);
+};
+
+// const soma = [];
+
+function cartItemClickListener() {
   // ESTA FUNÇÃO RETIRA OS ITEMS DO CARRINHO UTILIZANDO O PARAMETRO EVENT
   // coloque seu código aqui
   const selecionado = event.target;
@@ -43,6 +73,7 @@ function cartItemClickListener(event) {
   // A VARIÁVEL SELECIONADO É UMA REFERÊNCIA PARA QUE POSSAMOS BUSCAR O PAI DO ELEMENTO
   // HTML ATRAVÉS DO COMANDO PARENTNODE, A PARTIR DISTO, O ELEMENTO
   // É REMOVIDO COM O COMANDO REMOVECHILD
+  sumTotal();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -74,8 +105,10 @@ const convertObject = (dataArray) => {
         name: title,
         salePrice: price,
       }); // CRIAMOS O ELEMENTO HTML LI COM OS DADOS PASSADOS DO dataArray
+      // soma.push(price)
       itemCart.classList.add('added');
       cartItems.appendChild(itemCart);
+      sumTotal();
       // INSERIMOS O ELEMENTO LI COM SEUS VALORES COMO FILHO DA LISTA CART_ITEMS
       // localStorage.setItem('carrinho', itemCart);
     });
@@ -84,7 +117,8 @@ const convertObject = (dataArray) => {
 
 // FUNÇÃO QUE PEGA O OBJETO E FORMATA NO MODO JSON PARA QUE POSSAMOS MANIPULÁ-LO
 const getObject = (busca) => {
-  const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q='; // USA O ENDEREÇO DA API DO MERCADO LIVRE
+  const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=';
+  // USA O ENDEREÇO DA API DO MERCADO LIVRE
 
   fetch(API_URL + busca) // FUNÇÃO FETCH USA O LINK PARA BUSCAR A PESQUISA DE COMPUTADOR
     .then(response => response.json()) // TRANSFORMA O OBJETO PARA MANIPULAÇÃO
@@ -97,7 +131,9 @@ getObject('Computador'); // ESSA CHAMADA INICIA O PROGRAMA CHAMANDO A FUNÇÃO
 
 const eraseCart = () => {
   const cartList = document.querySelector('.cart__items');
+  // const atribuiTotal = document.querySelector('.total-price');
   cartList.innerHTML = '';
+  sumTotal();
 };
 
 buttonErase.addEventListener('click', eraseCart);
