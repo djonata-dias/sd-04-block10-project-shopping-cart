@@ -85,4 +85,3 @@ window.onload = function onload() {
   document.querySelector('.empty-cart').addEventListener('click', esvaziarCarrinho);
   document.querySelector('.cart__items').innerHTML = localStorage.getItem('produto_carrinho');
 };
-
