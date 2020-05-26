@@ -41,8 +41,16 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-// Listagem de produtos - requisito 1
-// Obs: as variáveis "sku", no código fornecido, se referem aos campos id retornados pela API.
+function adicionarProdutoById(itemId) {
+  const idItem = itemId.target.parentNode.firstChild.innerText;
+  fetch(`https://api.mercadolibre.com/items/${idItem}`)
+  .then(responseJ => responseJ.json())
+  .then((dadosJ) => {
+    document.querySelector('.cart__items').appendChild(createCartItemElement({
+      sku: dadosJ.id, name: dadosJ.title, salePrice: dadosJ.price }));
+  })
+  .then(() => armazenando());
+}
 
 function doRequisition() {
   const query = 'computador';
@@ -67,25 +75,10 @@ function doRequisition() {
   .catch(err => console.error('Failed retrieving information', err));
 }
 
-// Adicionar ao carrinho - requisito 2
-
-function adicionarProdutoById(itemId) {
-  const idItem = itemId.target.parentNode.firstChild.innerText;
-  fetch(`https://api.mercadolibre.com/items/${idItem}`)
-  .then(responseJ => responseJ.json())
-  .then((dadosJ) => {
-    document.querySelector('.cart__items').appendChild(createCartItemElement({
-      sku: dadosJ.id, name: dadosJ.title, salePrice: dadosJ.price }));
-  })
-  .then(() => armazenando());
-}
-
 function esvaziarCarrinho() {
   document.querySelector('.cart__items').innerHTML = ' ';
   armazenando();
 }
-
-// Carregamento de página - requisito 4
 
 window.onload = function onload() {
   doRequisition();
@@ -93,4 +86,3 @@ window.onload = function onload() {
   document.querySelector('.cart__items').innerHTML = localStorage.getItem('produto_carrinho');
 };
 
-// Requisito 5 - botão <button class="empty-cart">Esvaziar Carrinho</button> no HTML
