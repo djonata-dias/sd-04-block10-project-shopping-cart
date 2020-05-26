@@ -105,8 +105,11 @@ const produtos = (produto) => {
   botaoEsvaziar.addEventListener('click', emptyCart);
 };
 
-const elementoLoading = () => {
-  document.querySelector('.loading').innerText = 'Loading';
+const createLoading = () => {
+  const div = document.createElement('div');
+  div.className = 'loading';
+  div.innerText = 'Loading';
+  document.querySelector('.container').appendChild(div);
 };
 
 // onload -> toda vez que a pagina é carregada é feita uma requisicao na API do mercado livre
@@ -118,9 +121,8 @@ window.onload = function onload() {
   .then(produto => produtos(produto.results)) // chave "results" é passada para a funcao "produtos"
   .catch(error => console.log(error));
   // texto loading
-  elementoLoading();
-  // setTimeout(() => { document.querySelector('.loading').innerText = ''; }, 5000);
-  setTimeout(() => { document.querySelector('.loading').remove(); }, 5000);
+  createLoading();
+  setTimeout(() => { document.querySelector('.loading').innerText = ''; }, 5000);
   // carregar carrinho
   getLocalStorage();
 };
