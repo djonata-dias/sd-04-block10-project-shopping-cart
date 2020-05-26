@@ -143,7 +143,7 @@ function cartItemClickListener(event) {
   if (newCart[0].childNodes.length === 0) {
     cartTotal = 0;
   }
-  totalPrice[0].innerHTML = Math.round(cartTotal * 100) / 100;
+  totalPrice[0].innerHTML = Number(Math.round(cartTotal * 100) / 100);
 }
 
 function emptyCart() {
@@ -181,7 +181,7 @@ async function fetchCartItem(itemID, cartID) {
     const productData = await response.json();
     const price = await appendAndReturnPrice(productData, cartID);
     cartTotal += Number(price);
-    totalPrice[0].innerHTML = Math.round(cartTotal * 100) / 100;
+    totalPrice[0].innerHTML = Number(Math.round(cartTotal * 100) / 100);
   } catch (error) {
     console.error(error);
   }
