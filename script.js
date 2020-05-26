@@ -6,24 +6,6 @@ const myObject = {
 const sectionItems = document.getElementsByClassName("items");
 const newCart = document.getElementsByClassName("cart__items");
 
-function loadCart(cart) {
-  const cartItems = localStorage.getItem("todoList");
-  const cartContent = cart;
-  if (cartItems !== "undefined") {
-    const listContents = JSON.parse(cartItems);
-    cartContent[0].innerHTML = listContents;
-    const items = document.querySelectorAll(".cart__item");
-    items.forEach(e => {
-      e.addEventListener("click", cartItemClickListener);
-    });
-  }
-}
-
-function saveCart() {
-  const listContents = newCart[0].innerHTML;
-  localStorage.setItem("todoList", JSON.stringify(listContents));
-}
-
 /* PRODUCTS ELEMENTS FUNCTIONS
   - createProductImageElement(imageSource)
   - createCustomElement(element, className, innerText)
@@ -175,6 +157,24 @@ function appendCart(cart, btns) {
       fetchCartItem(idThis, cart);
     });
   });
+}
+
+function loadCart(cart) {
+  const cartItems = localStorage.getItem("todoList");
+  const cartContent = cart;
+  if (cartItems !== "undefined") {
+    const listContents = JSON.parse(cartItems);
+    cartContent[0].innerHTML = listContents;
+    const items = document.querySelectorAll(".cart__item");
+    items.forEach(e => {
+      e.addEventListener("click", cartItemClickListener);
+    });
+  }
+}
+
+function saveCart() {
+  const listContents = newCart[0].innerHTML;
+  localStorage.setItem("todoList", JSON.stringify(listContents));
 }
 
 window.onload = function onload() {
