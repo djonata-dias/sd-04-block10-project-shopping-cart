@@ -86,6 +86,6 @@ window.onload = function onload() {
 
     /* Veririca localStorage*/
   if (localStorage.getItem('carrinho')) {
-    document.querySelector('.cart__items').innerHTML = localStorage.getItem('carrinho')
+    document.querySelector('.cart__items').innerHTML = localStorage.getItem('carrinho');
   }
 };
