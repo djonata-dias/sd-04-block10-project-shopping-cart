@@ -14,9 +14,17 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+//Armazena carrinho no localStorage
+function salvaCarrinho(){
+  const items = document.querySelector('.cart__items').textContent;
+  localStorage.setItem('carrinho', items);
+}
+
 function cartItemClickListener(event) {
   // coloque seu código aqui
-  event.target.parentNode.removeChild(event.target);
+  //event.target.remove();
+  const items = document.querySelector('.cart__items');
+  items.removeChild(event.target);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -33,7 +41,8 @@ function addCarrinho(id) {
     .then(data => data)
     .then(addObjCarrino)
     .then(createCartItemElement)
-    .then(item => document.querySelector('ol.cart__items').appendChild(item));
+    .then((item) => document.querySelector('ol.cart__items').appendChild(item))
+    .then(itens => salvaCarrinho()) //Salva o carrinho no localStorage
 }
 
 function createCustomElement(element, className, innerText, id = null) {
@@ -41,6 +50,7 @@ function createCustomElement(element, className, innerText, id = null) {
   if (element === 'button') {
     e.addEventListener('click', function () {
       addCarrinho(id);
+
     }); // added this line
   }
   e.className = className;
@@ -73,4 +83,15 @@ window.onload = function onload() {
   fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
     .then(response => response.json())
     .then(data => getAllProdutos(data.results));
+
+    //Veririca localStorage
+    if(localStorage.getItem('carrinho')){
+      const local = localStorage.getItem('carrinho');
+      const lista = document.createElement('li');
+      lista.className ='cart__item';
+      const texto = document.createTextNode(local);
+      const items = document.querySelector('.cart__items');
+      lista.appendChild(texto);
+      items.appendChild(lista);
+    }
 };
