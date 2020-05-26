@@ -129,7 +129,7 @@ async function initial(query) {
 }
 
 window.onload = function onload() {
-  initial('livros');
+  initial('computador');
   const query = document.getElementById('entrada');
   query.addEventListener('change', () => initial(query.value));
   setTimeout(() => {
