@@ -143,14 +143,14 @@ function cartItemClickListener(event) {
   if (newCart[0].childNodes.length === 0) {
     cartTotal = 0;
   }
-  totalPrice[0].innerHTML = `$${Math.round(cartTotal * 100) / 100}`;
+  totalPrice[0].innerHTML = Math.round(cartTotal * 100) / 100;
 }
 
 function emptyCart() {
   const olAll = document.querySelector(".cart__items");
   olAll.innerHTML = "";
   cartTotal = 0;
-  totalPrice[0].innerHTML = "$0";
+  totalPrice[0].innerHTML = 0;
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -181,7 +181,7 @@ async function fetchCartItem(itemID, cartID) {
     const productData = await response.json();
     const price = await appendAndReturnPrice(productData, cartID);
     cartTotal += Number(price);
-    totalPrice[0].innerHTML = `$${Math.round(cartTotal * 100) / 100}`;
+    totalPrice[0].innerHTML = Math.round(cartTotal * 100) / 100;
   } catch (error) {
     console.error(error);
   }
@@ -204,7 +204,7 @@ function loadCart(cart) {
     const listContents = JSON.parse(cartItems);
     const sumCart = JSON.parse(localCart);
     cartTotal = Number(sumCart);
-    totalPrice[0].innerHTML = `$${sumCart}`;
+    totalPrice[0].innerHTML = cartTotal;
     cartContent[0].innerHTML = listContents;
     const items = document.querySelectorAll(".cart__item");
     items.forEach(e => {
