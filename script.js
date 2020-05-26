@@ -29,7 +29,7 @@ async function updatePrice() {
     const itemPrice = +itemArray[itemArray.length - 1].replace('$', '');
     totalPrice += itemPrice;
   });
-  cartTotalPrice.innerText = await `Total: $${+totalPrice.toFixed(2)}`;
+  cartTotalPrice.innerText = await +totalPrice.toFixed(2);
 }
 
 function cartItemClickListener(event) {
@@ -54,8 +54,8 @@ function addCarrinho(id) {
     .then(addObjCarrino)
     .then(createCartItemElement)
     .then(item => document.querySelector('ol.cart__items').appendChild(item))
-    .then(itens => salvaCarrinho(itens)); /* Salva o carrinho no localStorage*/
-  updatePrice();
+    .then(itens => salvaCarrinho(itens)) /* Salva o carrinho no localStorage*/
+    .then(itens2 => updatePrice(itens2)); /* Soma os preços*/
 }
 
 function createCustomElement(element, className, innerText, id = null) {
