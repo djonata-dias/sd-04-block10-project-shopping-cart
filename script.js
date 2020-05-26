@@ -105,8 +105,7 @@ async function fetchAllItems(query, items) {
 /* CART ELEMENTS FUNCTIONS
   - getSkuFromProductItem(item)
   - cartItemClickListener(event)
-  - createCartItemElement({ sku, name, salePrice })
-  - appendCart(data)
+  - createCartItemElement({ sku, name, salePrice }
   - fetchCartItem(itemID) */
 
 function getSkuFromProductItem(item) {
@@ -119,9 +118,8 @@ function getSkuFromProductItem(item) {
   return item.querySelector("span.item__sku").innerText;
 }
 
-function cartItemClickListener() {
-  const olNode = document.querySelector(".cart__items");
-  olNode.removeChild(this);
+function cartItemClickListener(event) {
+  event.target.remove();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -150,7 +148,7 @@ function fetchCartItem(itemID, cartID) {
     .catch((error) => console.log(error.message));
 }
 
-function appendCart(cart, btns) {
+function appendEventToItems(cart, btns) {
   btns.forEach(e => {
     const idThis = getSkuFromProductItem(e.parentNode);
     e.addEventListener("click", () => {
@@ -173,6 +171,7 @@ function loadCart(cart) {
 }
 
 function saveCart() {
+  localStorage.clear();
   const listContents = newCart[0].innerHTML;
   localStorage.setItem("todoList", JSON.stringify(listContents));
 }
@@ -180,9 +179,9 @@ function saveCart() {
 window.onload = function onload() {
   async function loadItems() {
     try {
-      await loadCart(newCart);
+      loadCart(newCart);
       const btns = await fetchAllItems("computador", sectionItems);
-      await appendCart(newCart, btns);
+      appendEventToItems(newCart, btns);
     } catch (e) {
       console.error(e);
     }
