@@ -6,15 +6,17 @@ const myObject = {
 const sectionItems = document.getElementsByClassName("items");
 const newCart = document.getElementsByClassName("cart__items");
 const btnEmpty = document.getElementsByClassName("empty-cart");
-const loading = document.getElementsByClassName("loading");
+const loading = document.getElementsByClassName("loading__title");
 
 function loadingStatus(x) {
   if (x === "add") {
     const span = document.createElement("span");
+    span.className = "loading";
     span.innerText = "LOADING";
     loading[0].appendChild(span);
   } else if (x === "del") {
-    loading[0].removeChild(loading[0].firstChild);
+    const loadingBar = document.querySelector(".loading");
+    loadingBar.remove();
   }
 }
 
@@ -105,8 +107,8 @@ async function fetchAllItems(query, items) {
     const API_URL = `https://api.mercadolibre.com/sites/MLB/search?q=${query}`;
     // prettier-ignore
     const response = await fetch(API_URL, myObject);
-    setTimeout(loadingStatus("del"), 3000);
     const data = await response.json();
+    await setTimeout(loadingStatus, 3000, "del");
     const btns = await appendItems(data, items);
     return btns;
   } catch (e) {
@@ -193,15 +195,14 @@ function saveCart() {
   const listContents = newCart[0].innerHTML;
   localStorage.setItem("todoList", JSON.stringify(listContents));
 }
-
 window.onload = function onload() {
   async function loadItems() {
     try {
       loadingStatus("add");
-      loadCart(newCart);
-      btnEmpty[0].addEventListener("click", emptyCart);
+      await loadCart(newCart);
+      await btnEmpty[0].addEventListener("click", emptyCart);
       const btns = await fetchAllItems("computador", sectionItems);
-      appendEventToItems(newCart, btns);
+      await appendEventToItems(newCart, btns);
     } catch (e) {
       console.error(e);
     }
