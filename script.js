@@ -56,8 +56,8 @@ const sumTotal = async () => { // cada vez que a função é chamada o cálculo 
   }
   total = listPrice.reduce((acc, curr) => acc + curr, 0);
   // calculamos o valor do array com base nos valores inseridos na linha 127
-  totalCampo.innerHTML = total.toFixed(2);
-  if (totalCampo.innerText === '0.00') totalCampo.innerHTML = '';
+  totalCampo.innerHTML = total;
+  if (totalCampo.innerText === '0') totalCampo.innerHTML = '';
 };
 
 // const soma = [];
