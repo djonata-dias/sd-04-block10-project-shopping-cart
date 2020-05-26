@@ -28,15 +28,32 @@ function createProductItemElement({ sku, name, image }) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
 
+
+const setLocalStorage = () => {
+  const produtos = document.querySelector('.cart__items').innerHTML;
+  localStorage.setItem('Produtos', produtos); // chave 'Produtos', valores = itens do carrinho
+};
+
 function cartItemClickListener(event) {
   event.target.remove();
+  setLocalStorage();
 }
+
+const getLocalStorage = () => {
+  // refaz o carrinho ao carregar a página
+  document.querySelector('.cart__items').innerHTML = localStorage.getItem('Produtos');
+  // permitir a remoção de itens individualmente
+  const removeItem = document.querySelectorAll('.cart__item');
+  removeItem.forEach((elemento) => {
+    elemento.addEventListener('click', cartItemClickListener);
+  });
+};
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
+  li.addEventListener('click', cartItemClickListener); // clique no elemento li chama a função cartItemClickListener
   return li;
 }
 
@@ -45,8 +62,12 @@ function createCartItemElement({ sku, name, salePrice }) {
 // requisito 1 -> retorno da requisicao feita no onload é usado para listar os produtos
 
 // requisito 2 -> botao adicionar ao carrinho dispara uma requisicao a api
-
 // adicionar um evento de clique a cada botao com a classe .item__add
+
+// requisito 3 -> ao ser clicado, um item da lista é removido
+
+// requisito 4 -> localStorage
+
 
 const addItemLista = (data) => {
   const sku = data.id;
@@ -54,6 +75,7 @@ const addItemLista = (data) => {
   const salePrice = data.price;
   const lista = document.querySelector('.cart__items');
   lista.appendChild(createCartItemElement({ sku, name, salePrice }));
+  setLocalStorage();
 };
 
 const addProduto = (event) => {
@@ -67,6 +89,7 @@ const addProduto = (event) => {
 
 const emptyCart = () => {
   document.querySelector('.cart__items').innerHTML = '';
+  setLocalStorage();
 };
 
 const produtos = (produto) => {
@@ -89,6 +112,11 @@ window.onload = function onload() {
   const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   fetch(API_URL)
   .then(response => response.json()) // sucesso na requisicao, retorna um objeto json (uma promise)
-  .then(produto => produtos(produto.results))
+  .then(produto => produtos(produto.results)) // chave "results" é passada para a funcao "produtos"
   .catch(error => console.log(error));
+  // texto loading
+  document.querySelector('.loading').innerText = 'Loading';
+  setTimeout(() => { document.querySelector('.loading').innerText = ''; }, 5000);
+  // carregar carrinho
+  getLocalStorage();
 };
