@@ -122,7 +122,7 @@ window.onload = function onload() {
   .catch(error => console.log(error));
   // texto loading
   createLoading();
-  setTimeout(() => { document.querySelector('.loading').innerText = ''; }, 5000);
+  setTimeout(() => { document.querySelector('.loading').remove(); }, 100);
   // carregar carrinho
   getLocalStorage();
 };
