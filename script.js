@@ -83,9 +83,11 @@ window.onload = function onload() {
   loadCart();
   document.getElementsByClassName('cart__items')[0].childNodes.forEach(e =>
     e.addEventListener('click', cartItemClickListener));
-    setTimeout(() => {
-      document.querySelector('.loading').remove();
-    }, 500);
+    
+  setTimeout(() => {
+    document.querySelector('.loading').remove();
+  }, 500);
+  
   const itemList = async () => {
     loading();
     const apiJson = await fetchAPI('https://api.mercadolibre.com/sites/MLB/search?q=$computador');
