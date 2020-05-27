@@ -9,7 +9,6 @@ const updateCart = (data) => {
   });
   const nextId = Number(lastId) + 1;
   localStorage.setItem(nextId, JSON.stringify(data));
-  console.log('updated')
 };
 
 const getCartItems = () => Object.keys(localStorage).sort()
@@ -28,6 +27,17 @@ const cleanCartItems = async () => localStorage.clear();
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
+
+const isLoading = (status) => {
+  if (!status) {
+    document.querySelector('.loading').remove();
+  } else {
+    const loadingElement = document.createElement('div');
+    loadingElement.classList.add('loading');
+    loadingElement.textContent = 'loading';
+    document.querySelector('.loading__container').appendChild(loadingElement);
+  }
+};
 
 const calculateTotal = async () => {
   const total = getCartItems()
@@ -77,17 +87,17 @@ function createCustomElement(element, className, innerText) {
 }
 
 const addProductToCart = async (productElement) => {
-  document.querySelector('.loading').hidden = false;
+  isLoading(true);
   fetch(itemApiUrl + getSkuFromProductItem(productElement))
     .then((response) => response.json())
     .then((data) => {
+      isLoading(false);
       const productData = { sku: data.id, name: data.title, salePrice: data.price };
       updateCart(productData);
       return productData;
     })
     .then((productData) => {
       calculateTotal();
-      document.querySelector('.loading').hidden = true;
       document.querySelector('.cart__items').appendChild(
         createCartItemElement(productData),
       );
@@ -108,11 +118,11 @@ function createProductItemElement({ sku, name, image }) {
 }
 
 const searchProducts = async (search) => {
-  document.querySelector('.loading').hidden = false;
+  isLoading(true);
   fetch(searchApiUrl + search)
     .then((response) => response.json())
     .then((data) => {
-      document.querySelector('.loading').hidden = true;
+      isLoading(false);
       data.results.forEach((item) => {
         const productData = { sku: item.id, name: item.title, image: item.thumbnail };
         const productElement = createProductItemElement(productData);
