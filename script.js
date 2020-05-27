@@ -1,4 +1,11 @@
-window.onload = function onload() { };
+window.onload = function onload() {
+
+};
+
+function localStorageSave() {
+  const cartItemsLocal = document.querySelector('.cart__items').innerHTML;
+  localStorage.setItem('product', cartItemsLocal);
+}
 
 const btnClearCar = document.querySelector('.empty-cart');
 
@@ -36,7 +43,7 @@ async function sumItem() {
   const totalPrice = document.querySelector('.total-price'); // --//--- --//-- -recebe o price total
   const arrayPrice = []; // recebe array de preços
   let total = 0; // recebe o valor total em numeros
-  const listItems = cartItems.children;
+  const listItems = cartItems.children; //
   for (let i = 0; i < listItems.length; i += 1) {
     // pegando o tamanho da lista
     const item = listItems[i].innerText.split(' ');
@@ -53,6 +60,7 @@ async function sumItem() {
 const cartItemClickListener = (event) => {
   event.target.remove();
   sumItem();
+  localStorageSave();
 };
 // removendo o event de dentro da função e usando fora, funciona normalmente
 
@@ -69,6 +77,7 @@ const funcObjCar = (a) => {
   const carItem = document.querySelector('.cart__items'); // criando variavel selecionando classe cart_items
   carItem.appendChild(createCartItemElement(obj)); // setando o obj pra dentro do carItem
   sumItem();
+  localStorageSave();
 };
 
 const addCarItens = () => {
@@ -112,3 +121,13 @@ const clearItems = () => {
 };
 
 btnClearCar.addEventListener('click', clearItems);
+
+function localStorageGot() {
+  const saved = localStorage.getItem('product');
+  const a = document.querySelector('.cart__items');
+  a.innerHTML = saved;
+  const cartItemsAtua = document.querySelector('.cart__items');
+  cartItemsAtua.addEventListener('click', cartItemClickListener);
+}
+
+localStorageGot();
