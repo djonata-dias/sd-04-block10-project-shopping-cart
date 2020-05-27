@@ -23,7 +23,7 @@ const updateValue = () => {
   return span;
 };
 
-// função para criar imagem do produto.
+// função para criar imagem do produto!
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
