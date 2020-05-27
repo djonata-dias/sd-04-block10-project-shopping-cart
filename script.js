@@ -88,6 +88,10 @@ async function creatingItem() {
   document.getElementsByClassName('loading')[0].remove();
 }
 
+function loading() {
+  document.querySelector('#loading').innerHTML = 'loading...';
+}
+
 window.onload = async function onload() {
   await creatingItem();
   document.getElementsByClassName('empty-cart')[0].addEventListener('click', () => {
