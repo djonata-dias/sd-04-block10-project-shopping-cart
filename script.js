@@ -29,13 +29,13 @@ function getSkuFromProductItem(item) {
 }
 
 const isLoading = (status) => {
-  if (!status) {
-    document.querySelector('.loading').remove();
-  } else {
+  if (status) {
     const loadingElement = document.createElement('div');
     loadingElement.classList.add('loading');
     loadingElement.textContent = 'Loading...';
-    document.querySelector('.loading__container').appendChild(loadingElement);
+    document.querySelector('.container').appendChild(loadingElement);
+  } else {
+    document.querySelector('.loading').remove();
   }
 };
 
@@ -116,7 +116,6 @@ function createProductItemElement({ sku, name, image }) {
 }
 
 const searchProducts = async (search) => {
-  isLoading(true);
   fetch(searchApiUrl + search)
     .then((response) => response.json())
     .then((data) => {
@@ -141,6 +140,7 @@ const initApp = () => {
 };
 
 window.onload = function onload() {
+  isLoading(true);
   searchProducts();
   initApp();
 
