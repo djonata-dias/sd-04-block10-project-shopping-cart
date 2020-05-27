@@ -3,7 +3,7 @@ const sectionItems = document.getElementsByClassName("items");
 const newCart = document.getElementsByClassName("cart__items");
 const btnEmpty = document.getElementsByClassName("empty-cart");
 const loading = document.getElementsByClassName("loading__title");
-// const totalPrice = document.getElementsByClassName("total-price");
+const totalPrice = document.getElementsByClassName("total-price");
 
 function getLSCart() {
   /* Fetches cart data from localStorage
@@ -139,7 +139,14 @@ async function loadPageItems(query, items) {
 - createCartItemElement({ sku, name, salePrice }
   - fetchCartItem(itemID) */
 
-// CART FUNCTIONS
+function updateTotal() {
+  let total = 0;
+  if (shoppingCart.length > 0) {
+    total = shoppingCart.reduce((acc, cur) => acc + cur.salePrice, 0);
+  }
+  totalPrice[0].innerText = total;
+}
+
 function addToLSCart(data) {
   if (!data) {
     shoppingCart = [];
@@ -147,6 +154,7 @@ function addToLSCart(data) {
     shoppingCart.push(data);
   }
   localStorage.setItem("CART_CONTENTS", JSON.stringify(shoppingCart));
+  updateTotal();
 }
 
 function emptyCart() {
@@ -155,30 +163,26 @@ function emptyCart() {
   addToLSCart();
 }
 
-// ITEM CREATION FUNCTIONS
-
 function setClearBtn() {
   btnEmpty[0].addEventListener("click", emptyCart);
 }
 
-function getElementSku(item, type) {
+function getElementSku(item) {
   /* HELPER FUNCTION - Main Function: fetchAllItems()
     Retrives Item's SKU from parent <span>
     Arguments:
       - item (HTMLElement)
     Returns:
       - SKU Number (String) */
-  if (type === "existing") {
-    return newCart[0].querySelector("span.cart__sku").innerText;
-  }
   return item.querySelector("span.item__sku").innerText;
 }
 
 function cartItemClickListener(event) {
-  const itemSku = getElementSku(event.target, "existing");
+  const itemSku = event.target.querySelector(".cart__sku").innerText;
   const itemIndex = shoppingCart.findIndex(e => e.sku === itemSku);
   shoppingCart.splice(itemIndex, 1);
   localStorage.setItem("CART_CONTENTS", JSON.stringify(shoppingCart));
+  updateTotal();
   event.target.remove();
 }
 
@@ -235,6 +239,7 @@ function loadCart() {
   items.forEach(e => {
     e.addEventListener("click", cartItemClickListener);
   });
+  updateTotal();
 }
 
 async function loadItems() {
