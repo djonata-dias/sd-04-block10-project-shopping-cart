@@ -68,15 +68,14 @@ const sumTotal = async () => { // cada vez que a função é chamada o cálculo 
 
 // const soma = [];
 
-function cartItemClickListener() {
+function cartItemClickListener(event) {
   // ESTA FUNÇÃO RETIRA OS ITEMS DO CARRINHO UTILIZANDO O PARAMETRO EVENT
   // coloque seu código aqui
-  const selecionado = event.target;
+  event.target.remove();
   // O PARAMETRO EVENT ATRAVÉS DO TARGET MAPEIA O LOCAL CLICADO COM
   // O MOUSE E É ATRIBUÍDO A VARIÁVEL SELECIONADO
-  selecionado.innerHTML = '';
+  // selecionado.innerHTML = '';
   // A VARIÁVEL SELECIONADO É PREENCHIDA COM VALOR NENHUM PARA QUE POSSA SER APAGADA DO CARRINHO
-  selecionado.parentNode.removeChild(selecionado);
   // A VARIÁVEL SELECIONADO É UMA REFERÊNCIA PARA QUE POSSAMOS BUSCAR O PAI DO ELEMENTO
   // HTML ATRAVÉS DO COMANDO PARENTNODE, A PARTIR DISTO, O ELEMENTO
   // É REMOVIDO COM O COMANDO REMOVECHILD
