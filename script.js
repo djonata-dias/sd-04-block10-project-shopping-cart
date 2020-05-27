@@ -19,7 +19,7 @@ const updateValue = () => {
   Object.values(localStorage).forEach((e) => {
     update += parseFloat(e);
   });
-  span.innerHTML = `${Math.round(update)}`;
+  span.innerHTML = `${update.toFixed(2)}`;
   return span;
 };
 
