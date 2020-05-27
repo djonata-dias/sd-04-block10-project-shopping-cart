@@ -36,6 +36,7 @@ async function sumPrice() {
   const cartListLi = document.querySelectorAll('.cart__item');
   let sum = 0;
   cartListLi.forEach(index => (sum += parseFloat(index.innerText.split('$')[1])));
+  sum = Math.round(sum * 100) / 100;
   document.querySelector('.total-price').innerText = sum;
 }
 

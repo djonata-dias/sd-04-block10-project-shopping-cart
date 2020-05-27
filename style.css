@@ -2,6 +2,7 @@ body {
   background-color: rgb( 235 , 235 , 235 );
 }
 
+
 .top-bar {
   align-items: center;
   background-color: rgb( 255 , 241 , 89 );
@@ -82,10 +83,34 @@ body {
 
 .cart .cart__title {
   flex-basis: 1;
-  font-size: 16pt;
+  font-size: 1.5rem;
   text-align: center;
 }
 
 .empty-cart {
-  margin: 5px;
+  margin: 20px 0;
+}
+
+.price-container {
+  display: flex;
+  font-size: xx-large;
+  font-weight: 300;
+}
+
+.total-price {
+  padding-left: 10px;
+}
+
+.cart__item {
+  margin: 10px 0;
+}
+
+@media only screen and ( max-width : 700px ) {
+
+  .price-container {
+    display: flex;
+    font-size: large;
+    font-weight: 300;
+    margin-left: 20px;
+  }
 }
