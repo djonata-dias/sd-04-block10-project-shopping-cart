@@ -2,7 +2,6 @@ body {
   background-color: rgb( 235 , 235 , 235 );
 }
 
-
 .top-bar {
   align-items: center;
   background-color: rgb( 255 , 241 , 89 );
@@ -23,6 +22,11 @@ body {
   color: dimgray;
   display: flex;
 }
+
+.search-bar {
+  min-width: 200px;
+}
+
 
 .container {
   background-color: rgb( 235 , 235 , 235 );
