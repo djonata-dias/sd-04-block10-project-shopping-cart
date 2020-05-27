@@ -31,7 +31,7 @@ function getSkuFromProductItem(item) {
 const isLoading = (status) => {
   if (status) {
     const loadingElement = document.createElement('div');
-    loadingElement.classList.add('loading');
+    loadingElement.className = 'loading';
     loadingElement.textContent = 'Loading...';
     document.querySelector('.container').appendChild(loadingElement);
   } else {
