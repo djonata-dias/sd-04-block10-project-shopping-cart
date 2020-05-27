@@ -17,9 +17,9 @@ const updateValue = () => {
   let update = 0;
   span.innerHTML = '';
   Object.values(localStorage).forEach((e) => {
-    update += parseFloat(e);
+    update += Number(e);
   });
-  span.innerHTML = `${update.toFixed(1)}`;
+  span.innerHTML = `${update}`;
   return span;
 };
 
@@ -38,7 +38,10 @@ function getSkuFromProductItem(item) {
 
 // função para remover produto do carrinho.
 const cartItemClickListener = (e) => {
+  const id = e.target.innerHTML.split(' ', 2);
   e.target.remove();
+  localStorage.removeItem(id[1]);
+  updateValue();
 };
 
 // Função que cria o elemento no Carrinho de compras.
