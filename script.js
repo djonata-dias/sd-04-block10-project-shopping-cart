@@ -87,7 +87,6 @@ function createCustomElement(element, className, innerText) {
 }
 
 const addProductToCart = async (productElement) => {
-  isLoading(true);
   fetch(itemApiUrl + getSkuFromProductItem(productElement))
     .then((response) => response.json())
     .then((data) => {
@@ -99,7 +98,6 @@ const addProductToCart = async (productElement) => {
       document.querySelector('.cart__items').appendChild(
         createCartItemElement(productData),
       );
-      isLoading(false);
       calculateTotal();
     });
 };
@@ -128,8 +126,8 @@ const searchProducts = async (search) => {
 
         document.querySelector('.items').appendChild(productElement);
       });
-      isLoading(false);
-    });
+    })
+    .then(() => isLoading(false));
 };
 
 const initApp = () => {
