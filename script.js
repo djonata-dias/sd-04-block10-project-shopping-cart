@@ -47,7 +47,7 @@ const recebeId = (id) => {
       const name = data.title;
       const price = data.price;
       localStorage.setItem(id, price);
-      return ol.appendChild(createCartItemElement(sku, name, price));
+      return ol.appendChild(createCartItemElement(sku, name, price), updateValue());
     });
 };
 
@@ -92,6 +92,7 @@ const limpaCarrinho = () => {
   btnLimpa.addEventListener('click', function () {
     listCartProducts.innerHTML = '';
     localStorage.clear();
+    updateValue();
   });
 };
 
@@ -110,24 +111,21 @@ const criaList = async () => {
   }
 };
 
-// const totalPrice = () => {
-//   let soma = 0;
-//   const storege = Object.values(localStorage);
-//   storege.forEach(e => {
-//     parseFloat(e).reduce((acc, atual) => {
-//       console.log(`ACC: ${acc}, ATUAL: ${atual}`);
-//       Number(acc) + Number(atual);
-//       console.log(acc);
-//     });
-//   });
-// };
+const updateValue = () => {
+  const span = document.querySelector('.total-price')
+  let update = 0;
+  span.innerHTML = '';
+  Object.values(localStorage).forEach((e) => {
+    update = Math.floor(update + parseFloat(e));
+  });
+  return span.innerHTML = `Total: ${update}`
+
+};
 
 const prices = () => {
   const cart = document.querySelector('.cart');
   const span = document.createElement('span');
   span.className = 'total-price';
-  const price = totalPrice();
-  span.innerText = `Valor Total: ${price}`;
   cart.appendChild(span);
 };
 
@@ -136,6 +134,7 @@ const chamaTudo = () => {
   limpaCarrinho();
   recuperaCarrinho();
   prices();
+  updateValue();
 };
 
 const loading = () => {
@@ -149,6 +148,7 @@ const limpaLoading = () => document.querySelector('div').remove();
 
 window.onload = () => {
   loading();
+
   setTimeout(() => {
     limpaLoading();
     chamaTudo();
