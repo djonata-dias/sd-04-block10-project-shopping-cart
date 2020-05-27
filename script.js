@@ -11,6 +11,18 @@ const pegaInfos = ({ id, title, salePrice, thumbnail }, callback) => {
   return callback(obj);
 };
 
+// Função para atualizar o preço dos produtos no carrinho a cada interação!
+const updateValue = () => {
+  const span = document.querySelector('.total-price');
+  let update = 0;
+  span.innerHTML = '';
+  Object.values(localStorage).forEach((e) => {
+    update = update + parseFloat(e);
+  });
+  span.innerHTML = `Valor Total: R$ ${update.toFixed(2)}`;
+  return span;
+};
+
 // função para criar imagem do produto.
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -109,17 +121,6 @@ const criaList = async () => {
   } catch (error) {
     console.log(`ERROR: ${error}`);
   }
-};
-
-const updateValue = () => {
-  const span = document.querySelector('.total-price')
-  let update = 0;
-  span.innerHTML = '';
-  Object.values(localStorage).forEach((e) => {
-    update = Math.floor(update + parseFloat(e));
-  });
-  return span.innerHTML = `Total: ${update}`
-
 };
 
 const prices = () => {
