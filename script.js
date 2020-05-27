@@ -1,5 +1,11 @@
 window.onload = function onload() {};
 
+const saveStorage = () => {
+  const itemsCart = document.querySelector('.cart__items');
+  localStorage.setItem('carrinho', itemsCart.innerHTML);
+};
+
+
 const buttonErase = document.querySelector('.empty-cart');
 
 function createProductImageElement(imageSource) {
@@ -35,7 +41,7 @@ function getSkuFromProductItem(item) {
 const sumTotal = async () => { // cada vez que a função é chamada o cálculo é feito,
   // essa função é chamada durante os clicks capturados nas funções de inserir
   // e add items, esvaziar, linhas 56, 86, 110
-  const cartItems = document.querySelector('.cart__items');
+  const cartItems = await document.querySelector('.cart__items');
   // Mapeando as varíaveis de acordo com os campos HTML desejados
   const totalCampo = document.querySelector('.total-price');
   const listPrice = [];
@@ -55,7 +61,7 @@ const sumTotal = async () => { // cada vez que a função é chamada o cálculo 
     // Inserimos o campo dentro do array de lista de preços já convertido em Number
   }
   total = listPrice.reduce((acc, curr) => acc + curr, 0);
-  // calculamos o valor do array com base nos valores inseridos na linha 127
+  // calculamos o valor do array com base nos valores inseridos na linha 54
   totalCampo.innerHTML = total;
   if (totalCampo.innerText === '0') totalCampo.innerHTML = '';
 };
@@ -75,7 +81,9 @@ function cartItemClickListener() {
   // HTML ATRAVÉS DO COMANDO PARENTNODE, A PARTIR DISTO, O ELEMENTO
   // É REMOVIDO COM O COMANDO REMOVECHILD
   sumTotal();
+  saveStorage();
 }
+
 
 function createCartItemElement({ sku, name, salePrice }) {
   //  console.log(sku, name, salePrice)
@@ -110,8 +118,8 @@ const convertObject = (dataArray) => {
       itemCart.classList.add('added');
       cartItems.appendChild(itemCart);
       sumTotal();
+      saveStorage();
       // INSERIMOS O ELEMENTO LI COM SEUS VALORES COMO FILHO DA LISTA CART_ITEMS
-      // localStorage.setItem('carrinho', itemCart);
     });
   });
 };
@@ -127,6 +135,7 @@ const getObject = (busca) => {
     // EXTRAI AS INFORMAÇÕES DE RESULTS, QUE É A QUE CONTEM OS CAMPOS QUE PRECISAMOS
 };
 
+
 getObject('Computador'); // ESSA CHAMADA INICIA O PROGRAMA CHAMANDO A FUNÇÃO
 // GETOBJECT E BUSCAR A PALAVRA 'COMPUTADOR'
 
@@ -135,6 +144,19 @@ const eraseCart = () => {
   // const atribuiTotal = document.querySelector('.total-price');
   cartList.innerHTML = '';
   sumTotal();
+  saveStorage();
 };
 
+
 buttonErase.addEventListener('click', eraseCart);
+
+
+const getFromStorage = () => {
+  const itemFromStorage = localStorage.getItem('carrinho');
+  console.log(itemFromStorage);
+  document.querySelector('.cart__items').innerHTML = itemFromStorage;
+  const localItem = document.querySelector('.cart__items');
+  localItem.addEventListener('click', cartItemClickListener);
+};
+
+getFromStorage();
