@@ -1,29 +1,31 @@
-window.onload = function onload() { };
 
 /*
-  1. Listagem de produtos
-  Você deve criar uma listagem de produtos que devem 
-    ser consultados através da API do Mercado Livre.
-  Você deve utilizar o endpoint:
-    "https://api.mercadolibre.com/sites/MLB/search?q=$QUERY"
+1. Listagem de produtos
+Você deve criar uma listagem de produtos que devem
+ser consultados através da API do Mercado Livre.
+Você deve utilizar o endpoint:
+"https://api.mercadolibre.com/sites/MLB/search?q=$QUERY"
 
-  onde $QUERY deve ser o valor da sua busca. 
-    Para este trabalho, a busca deve ser o termo computador.
-  O retorno desse endpoint será algo no formato json. 
-    Por exemplo, se for pesquisado "computador": veja no Json no readme.
+onde $QUERY deve ser o valor da sua busca.
+Para este trabalho, a busca deve ser o termo computador.
+O retorno desse endpoint será algo no formato json.
+Por exemplo, se for pesquisado "computador": veja no Json no readme.
 
-  A lista de produtos que devem ser exibidos é o array results no JSON acima.
+A lista de produtos que devem ser exibidos é o array results no JSON acima.
 
-  Você deve utilizar a função createProductItemElement(product) 
-    para criar os componentes HTML referentes a um produto.
+Você deve utilizar a função createProductItemElement(product)
+para criar os componentes HTML referentes a um produto.
 
-  Adicione o elemento retornado da função createProductItemElement(product) 
-    como filho do elemento <section class="items">.
+Adicione o elemento retornado da função createProductItemElement(product)
+como filho do elemento <section class="items">.
 
-  Obs: as variáveis sku, no código fornecido, 
-    se referem aos campos id retornados pela API. 
+Obs: as variáveis sku, no código fornecido,
+se referem aos campos id retornados pela API.
 */
-const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=$QUERY';
+
+function searchProduct(product) {
+  return `https://api.mercadolibre.com/sites/MLB/search?q=${product}`;
+}
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -51,7 +53,7 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-function getSkuFromProductItem(item) {
+/* function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
@@ -65,4 +67,20 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
-}
+} */
+
+window.onload = function onload() {
+  fetch(searchProduct('computador'))
+    .then(data => data.json())
+    .then((json) => {
+      json.results.forEach((product) => {
+        document.querySelector('.items').appendChild(
+          createProductItemElement({
+            sku: product.id,
+            name: product.title,
+            image: product.thumbnail,
+          }),
+        );
+      });
+    });
+};
