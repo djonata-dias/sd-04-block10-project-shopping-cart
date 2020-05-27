@@ -9,11 +9,11 @@ const updateCart = (data) => {
   });
   const nextId = Number(lastId) + 1;
   localStorage.setItem(nextId, JSON.stringify(data));
-  console.log('updated')
+  console.log('updated');
 };
 
 const getCartItems = () => Object.keys(localStorage).sort()
-  .map((key) => JSON.parse(localStorage[key]));
+  .map(key => JSON.parse(localStorage[key]));
 
 const deleteCartItem = async (id) => {
   Object.keys(localStorage).forEach((key) => {
@@ -49,7 +49,7 @@ const cleanCart = () => {
     .then(() => {
       calculateTotal();
       document.querySelectorAll('.cart__item')
-        .forEach((item) => item.remove());
+        .forEach(item => item.remove());
     });
 };
 
@@ -79,7 +79,7 @@ function createCustomElement(element, className, innerText) {
 const addProductToCart = async (productElement) => {
   document.querySelector('.loading').hidden = false;
   fetch(itemApiUrl + getSkuFromProductItem(productElement))
-    .then((response) => response.json())
+    .then(response => response.json())
     .then((data) => {
       const productData = { sku: data.id, name: data.title, salePrice: data.price };
       updateCart(productData);
@@ -110,7 +110,7 @@ function createProductItemElement({ sku, name, image }) {
 const searchProducts = async (search) => {
   document.querySelector('.loading').hidden = false;
   fetch(searchApiUrl + search)
-    .then((response) => response.json())
+    .then(response => response.json())
     .then((data) => {
       document.querySelector('.loading').hidden = true;
       data.results.forEach((item) => {
