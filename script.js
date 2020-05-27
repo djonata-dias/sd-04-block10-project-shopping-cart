@@ -131,11 +131,18 @@ window.onload = function onload() {
   const apiItems = `https://api.mercadolibre.com/sites/MLB/search?q=${query}`;
   // const section = document.querySelector('.items');
   // section.appendChild(createCustomElement('span', 'loading', 'loading...'));
-  getItemsFromAPI(apiItems)
-  .then(data => data.json())
-  .then(dataJson => trataDadosJson(dataJson))
-  .then(() => document.querySelector('.loading').remove())
-  .catch(error => console.log(error));
+  setTimeout(() => {
+    getItemsFromAPI(apiItems)
+    .then(data => data.json())
+    .then(dataJson => trataDadosJson(dataJson))
+    .then(() => document.querySelector('.loading').remove())
+    .catch(error => console.log(error));
+  }, 1000);
+  // getItemsFromAPI(apiItems)
+  // .then(data => data.json())
+  // .then(dataJson => trataDadosJson(dataJson))
+  // .then(() => document.querySelector('.loading').remove())
+  // .catch(error => console.log(error));
   // getItemsFromAPI(apiItems)
   //   .then(data => data.json())
   //   .then(dataJson => trataDadosJson(dataJson))
