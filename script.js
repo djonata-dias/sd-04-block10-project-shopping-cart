@@ -111,7 +111,7 @@ window.onload = function onload() {
     .then(data => setTimeout(() => {
       getAllProdutos(data.results);
       /* Remove loading... */
-      document.querySelector('.loading').innerText = '';
+      document.querySelector('.loading').remove();
     }, 3000));
 
   /* Veririca localStorage*/
