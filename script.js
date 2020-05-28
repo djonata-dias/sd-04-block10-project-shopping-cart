@@ -142,6 +142,7 @@ const initApp = () => {
 };
 
 window.onload = function onload() {
+  calculateTotal();
   searchProducts();
   initApp();
 
