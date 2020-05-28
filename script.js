@@ -123,7 +123,7 @@ function removeLoader() {
 }
 
 const computerQuery = async () => {
-  addLoader()
+  addLoader();
   const query = await fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador');
   const jsonResult = await query.json();
   const queryResults = await jsonResult.results;
