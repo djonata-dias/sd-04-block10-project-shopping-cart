@@ -119,7 +119,9 @@ const searchProducts = async (search) => {
   fetch(searchApiUrl + search)
     .then((response) => response.json())
     .then((data) => {
-      isLoading(false);
+      setTimeout(() => {
+        isLoading(false);
+      }, 3000);
       data.results.forEach((item) => {
         const productData = { sku: item.id, name: item.title, image: item.thumbnail };
         const productElement = createProductItemElement(productData);
