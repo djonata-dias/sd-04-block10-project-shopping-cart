@@ -45,8 +45,13 @@ const isLoading = (status) => {
 };
 
 const calculateTotal = () => {
-  const total = getCartItems()
-    .reduce((sum, { salePrice }) => sum + salePrice, 0);
+  // const total = getCartItems()
+  //   .reduce((sum, { salePrice }) => sum + salePrice, 0);
+  // document.querySelector('.total-price').textContent = total;
+  const cartItems = document.querySelectorAll('.cart__item');
+  const total = [...cartItems]
+    .map((e) => e.textContent.match(/([0-9.]){1,}$/))
+    .reduce((acc, price) => acc + parseFloat(price), 0);
   document.querySelector('.total-price').textContent = total;
 };
 
