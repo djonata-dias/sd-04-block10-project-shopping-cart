@@ -98,7 +98,7 @@ function limpaCarrinho() {
   updatePrice();
 }
 
-function loading(){
+function loading() {
   const lendo = document.querySelector('.loading');
   lendo.innerText = 'loading...';
   return lendo;
@@ -108,10 +108,10 @@ window.onload = function onload() {
   loading();
   fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
     .then(response => response.json())
-    .then(data => setTimeout(function() {
-      getAllProdutos(data.results)
+    .then(data => setTimeout( () => {
+      getAllProdutos(data.results);
       /* Remove loading... */
-      document.querySelector('.loading').innerText='';
+      document.querySelector('.loading').innerText = '';
     }, 3000));
 
   /* Veririca localStorage*/
