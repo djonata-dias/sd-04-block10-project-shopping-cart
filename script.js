@@ -93,10 +93,21 @@ const clickedBtn = () => {
   addBtn.forEach(button => button.addEventListener('click', getItemId));
 };
 
+// Requirement 6
+// Clear Cart
+const emptyCart = () => {
+  const emptyBtn = document.querySelector('.empty-cart');
+  const cart = document.querySelector('.cart__items');
+  emptyBtn.addEventListener('click', () => {
+    cart.innerHTML = '';
+  });
+};
+
 window.onload = () => {
   fetch(API_URL, myObject)
     .then(response => response.json())
     .then(data => productList(data.results))
     .then(clickedBtn)
+    .then(emptyCart)
     .catch(() => console.log('error'));
 };
