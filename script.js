@@ -1,5 +1,14 @@
 const shopCart = document.querySelector('.cart__items');
 
+function clear() {
+  const btn = document.querySelector('.empty-cart');
+    btn.addEventListener('click', () => {    
+    while (shopCart.lastElementChild) {
+      shopCart.removeChild(shopCart.lastElementChild);
+    }
+  });
+}
+
 function cartItemClickListener(event) {
   // coloque seu código aqui
   event.target.remove();
@@ -79,5 +88,6 @@ const computerQuery = async () => {
 
 window.onload = async () => {
   await computerQuery();
-  addButton();
+  await addButton();
+  await clear();
 };
