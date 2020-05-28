@@ -1,4 +1,21 @@
 const shopCart = document.querySelector('.cart__items');
+const shopCartTotal = document.querySelector('.total-price');
+
+async function updatePrice() {
+  let totalPrice = 0;
+  const i = document.querySelectorAll('.cart__item');
+  await i.forEach((item) => {
+    const itemArray = item.innerHTML.split(' ');
+    const itemPrice = +itemArray[itemArray.length - 1].replace('$', '');
+    totalPrice += +itemPrice;
+  });
+  shopCartTotal.innerHTML = totalPrice;
+}
+
+function setStorage() {
+  const string = JSON.stringify(shopCart.innerHTML);
+  localStorage.setItem('shopCart', string);
+}
 
 function clear() {
   const btn = document.querySelector('.empty-cart');
@@ -6,12 +23,16 @@ function clear() {
     while (shopCart.lastElementChild) {
       shopCart.removeChild(shopCart.lastElementChild);
     }
+    setStorage();
+    updatePrice();
   });
 }
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
   event.target.remove();
+  setStorage();
+  updatePrice();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -36,12 +57,19 @@ const addToCart = async (event) => {
     salePrice: itemIdQuery.price,
   });
   shopCart.appendChild(itemLi);
+  setStorage();
+  updatePrice();
 };
 
 const addButton = () => {
   const btn = document.querySelectorAll('.item__add');
   btn.forEach(item => item.addEventListener('click', addToCart));
 };
+
+function getStorage() {
+  shopCart.innerHTML = JSON.parse(localStorage.getItem('shopCart'));
+  addButton();
+}
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -90,4 +118,6 @@ window.onload = async () => {
   await computerQuery();
   await addButton();
   await clear();
+  await getStorage();
+  updatePrice();
 };
