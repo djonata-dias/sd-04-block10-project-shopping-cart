@@ -34,7 +34,6 @@ const addButton = () => {
   btn.forEach(item => item.addEventListener('click', addToCart));
 };
 
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -58,9 +57,6 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
   return section;
 }
-
-
-
 
 function createItemObject(array) {
   const productsSection = document.querySelector('.items');
