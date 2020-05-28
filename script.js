@@ -33,7 +33,7 @@ const isLoading = (status) => {
     const loadingElement = document.createElement('span');
     loadingElement.className = 'loading';
     loadingElement.textContent = 'Loading...';
-    document.querySelector('.container').appendChild(loadingElement);
+    document.querySelector('.items').appendChild(loadingElement);
   } else {
     document.querySelector('.loading').remove();
   }
