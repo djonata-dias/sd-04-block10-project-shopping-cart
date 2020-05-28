@@ -2,7 +2,7 @@ const shopCart = document.querySelector('.cart__items');
 
 function clear() {
   const btn = document.querySelector('.empty-cart');
-    btn.addEventListener('click', () => {    
+  btn.addEventListener('click', () => {
     while (shopCart.lastElementChild) {
       shopCart.removeChild(shopCart.lastElementChild);
     }
