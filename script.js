@@ -28,11 +28,16 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+function createCustomElement(element, className, innerText) {
+  const e = document.createElement(element);
+  e.className = className;
+  e.innerText = innerText;
+  return e;
+}
+
 const isLoading = (status) => {
   if (status) {
-    const loadingElement = document.createElement('span');
-    loadingElement.className = 'loading';
-    loadingElement.textContent = 'Loading...';
+    const loadingElement = createCustomElement('span', 'loading', 'loading...');
     document.querySelector('.items').appendChild(loadingElement);
   } else {
     document.querySelector('.loading').remove();
@@ -79,13 +84,6 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-function createCustomElement(element, className, innerText) {
-  const e = document.createElement(element);
-  e.className = className;
-  e.innerText = innerText;
-  return e;
-}
-
 const addProductToCart = async (productElement) => {
   fetch(itemApiUrl + getSkuFromProductItem(productElement))
     .then((response) => response.json())
@@ -99,8 +97,7 @@ const addProductToCart = async (productElement) => {
         createCartItemElement(productData),
       );
       calculateTotal();
-    })
-    .then(() => isLoading(false));
+    });
 };
 
 function createProductItemElement({ sku, name, image }) {
@@ -118,9 +115,11 @@ function createProductItemElement({ sku, name, image }) {
 
 const searchProducts = async (search) => {
   isLoading(true);
+
   fetch(searchApiUrl + search)
     .then((response) => response.json())
     .then((data) => {
+      isLoading(false);
       data.results.forEach((item) => {
         const productData = { sku: item.id, name: item.title, image: item.thumbnail };
         const productElement = createProductItemElement(productData);
