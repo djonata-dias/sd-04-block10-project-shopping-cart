@@ -116,6 +116,7 @@ function createProductItemElement({ sku, name, image }) {
 }
 
 const searchProducts = async (search) => {
+  isLoading(true);
   fetch(searchApiUrl + search)
     .then((response) => response.json())
     .then((data) => {
@@ -125,8 +126,7 @@ const searchProducts = async (search) => {
 
         document.querySelector('.items').appendChild(productElement);
       });
-    })
-    .then(() => isLoading(false));
+    });
 };
 
 const initApp = () => {
@@ -140,7 +140,6 @@ const initApp = () => {
 };
 
 window.onload = function onload() {
-  isLoading(true);
   searchProducts();
   initApp();
 
