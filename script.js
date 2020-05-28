@@ -48,7 +48,7 @@ const calculateTotal = () => {
   console.log('cal')
   const total = getCartItems()
     .reduce((sum, { salePrice }) => sum + salePrice, 0);
-  document.querySelector('.total-price').textContent = `Total: ${total}`;
+  document.querySelector('.total-price').textContent = `${total}`;
 };
 
 function cartItemClickListener(event) {
