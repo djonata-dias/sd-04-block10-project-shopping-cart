@@ -1,3 +1,21 @@
+const shopCart = document.querySelector('.cart__items');
+
+const addButton = () => {
+  const btn = document.querySelectorAll('.item__add');
+  btn.forEach(item => item.addEventListener('click', addToCart));
+};
+
+const addToCart = async (event) => {
+  const targetButton = event.target;
+  const itemId = getSkuFromProductItem(targetButton.parentNode);
+  const itemIdQuery = await (await fetch(`https://api.mercadolibre.com/items/${itemId}`)).json();
+  const itemLi = await createCartItemElement({
+    sku: itemIdQuery.id,
+    name: itemIdQuery.title,
+    salePrice: itemIdQuery.price,
+  });
+  shopCart.appendChild(itemLi);
+};
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -23,21 +41,22 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-// function getSkuFromProductItem(item) {
-//   return item.querySelector('span.item__sku').innerText;
-// }
+function getSkuFromProductItem(item) {
+  return item.querySelector('span.item__sku').innerText;
+}
 
-// function cartItemClickListener(event) {
-//   // coloque seu código aqui
-// }
+function cartItemClickListener(event) {
+  // coloque seu código aqui
+  event.target.remove();
+}
 
-// function createCartItemElement({ sku, name, salePrice }) {
-//   const li = document.createElement('li');
-//   li.className = 'cart__item';
-//   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-//   li.addEventListener('click', cartItemClickListener);
-//   return li;
-// }
+function createCartItemElement({ sku, name, salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
+}
 
 function createItemObject(array) {
   const productsSection = document.querySelector('.items');
@@ -56,7 +75,10 @@ const computerQuery = async () => {
   const jsonResult = await query.json();
   const queryResults = await jsonResult.results;
   await createItemObject(queryResults);
+  
 };
-window.onload = function onload() {
-  computerQuery();
+
+window.onload = async () => {
+  await computerQuery();
+  addButton();
 };
