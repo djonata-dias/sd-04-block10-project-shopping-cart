@@ -44,7 +44,8 @@ const isLoading = (status) => {
   }
 };
 
-const calculateTotal = async () => {
+const calculateTotal = () => {
+  console.log('cal')
   const total = getCartItems()
     .reduce((sum, { salePrice }) => sum + salePrice, 0);
   document.querySelector('.total-price').textContent = `Total: ${total}`;
@@ -133,12 +134,12 @@ const searchProducts = async (search) => {
 
 const initApp = () => {
   const items = getCartItems();
-  calculateTotal();
   items.forEach((item) => {
     document.querySelector('.cart__items').appendChild(
       createCartItemElement(item),
     );
   });
+  calculateTotal();
 };
 
 window.onload = function onload() {
