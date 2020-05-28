@@ -44,7 +44,7 @@ const isLoading = (status) => {
   }
 };
 
-const calculateTotal = () => {
+const calculateTotal = async () => {
   // const total = getCartItems()
   //   .reduce((sum, { salePrice }) => sum + salePrice, 0);
   // document.querySelector('.total-price').textContent = total;
@@ -56,21 +56,17 @@ const calculateTotal = () => {
 };
 
 function cartItemClickListener(event) {
-  deleteCartItem(event.target.id)
-    .then(() => {
-      event.target.remove();
-      calculateTotal();
-    });
+  deleteCartItem(event.target.id);
+  event.target.remove();
+  calculateTotal();
 }
 
 const cleanCart = () => {
   // Remove from localStorage
-  cleanCartItems()
-    .then(() => {
-      document.querySelectorAll('.cart__item')
-        .forEach((item) => item.remove());
-      calculateTotal();
-    });
+  cleanCartItems();
+  document.querySelectorAll('.cart__item')
+    .forEach((item) => item.remove());
+  calculateTotal();
 };
 
 function createProductImageElement(imageSource) {
