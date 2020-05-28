@@ -99,7 +99,8 @@ const addProductToCart = async (productElement) => {
         createCartItemElement(productData),
       );
       calculateTotal();
-    });
+    })
+    .then(() => isLoading(false));
 };
 
 function createProductItemElement({ sku, name, image }) {
