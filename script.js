@@ -132,8 +132,8 @@ const searchProducts = async (search) => {
 };
 
 const initApp = () => {
-  cleanCart();
   const items = getCartItems();
+  calculateTotal();
   items.forEach((item) => {
     document.querySelector('.cart__items').appendChild(
       createCartItemElement(item),
