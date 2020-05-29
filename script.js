@@ -132,6 +132,7 @@ window.onload = () => {
     .then(data => productList(data.results))
     .then(clickedBtn)
     .then(emptyCart)
-    .then(getLocalStorage)
     .catch(() => console.log('error'));
+
+  getLocalStorage();
 };
