@@ -30,25 +30,36 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-// function cartItemClickListener(e) {
-  // createCartItemElement({sku, name, salePrice})
+// function createCartItemElement({ sku, name, salePrice }) {
+//   const li = document.createElement('li');
+//   li.className = 'cart__item';
+//   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+//   li.addEventListener('click', cartItemClickListener);
+//   return li;
 // }
 
-function createCartItemElement({ sku, name, salePrice }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
-}
-
-const addCart = async (e) => {
-  const targetId = await getSkuFromProductItem(e.target.parentNode);
-  const itemApi = await (await fetch(`https://api.mercadolibre.com/items/${targetId}`)).json();
-  await Object.values(itemApi).forEach(({ id, title, price }) => {
-    createCartItemElement({ sku: id, name: title, salePrice: price });
-  });
+const addCart = () => {
+  const itemsButtom = document.getElementsByClassName('item__add');
+  const cart = document.getElementsByClassName('cart__items')[0];
+  for (let i = 0; i < itemsButtom.length; i += 1) {
+    itemsButtom[i].addEventListener('click', async (e) => {
+      const itemTarget = getSkuFromProductItem(e.target.parentNode);
+      const itemApi = await (await fetch(`https://api.mercadolibre.com/items/${itemTarget}`)).json()
+      .then(({ id, title, price }) => {
+        const li = document.createElement('li');
+        li.className = 'cart__item';
+        li.innerText = `SKU: ${id} | NAME: ${title} | PRICE: $${price}`;
+        // li.addEventListener('click', cartItemClickListener);
+        return li;
+      });
+      console.log(itemApi);
+      return cart.appendChild(itemApi);
+    });
+  }
 };
+// function cartItemClickListener() {
+//   createCartItemElement(addCart());
+// }
 
 const fetchAPI = async () => {
   const productsSection = document.querySelector('.items');
@@ -61,9 +72,10 @@ const fetchAPI = async () => {
   });
 };
 
-
 window.onload = async () => {
-  await fetchAPI();
-  const itemsButtom = document.getElementsByClassName('item__add');
-  await itemsButtom.forEach(item => item.addEventListener('click', addCart(e)));
+  const fetchAll = async () => {
+    await fetchAPI();
+    await addCart();
+  };
+  fetchAll();
 };
