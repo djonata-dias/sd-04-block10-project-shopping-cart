@@ -5,6 +5,7 @@ const myObject = {
   headers: { Accept: 'application/json' },
 };
 
+// Project Function
 const createCustomElement = (element, className, innerText) => {
   const e = document.createElement(element);
   e.className = className;
@@ -12,6 +13,7 @@ const createCustomElement = (element, className, innerText) => {
   return e;
 };
 
+// Project Function
 const createProductImageElement = (imageSource) => {
   const img = document.createElement(
     'img');
@@ -20,6 +22,7 @@ const createProductImageElement = (imageSource) => {
   return img;
 };
 
+// Project Function
 const createProductItemElement = ({ sku, name, image }) => {
   const section = document.createElement('section');
   section.className = 'item';
@@ -32,11 +35,28 @@ const createProductItemElement = ({ sku, name, image }) => {
   return section;
 };
 
+// Project Function
 // const getSkuFromProductItem = item => item.querySelector('span.item__sku').innerText;
-const cartItemClickListener = (event) => {
-  event.target.remove();
+
+// Requirement 4
+// Save to Local Storage
+const saveLocalStorage = () => {
+  localStorage.setItem('cartItems', document.querySelector('.cart__items').innerHTML);
 };
 
+// Get List from Local Storage
+const getLocalStorage = () => {
+  const savedList = localStorage.getItem('cartItems');
+  document.querySelector('.cart__items').innerHTML = savedList;
+};
+
+// Requirement 3
+const cartItemClickListener = (event) => {
+  event.target.remove();
+  saveLocalStorage();
+};
+
+// Project Function
 const createCartItemElement = ({ sku, name, salePrice }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -71,6 +91,7 @@ const addToCart = ({ id, title, price }) => {
   const cartItemElement = createCartItemElement(cartElemenentObj);
   const cart = document.querySelector('.cart__items');
   cart.appendChild(cartItemElement);
+  saveLocalStorage();
 };
 
 // Fetch the API
@@ -100,7 +121,9 @@ const emptyCart = () => {
   const cart = document.querySelector('.cart__items');
   emptyBtn.addEventListener('click', () => {
     cart.innerHTML = '';
+    localStorage.setItem('cartItems', '');
   });
+  saveLocalStorage();
 };
 
 window.onload = () => {
@@ -109,5 +132,6 @@ window.onload = () => {
     .then(data => productList(data.results))
     .then(clickedBtn)
     .then(emptyCart)
+    .then(getLocalStorage)
     .catch(() => console.log('error'));
 };
