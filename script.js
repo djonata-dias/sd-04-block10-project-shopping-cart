@@ -133,6 +133,8 @@ window.onload = () => {
     .then(clickedBtn)
     .then(emptyCart)
     .catch(() => console.log('error'));
-
+  setTimeout(() => {
+    document.querySelector('.loading').remove();
+  }, 500);
   getLocalStorage();
 };
