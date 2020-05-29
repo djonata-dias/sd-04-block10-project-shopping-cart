@@ -34,17 +34,17 @@ let sum = 0;
 const createCartItemElement = async (e) => {
   const cart = document.getElementsByClassName('cart__items')[0];
   const total = document.getElementsByClassName('total-price')[0];
-  total.innerText = `Preço total: $${sum}`;
+  total.innerText = sum;
   const itemTarget = getSkuFromProductItem(e.target.parentNode);
   const itemApi = await (await fetch(`https://api.mercadolibre.com/items/${itemTarget}`)).json()
     .then(async ({ id, title, price }) => {
       const li = document.createElement('li');
       li.className = 'cart__item';
       li.innerText = `SKU: ${id} | NAME: ${title} | PRICE: $${price}`;
-      setTimeout(() => (total.innerText = `Preço total: $${parseFloat(sum += price).toFixed(2)}`), 100);
+      setTimeout(() => (total.innerText = `${parseFloat(sum += price).toFixed(2)}`), 100);
       li.addEventListener('click', (event) => {
         event.target.remove();
-        setTimeout(() => (total.innerText = `Preço total: $${parseFloat(sum -= price).toFixed(2)}`), 100);
+        setTimeout(() => (total.innerText = `${parseFloat(sum -= price).toFixed(2)}`), 100);
       });
       return li;
     });
