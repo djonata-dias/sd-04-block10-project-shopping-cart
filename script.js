@@ -38,6 +38,16 @@ const createProductItemElement = ({ sku, name, image }) => {
 // Project Function
 // const getSkuFromProductItem = item => item.querySelector('span.item__sku').innerText;
 
+
+// Requirement 5
+// Sum the price of all items in the cart
+const sumItems = async () => {
+  const cartItems = document.querySelectorAll('.cart__item');
+  let sumOfAll = 0;
+  cartItems.forEach(item => (sumOfAll += parseFloat(item.innerText.split('|')[2].split(':')[1])));
+  document.querySelector('.total-price').innerText = sumOfAll;
+};
+
 // Requirement 4
 // Save to Local Storage
 const saveLocalStorage = () => {
@@ -54,6 +64,7 @@ const getLocalStorage = () => {
 const cartItemClickListener = (event) => {
   event.target.remove();
   saveLocalStorage();
+  sumItems();
 };
 
 // Project Function
@@ -92,6 +103,7 @@ const addToCart = ({ id, title, price }) => {
   const cart = document.querySelector('.cart__items');
   cart.appendChild(cartItemElement);
   saveLocalStorage();
+  sumItems();
 };
 
 // Fetch the API
@@ -124,6 +136,7 @@ const emptyCart = () => {
     localStorage.setItem('cartItems', '');
   });
   saveLocalStorage();
+  sumItems();
 };
 
 window.onload = () => {
