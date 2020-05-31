@@ -30,8 +30,9 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-// function cartItemClickListener() {
-// }
+ function cartItemClickListener(cart, li) {
+  cart.removeChild(li);
+}
 
 let sum = 0;
 const createCartItemElement = async (e) => {
@@ -47,7 +48,7 @@ const createCartItemElement = async (e) => {
       setTimeout(() => (total.innerText = `${parseFloat(sum += price)}`), 100);
       li.addEventListener('click', () => {
         setTimeout(() => (total.innerText = `${parseFloat(sum -= price)}`), 100);
-        cart.removeChild(li);
+        cartItemClickListener(cart, li)
       });
       return li;
     });
