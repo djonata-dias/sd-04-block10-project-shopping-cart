@@ -41,7 +41,7 @@ const createCartItemElement = async (e) => {
   total.innerText = sum;
   const itemTarget = getSkuFromProductItem(e.target.parentNode);
   const itemApi = await (await fetch(`https://api.mercadolibre.com/items/${itemTarget}`)).json()
-    .then(async ({ id, title, price }) => {
+    .then(({ id, title, price }) => {
       const li = document.createElement('li');
       li.className = 'cart__item';
       li.innerText = `SKU: ${id} | NAME: ${title} | PRICE: $${price}`;
