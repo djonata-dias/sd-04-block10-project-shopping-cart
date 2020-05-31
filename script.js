@@ -30,7 +30,7 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
- function cartItemClickListener(cart, li) {
+function cartItemClickListener(cart, li) {
   cart.removeChild(li);
 }
 
@@ -48,7 +48,7 @@ const createCartItemElement = async (e) => {
       setTimeout(() => (total.innerText = `${parseFloat(sum += price)}`), 100);
       li.addEventListener('click', () => {
         setTimeout(() => (total.innerText = `${parseFloat(sum -= price)}`), 100);
-        cartItemClickListener(cart, li)
+        cartItemClickListener(cart, li);
       });
       return li;
     });
