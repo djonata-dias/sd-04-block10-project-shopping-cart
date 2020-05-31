@@ -50,7 +50,7 @@ const createCartItemElement = async (e) => {
         event.target.remove();
         setTimeout(() => (total.innerText = `${parseFloat(sum -= price).toFixed(2)}`), 100);
       });
-      li.addEventListener('click', cartItemClickListener)
+      li.addEventListener('click', cartItemClickListener);
       return li;
     });
   console.log(itemApi);
