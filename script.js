@@ -45,9 +45,9 @@ const createCartItemElement = async (e) => {
       const li = document.createElement('li');
       li.className = 'cart__item';
       li.innerText = `SKU: ${id} | NAME: ${title} | PRICE: $${price}`;
-      setTimeout(() => (total.innerText = `${parseFloat(sum += price)}`), 100);
+      setTimeout(() => (total.innerText = `${parseFloat(sum += price).toFixed(0)}`), 100);
       li.addEventListener('click', () => {
-        setTimeout(() => (total.innerText = `${parseFloat(sum -= price)}`), 100);
+        setTimeout(() => (total.innerText = `${parseFloat(sum -= price).toFixed(0)}`), 100);
         cartItemClickListener(cart, li);
       });
       return li;
