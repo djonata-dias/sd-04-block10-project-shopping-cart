@@ -36,7 +36,6 @@ function cartItemClickListener() {
 
 let sum = 0;
 const createCartItemElement = async (e) => {
-  const cart = document.getElementsByClassName('cart__items')[0];
   const total = document.getElementsByClassName('total-price')[0];
   total.innerText = sum;
   const itemTarget = getSkuFromProductItem(e.target.parentNode);
@@ -54,6 +53,7 @@ const createCartItemElement = async (e) => {
       return li;
     });
   console.log(itemApi);
+  const cart = document.getElementsByClassName('cart__items')[0];
   return cart.appendChild(itemApi);
 };
 
