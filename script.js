@@ -30,14 +30,15 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-function cartItemClickListener(cart, li) {
-  cart.removeChild(li);
+function cartItemClickListener(event) {
+  event.target.remove();
 }
 
 let sum = 0;
 const createCartItemElement = async (e) => {
-  const total = document.getElementsByClassName('total-price')[0];
   const cart = document.getElementsByClassName('cart__items')[0];
+
+  const total = document.getElementsByClassName('total-price')[0];
   total.innerText = sum;
   const itemTarget = getSkuFromProductItem(e.target.parentNode);
   const itemApi = await (await fetch(`https://api.mercadolibre.com/items/${itemTarget}`)).json()
@@ -48,7 +49,7 @@ const createCartItemElement = async (e) => {
       setTimeout(() => (total.innerText = `${parseFloat(sum += price).toFixed(0)}`), 100);
       li.addEventListener('click', () => {
         setTimeout(() => (total.innerText = `${parseFloat(sum -= price).toFixed(0)}`), 100);
-        cartItemClickListener(cart, li);
+        cartItemClickListener(event);
       });
       return li;
     });
