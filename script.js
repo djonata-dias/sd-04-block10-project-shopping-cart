@@ -126,4 +126,4 @@ window.onload = function onload() {
     .then(data => receberDados(data.results))
     .then(() => document.querySelector('.loading').remove())
   , 2000);
-};
+}; // cypress bugado.
