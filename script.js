@@ -6,7 +6,7 @@ const totalPriceText = document.querySelector('.total-price');
 function addToStorage() {
   localStorage.setItem('lista', lista.innerHTML);
   if (totalPriceText.innerText === '') {
-    totalPriceText.innerText = 'R$: 0';
+    totalPriceText.innerText = '0';
   }
   localStorage.setItem('totalPrice', totalPriceText.innerText);
 }
@@ -19,16 +19,16 @@ function createProductImageElement(imageSource) {
 }
 
 async function totalPrice(data) {
-  let atual = Number(document.querySelector('.total-price').innerText.split(' ')[1]);
+  let atual = Number(document.querySelector('.total-price').innerText);
   const TotalPriceHTML = document.querySelector('.total-price');
   if (typeof data === 'string') {
     const pricesub = Number(data.split('$')[1]);
     atual = parseInt((atual - pricesub) * 100, 0) / 100;
-    TotalPriceHTML.innerText = `R$: ${atual}`;
+    TotalPriceHTML.innerText = `${atual}`;
     await console.log('diminui');
   } else if (typeof data === 'object') {
     atual = parseInt((atual + data.price) * 100, 0) / 100;
-    TotalPriceHTML.innerText = `R$: ${atual}`;
+    TotalPriceHTML.innerText = `${atual}`;
     await console.log(atual);
   } else {
     alert('tivemos um Erro 2');
@@ -108,7 +108,7 @@ buttonEmpty.addEventListener('click', function () {
   const list = document.querySelectorAll('.cart__item');
   list.forEach((item) => {
     item.remove();
-    totalPriceText.innerText = 'R$: 0';
+    totalPriceText.innerText = '0';
   });
   addToStorage();
 });
