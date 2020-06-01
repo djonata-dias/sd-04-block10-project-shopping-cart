@@ -121,7 +121,9 @@ window.onload = function onload() {
   listaArray.forEach((item) => {
     item.addEventListener('click', cartItemClickListener);
   });
-  fetch(url)
+  setTimeout(() => fetch(url)
     .then(response => response.json())
-    .then(data => receberDados(data.results));
+    .then(data => receberDados(data.results))
+    .then(() => document.querySelector('.loading').remove())
+  , 2000);
 };
