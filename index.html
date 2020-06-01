@@ -11,14 +11,14 @@
 
   <body>
     <section class="container">
-      <section class="items"></section>
+      <section class="items">
+        <p class="loading">Loading...</p>
+      </section>
       <section class="cart">
-        <div class="title-cart">
-          <span class="cart__title">Carrinho de compras</span>
-        <button type="button" class="empty-cart btn btn-primary">Limpar</button>
-      </div>
-      <ol class="cart__items"></ol>
-      <div class="total-price"></div>
+        <span class="cart__title">Carrinho de compras</span>
+        <ol id="cart" class="cart__items"></ol>
+        <p >Total: R$ <span class="total-price" id="total-price">0</span></p>
+        <button id="empty-cart" class="empty-cart">Limpar carrinho</button>
       </section>
     </section>
   </body>
