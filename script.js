@@ -106,7 +106,7 @@ const productsList = (productArray) => {
   }, 3000);
 
   const items = document.getElementsByClassName('items');
-  productArray.forEach({ id, title, thumbnail } => {
+  productArray.forEach(({ id, title, thumbnail }) => {
     const item = {
       sku: id,
       name: title,
