@@ -23,11 +23,11 @@ async function totalPrice(data) {
   const TotalPriceHTML = document.querySelector('.total-price');
   if (typeof data === 'string') {
     const pricesub = Number(data.split('$')[1]);
-    atual = parseInt((atual - pricesub) * 100, 2) / 100;
+    atual = parseInt((atual - pricesub) * 100, 0) / 100;
     TotalPriceHTML.innerText = `R$: ${atual}`;
     await console.log('diminui');
   } else if (typeof data === 'object') {
-    atual = parseInt((atual + data.price) * 100, 2) / 100;
+    atual = parseInt((atual + data.price) * 100, 0) / 100;
     TotalPriceHTML.innerText = `R$: ${atual}`;
     await console.log(atual);
   } else {
