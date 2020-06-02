@@ -1,7 +1,7 @@
-const loadingElement = document.getElementsByClassName('loading')[0];
-const cartElement = document.getElementsByClassName('cart__items')[0];
+const loadingElement = document.querySelector('.loading');
+const cartElement = document.querySelector('.cart__items');
 const localCart = localStorage.getItem('cart');
-const totalPriceElement = document.getElementsByClassName('total-price')[0];
+const totalPriceElement = document.querySelector('.total-price');
 let totalPrice = { empty: 0 };
 const localPrice = JSON.parse(localStorage.getItem('total-price'));
 
