@@ -15,7 +15,7 @@ async function cartTotalPrice() {
     return acc;
   });
   /* eslint-disable no-param-reassign */
-  totalPriceElement.innerHTML = `R$ ${pricesSum.toFixed(2)}`;
+  totalPriceElement.innerHTML = pricesSum;
   localStorage.setItem('total-price', JSON.stringify(totalPrice));
 }
 
