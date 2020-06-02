@@ -70,7 +70,7 @@ function addToCartClickListener(id) {
 
   fetch(`https://api.mercadolibre.com/items/${id}`)
     .then((data) => {
-      cartTitleElement.removeChild(loadingElement);
+      cartTitleElement.removeChild(loadingCartElement);
       return data.json();
     })
     .then((obj) => {
