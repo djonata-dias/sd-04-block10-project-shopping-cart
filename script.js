@@ -1,3 +1,5 @@
+const cartTitleElement = document.getElementsByClassName('cart__title')[0];
+const itemSectionElement = document.getElementsByClassName('items')[0];
 const cartElement = document.getElementsByClassName('cart__items')[0];
 const localCart = localStorage.getItem('cart');
 const totalPriceElement = document.getElementsByClassName('total-price')[0];
@@ -63,8 +65,14 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 }
 
 function addToCartClickListener(id) {
+  const loadingCartElement = createCustomElement('span', 'loading', 'loading...');
+  cartTitleElement.appendChild(loadingCartElement);
+
   fetch(`https://api.mercadolibre.com/items/${id}`)
-    .then(data => data.json())
+    .then((data) => {
+      cartTitleElement.removeChild(loadingElement);
+      return data.json();
+    })
     .then((obj) => {
       cartElement.appendChild(createCartItemElement(obj));
       localStorage.setItem('cart', cartElement.innerHTML);
@@ -86,17 +94,21 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   return section;
 }
 
-/* function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-} */
+function fetchProducts() {
+  const loadingElement = createCustomElement('span', 'loading', 'loading...');
+  itemSectionElement.appendChild(loadingElement);
 
-fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
-  .then(data => data.json())
-  .then(obj => obj.results)
-  .then(arr => arr.forEach((product) => {
-    document.getElementsByClassName('items')[0]
-      .appendChild(createProductItemElement(product));
-  }));
+  fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
+    .then((data) => {
+      itemSectionElement.removeChild(loadingElement);
+      return data.json();
+    })
+    .then(obj => obj.results)
+    .then(arr => arr.forEach((product) => {
+      document.getElementsByClassName('items')[0]
+        .appendChild(createProductItemElement(product));
+    }));
+}
 
 document.getElementsByClassName('empty-cart')[0]
   .addEventListener('click', () => {
@@ -106,5 +118,4 @@ document.getElementsByClassName('empty-cart')[0]
     cartTotalPrice();
   });
 
-
-window.onload = function onload() { };
+window.onload = fetchProducts();
