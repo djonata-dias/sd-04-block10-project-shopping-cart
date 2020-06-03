@@ -37,10 +37,12 @@ async function totalPrice() {
   const items = document.querySelectorAll('.cart__item');
   const totalHtml = document.querySelector('.total-price');
   let total = 0;
-  items.forEach((item) => {
-    const string = item.innerText.split('$')[1];
-    total += parseFloat(string);
-  });
+  if (items.length !== 0) {
+    items.forEach((item) => {
+      const string = item.innerText.split('$')[1];
+      total += parseFloat(string);
+    });
+  }
 
   totalHtml.innerText = Number.isInteger(total) ? Math.trunc(total) : total;
 }
