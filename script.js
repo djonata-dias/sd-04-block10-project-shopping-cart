@@ -37,17 +37,12 @@ async function totalPrice() {
   const items = document.querySelectorAll('.cart__item');
   const totalHtml = document.querySelector('.total-price');
   let total = 0;
-  if (items.length !== 0) {
-    items.forEach((item) => {
-      const string = item.innerText.split('$')[1];
-      total += parseFloat(string);
-    });
-  }
-  if (Number.isInteger(total)) {
-    totalHtml.innerText = Math.trunc(total);
-  } else {
-    totalHtml.innerText = total;
-  }
+  items.forEach((item) => {
+    const string = item.innerText.split('$')[1];
+    total += parseFloat(string);
+  });
+
+  totalHtml.innerText = Number.isInteger(total) ? Math.trunc(total) : total;
 }
 
 
@@ -82,15 +77,13 @@ const addCarrinho = (data) => {
   totalPrice();
 };
 
-const getItemsFromAPI = API_URL => fetch(API_URL);
+const getItemsFromAPI = API_URL => fetch(API_URL).then(data => data.json());
 
 const adicionaEventListener = () => {
   const product = document.querySelectorAll('.item');
   product.forEach((item) => {
     item.lastElementChild.addEventListener('click', () => { // lastElemntChild é o botão que recebe o eventLIstener
-      // fetch(`https://api.mercadolibre.com/items/${item.firstElementChild.innerHTML}`)
       getItemsFromAPI(`https://api.mercadolibre.com/items/${item.firstElementChild.innerHTML}`)
-      .then(response => response.json())
       .then(data => addCarrinho(data))
       .catch(error => console.log(error));
     });
@@ -133,7 +126,6 @@ window.onload = function onload() {
   // section.appendChild(createCustomElement('span', 'loading', 'loading...'));
   setTimeout(() => {
     getItemsFromAPI(apiItems)
-    .then(data => data.json())
     .then(dataJson => trataDadosJson(dataJson))
     .then(() => document.querySelector('.loading').remove())
     .catch(error => console.log(error));
