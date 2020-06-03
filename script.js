@@ -1,4 +1,3 @@
-const loadingElement = document.querySelector('.loading');
 const cartElement = document.querySelector('.cart__items');
 const localCart = localStorage.getItem('cart');
 const totalPriceElement = document.querySelector('.total-price');
@@ -55,6 +54,9 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.id = sku;
 
+  li.addEventListener('click', cartItemClickListener);
+  li.addEventListener('click', () => decreaseTotalPriceClickListener(sku, salePrice));
+
   // Adds this item's price to total price to pay
   if (totalPrice[sku]) totalPrice[sku] += salePrice;
   else totalPrice[sku] = salePrice;
@@ -62,18 +64,14 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 }
 
 function addToCartClickListener(id) {
-  loadingElement.style.display = 'flex';
-
   fetch(`https://api.mercadolibre.com/items/${id}`)
-    .then((data) => {
-      loadingElement.style.display = 'none';
-      return data.json();
-    })
+    .then(data => data.json())
     .then((obj) => {
       cartElement.appendChild(createCartItemElement(obj));
       localStorage.setItem('cart', cartElement.innerHTML);
       cartTotalPrice();
-    });
+    })
+    .catch(console.error);
 }
 
 function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
@@ -91,18 +89,14 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 }
 
 function fetchProducts() {
-  loadingElement.style.display = 'flex';
-
   fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
-    .then((data) => {
-      loadingElement.style.display = 'none';
-      return data.json();
-    })
+    .then(data => data.json())
     .then(obj => obj.results)
     .then(arr => arr.forEach((product) => {
       document.getElementsByClassName('items')[0]
         .appendChild(createProductItemElement(product));
-    }));
+    }))
+    .catch(console.error);
 }
 
 document.getElementsByClassName('empty-cart')[0]
@@ -113,4 +107,9 @@ document.getElementsByClassName('empty-cart')[0]
     cartTotalPrice();
   });
 
-window.onload = fetchProducts();
+window.onload = () => {
+  fetchProducts();
+  setTimeout(() => {
+    document.querySelector('.loading').remove();
+  }, 2000);
+};
