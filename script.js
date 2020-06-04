@@ -51,7 +51,7 @@ async function updateTotalPrice() {
 async function cartItemClickListener(event) {
   event.target.remove();
   /*
-  const cartElement = document.querySelector('ol.cart__items');
+  const cartElement = document.querySelector('.cart__items');
   cartElement.removeChild(event.target);
   */
   const newShoppingArray = SHOPPING_CART_ARRAY.filter(
@@ -94,7 +94,7 @@ async function addItemCart(id) {
 
   const cartItem = createCartItemElement(formattedItem);
 
-  const cartElement = document.querySelector('ol.cart__items');
+  const cartElement = document.querySelector('.cart__items');
   cartElement.appendChild(cartItem);
 
   SHOPPING_CART_ARRAY.push(formattedItem);
@@ -135,7 +135,7 @@ function createProductItemElement({ sku, name, image }) {
 }
 
 async function clearCart() {
-  const cartElement = document.querySelector('ol.cart__items');
+  const cartElement = document.querySelector('.cart__items');
   cartElement.innerHTML = '';
   SHOPPING_CART_ARRAY.length = 0;
 
