@@ -113,7 +113,7 @@ function loadCart() { //  carrega cart salvo no local storage e funções
   clear(); //  adiciona função de limpar
 }
 
-function loading() { //  adiciona elemento com texto 'loading...' 
+function loading() { //  adiciona elemento com texto 'loading...'
   const sectionLoad = document.createElement('section');
   sectionLoad.className = 'loading';
   sectionLoad.innerHTML = 'loading...';
