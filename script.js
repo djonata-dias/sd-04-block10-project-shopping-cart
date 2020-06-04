@@ -114,10 +114,10 @@ function loadCart() { //  carrega cart salvo no local storage e funções
 }
 
 function loading() { //  adiciona elemento com texto 'loading...' 
-const sectionLoad = document.createElement('section');
-sectionLoad.className = 'loading';
-sectionLoad.innerHTML = 'loading...';
-document.querySelector('.items').appendChild(sectionLoad);
+  const sectionLoad = document.createElement('section');
+  sectionLoad.className = 'loading';
+  sectionLoad.innerHTML = 'loading...';
+  document.querySelector('.items').appendChild(sectionLoad);
 }
 
 window.onload = function onload() {
