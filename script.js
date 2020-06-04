@@ -37,7 +37,7 @@ async function updateTotalPrice() {
   );
   totalPriceElement.innerText = total;
 }
-// Função que será adicionada nos items do carrinho de compras com callbacks 
+// Função que será adicionada nos items do carrinho de compras com callbacks
 async function cartItemClickListener(event) {
   const cartElement = document.querySelector('ol.cart__items');
   cartElement.removeChild(event.target);
