@@ -3,7 +3,7 @@ body {
 }
 
 header {
-  background-color: #fff159;
+  background-color: yellow;
   height: 87px;
   width: auto;
 }
@@ -16,7 +16,6 @@ header {
   left: 35px;
   width: 600px;
   padding: 8px 15px;
-  border: 0 rgba(0,0,0,.2);
 }
 
 .links {
@@ -35,8 +34,8 @@ header {
 }
 
 .logo-app-container {
- margin-right: 10%;
- margin-left: 0;
+  margin-left: 0;
+  margin-right: 10%;
 }
 
 .top-bar {
@@ -134,4 +133,3 @@ header {
   font-weight: 600;
   clear: both;
 }
-
