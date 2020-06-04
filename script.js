@@ -125,7 +125,7 @@ window.onload = function onload() {
   setTimeout(() => {
     fetch(`${APIURL}${PESQUISA}`)
       .then(data => data.json())
-      .then(datajson => {
+      .then((datajson) => {
         document.querySelector('.loading').remove();
         gerarLista(datajson.results);
       })
