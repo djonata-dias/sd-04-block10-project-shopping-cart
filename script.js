@@ -81,7 +81,7 @@ function insertShoppingCart() {
   const items = shoppingCart.map(item => createCartItemElement(item));
   setTimeout(() => {
     items.forEach((item) => {
-      const cart = document.querySelector('.cart');
+      const cart = document.querySelector('.cart__items');
       cart.appendChild(item);
     });
     updateTotalPrice();
