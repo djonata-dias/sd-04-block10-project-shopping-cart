@@ -33,7 +33,7 @@ function updateItemStorage() {
 async function updateTotalPrice() {
   const totalPriceElement = document.getElementById('total-price');
   const total = CART_ARRAY.reduce(
-    (acc, item) => acc + item.salePrice, 0,
+    (acc, item) => acc + item.salePrice,
   );
   totalPriceElement.innerText = total;
 }
@@ -44,7 +44,7 @@ async function cartItemClickListener(event) {
   const newShoppingArray = CART_ARRAY.filter(
     item => event.target.id !== item.sku,
   );
-  CART_ARRAY = newShoppingArray;
+  CART_ARRAY = newShoppingArray || [];
   updateItemStorage();
   await updateTotalPrice();
 }
