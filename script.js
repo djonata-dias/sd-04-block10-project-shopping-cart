@@ -17,19 +17,19 @@ async function fetchAPI(url) {
   const responseJSON = await response.json();
   return responseJSON;
 }
-
+// Retorna o carrinho de compras no local storage
 function getItemStorage() {
   const cart = JSON.parse(localStorage.getItem('SHOPPING_CART'));
-  return cart || [];
+  return cart;
 }
 
 let CART_ARRAY = getItemStorage();
-
+// Atualiza o carrinho de compras do local storage
 function updateItemStorage() {
   console.log(CART_ARRAY);
   localStorage.setItem('SHOPPING_CART', JSON.stringify(CART_ARRAY));
 }
-
+// Atualiza o preço total do carrinho de compras de forma assíncrona
 async function updateTotalPrice() {
   const totalPriceElement = document.getElementById('total-price');
   const total = CART_ARRAY.reduce(
@@ -37,7 +37,7 @@ async function updateTotalPrice() {
   );
   totalPriceElement.innerText = total;
 }
-
+// Função que será adicionada nos items do carrinho de compras com callbacks 
 async function cartItemClickListener(event) {
   const cartElement = document.querySelector('ol.cart__items');
   cartElement.removeChild(event.target);
@@ -45,11 +45,10 @@ async function cartItemClickListener(event) {
     item => event.target.id !== item.sku,
   );
   CART_ARRAY = newShoppingArray;
-
   updateItemStorage();
   await updateTotalPrice();
 }
-
+// Cria um elemento li com as informações do objeto item passado
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -61,7 +60,6 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 function insertItems() {
   const shoppingCart = getItemStorage();
-
   const items = shoppingCart.map(item => createCartItemElement(item));
   setTimeout(() => {
     items.forEach((item) => {
@@ -79,12 +77,9 @@ async function addItemToCart(id) {
     name: item.title,
     salePrice: item.price,
   };
-
   const cartItem = createCartItemElement(formattedItem);
-
   const cartElement = document.querySelector('ol.cart__items');
   cartElement.appendChild(cartItem);
-
   CART_ARRAY.push(formattedItem);
 
   updateItemStorage();
