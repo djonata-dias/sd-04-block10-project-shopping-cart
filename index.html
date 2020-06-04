@@ -1,25 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css" />
-    <script src="script.js"></script>
-  </head>
 
-  <body>
-    <section class="container">
-      <section class="items">
-        <p class="loading">Loading...</p>
-      </section>
-      <section class="cart">
-        <span class="cart__title">Carrinho de compras</span>
-        <ol id="cart" class="cart__items"></ol>
-        <p >Total: R$ <span class="total-price" id="total-price">0</span></p>
-        <button id="empty-cart" class="empty-cart">Limpar carrinho</button>
-      </section>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js"></script>
+</head>
+
+<body>
+  <header class="top-bar">
+    <div><img class="logo" src="mercado-livre.jpg" alt="logo do mercado livre"></div>
+    <div>
+      <div class="search-container"><input class="search" placeholder="Buscar produtos, marcas e muito mais..." type="text"></div>  
+      <div class="links">
+        <p><a href="">Categorias</a></p>
+        <p><a href="">Ofertas</a></p>
+        <p><a href="">Histórico</a></p>
+        <p><a href="">Supermercado</a></p>
+        <p><a href="">Lojas Oficiais</a></p>
+        <p><a href="">Vender</a></p>
+      </div>
+    </div>
+    
+
+    <div class="logo-app-container">
+      <div><img class="logo-app" src="mlb-menu-desktop-notification-picture-f1b0f097-97a4-42af-94c0-c36c2b5db114.png"
+          alt="Link para baixar o app do merecado livre"></div>
+      <div class="links">
+        <div>Crie a sua conta</div>
+        <div>Entre</div>
+        <div>Compras</div>
+        <div></div>
+      </div>
+    </div>
+
+  </header>
+  <section class="container">
+    <section class="items">
+      <!-- <p class="loading">Loading...</p> -->
     </section>
-  </body>
+    <section class="cart">
+      <span class="cart__title">Carrinho de compras</span>
+      <ol id="cart" class="cart__items"></ol>
+      <p>Total: $<span class="total-price" id="total-price">0</span></p>
+      <button id="empty-cart" class="empty-cart">Limpar carrinho</button>
+    </section>
+  </section>
+</body>
+
 </html>

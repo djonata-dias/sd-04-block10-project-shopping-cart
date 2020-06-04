@@ -18,24 +18,22 @@ async function fetchAPI(url) {
   return responseJSON;
 }
 
-function getShoppingCartLocalStorage() {
-  const shoppingCart = JSON.parse(localStorage.getItem('SHOPPING_CART'));
-
-  return shoppingCart || [];
+function getItemStorage() {
+  const cart = JSON.parse(localStorage.getItem('SHOPPING_CART'));
+  return cart || [];
 }
 
-let SHOPPING_CART_ARRAY = getShoppingCartLocalStorage();
+let CART_ARRAY = getItemStorage();
 
-function updateShoppingCartLocalStorage() {
-  console.log(SHOPPING_CART_ARRAY);
-  localStorage.setItem('SHOPPING_CART', JSON.stringify(SHOPPING_CART_ARRAY));
+function updateItemStorage() {
+  console.log(CART_ARRAY);
+  localStorage.setItem('SHOPPING_CART', JSON.stringify(CART_ARRAY));
 }
 
 async function updateTotalPrice() {
   const totalPriceElement = document.getElementById('total-price');
-  const total = SHOPPING_CART_ARRAY.reduce(
-    (acc, item) => acc + item.salePrice,
-    0,
+  const total = CART_ARRAY.reduce(
+    (acc, item) => acc + item.salePrice, 0,
   );
   totalPriceElement.innerText = total;
 }
@@ -43,12 +41,12 @@ async function updateTotalPrice() {
 async function cartItemClickListener(event) {
   const cartElement = document.querySelector('ol.cart__items');
   cartElement.removeChild(event.target);
-  const newShoppingArray = SHOPPING_CART_ARRAY.filter(
+  const newShoppingArray = CART_ARRAY.filter(
     item => event.target.id !== item.sku,
   );
-  SHOPPING_CART_ARRAY = newShoppingArray;
+  CART_ARRAY = newShoppingArray;
 
-  updateShoppingCartLocalStorage();
+  updateItemStorage();
   await updateTotalPrice();
 }
 
@@ -61,8 +59,8 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-function insertShoppingCart() {
-  const shoppingCart = getShoppingCartLocalStorage();
+function insertItems() {
+  const shoppingCart = getItemStorage();
 
   const items = shoppingCart.map(item => createCartItemElement(item));
   setTimeout(() => {
@@ -87,9 +85,9 @@ async function addItemToCart(id) {
   const cartElement = document.querySelector('ol.cart__items');
   cartElement.appendChild(cartItem);
 
-  SHOPPING_CART_ARRAY.push(formattedItem);
+  CART_ARRAY.push(formattedItem);
 
-  updateShoppingCartLocalStorage();
+  updateItemStorage();
   await updateTotalPrice();
 }
 
@@ -105,18 +103,16 @@ function createCustomButton(id, className, innerText) {
   btn.addEventListener('click', handleButton);
   return btn;
 }
-
+// Função que cria um elemento do objeto do item passado como parametro
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
-
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(
     createCustomButton(sku, 'item__add', 'Adicionar ao carrinho!'),
   );
-
   return section;
 }
 
@@ -129,9 +125,7 @@ async function listItems() {
     name: item.title,
     image: item.thumbnail,
   }));
-
   const sectionItems = document.getElementsByClassName('items')[0];
-
   formattedItems.forEach((formattedItem) => {
     const sectionItem = createProductItemElement(formattedItem);
     sectionItems.appendChild(sectionItem);
@@ -141,18 +135,18 @@ async function listItems() {
 async function clearCart() {
   const cartElement = document.querySelector('ol.cart__items');
   cartElement.innerHTML = '';
-  SHOPPING_CART_ARRAY.length = 0;
+  CART_ARRAY.length = 0;
 
-  updateShoppingCartLocalStorage();
+  updateItemStorage();
   await updateTotalPrice();
 }
 
 window.onload = function onload() {
   listItems();
-  insertShoppingCart();
+  insertItems();
   const clearButton = document.getElementById('empty-cart');
   clearButton.addEventListener('click', clearCart);
   setTimeout(() => {
     document.querySelector('.loading').remove();
-  }, 3000);
+  }, 1000);
 };

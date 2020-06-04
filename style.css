@@ -1,3 +1,44 @@
+body {
+  margin: 0;
+}
+
+header {
+  background-color: #fff159;
+  height: 87px;
+  width: auto;
+}
+
+.search-container {
+  max-width: 600px;
+}
+
+.search {
+  left: 35px;
+  width: 600px;
+  padding: 8px 15px;
+  border: 0 rgba(0,0,0,.2);
+}
+
+.links {
+  display: flex;
+  justify-content: space-around;
+}
+
+.logo {
+  height: 87px;
+  margin-left: 110%;
+}
+
+.logo-app {
+  height: 40px;
+  margin-bottom: 5%;
+}
+
+.logo-app-container {
+ margin-right: 10%;
+ margin-left: 0;
+}
+
 .top-bar {
   align-items: center;
   display: flex;
@@ -93,3 +134,4 @@
   font-weight: 600;
   clear: both;
 }
+
