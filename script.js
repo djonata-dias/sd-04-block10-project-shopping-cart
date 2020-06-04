@@ -113,10 +113,21 @@ function loadCart() { //  carrega cart salvo no local storage e funções
   clear(); //  adiciona função de limpar
 }
 
+function loading() { //  adiciona elemento com texto 'loading...' 
+const sectionLoad = document.createElement('section');
+sectionLoad.className = 'loading';
+sectionLoad.innerHTML = 'loading...';
+document.querySelector('.items').appendChild(sectionLoad);
+}
+
 window.onload = function onload() {
-  fetch(`${APIURL}${PESQUISA}`)
-    .then(data => data.json())
-    .then(datajson => gerarLista(datajson.results))
-    .catch(error => console.log(error.message));
+  loading();
+  setTimeout(() => {
+    fetch(`${APIURL}${PESQUISA}`)
+      .then(data => data.json())
+      .then(datajson => gerarLista(datajson.results))
+      .then(() => document.querySelector('.loading').remove())
+      .catch(error => console.log(error.message));
+  }, 1000);
   loadCart();
 };
