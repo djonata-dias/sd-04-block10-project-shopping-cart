@@ -121,13 +121,13 @@ function loading() { //  adiciona elemento com texto 'loading...'
 }
 
 window.onload = function onload() {
-  loading();
   setTimeout(() => {
-    fetch(`${APIURL}${PESQUISA}`)
-      .then(data => data.json())
-      .then(datajson => gerarLista(datajson.results))
-      .then(() => document.querySelector('.loading').remove())
-      .catch(error => console.log(error.message));
+    loading();
+    document.querySelector('.loading').remove();
   }, 1000);
+  fetch(`${APIURL}${PESQUISA}`)
+    .then(data => data.json())
+    .then(datajson => gerarLista(datajson.results))
+    .catch(error => console.log(error.message));
   loadCart();
 };
