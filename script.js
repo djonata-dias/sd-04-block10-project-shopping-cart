@@ -33,7 +33,7 @@ function getCart() {
 let SHOPPING_CART_ARRAY = getCart();
 
 function setCart() {
-  // const cartList = document.querySelector('.cart__items').innerHTML;
+  // const cartList = document.querySelector('ol.cart__items').innerHTML;
   // localStorage.setItem('cart_list', cartList);
   console.log(SHOPPING_CART_ARRAY);
   localStorage.setItem('SHOPPING_CART', JSON.stringify(SHOPPING_CART_ARRAY));
@@ -49,11 +49,10 @@ async function updateTotalPrice() {
 }
 
 async function cartItemClickListener(event) {
-  event.target.remove();
-  /*
-  const cartElement = document.querySelector('.cart__items');
+  // event.target.remove();
+  const cartElement = document.querySelector('ol.cart__items');
   cartElement.removeChild(event.target);
-  */
+
   const newShoppingArray = SHOPPING_CART_ARRAY.filter(
     item => event.target.id !== item.sku,
   );
