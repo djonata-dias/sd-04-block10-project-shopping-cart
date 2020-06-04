@@ -17,6 +17,12 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+async function fetchAPI(url) {
+  const response = await fetch(url);
+  const responseJSON = await response.json();
+  return responseJSON;
+}
+
 // function getSkuFromProductItem(item) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
@@ -83,8 +89,7 @@ function insertShoppingCart() {
 }
 
 async function addItemCart(id) {
-  const fetched = await fetch(`https://api.mercadolibre.com/items/${id}`);
-  const item = await fetched.json();
+  const item = await fetchAPI(`https://api.mercadolibre.com/items/${id}`);
   const formattedItem = {
     sku: item.id,
     name: item.title,
@@ -92,8 +97,7 @@ async function addItemCart(id) {
   };
 
   const cartItem = createCartItemElement(formattedItem);
-
-  const cartElement = document.querySelector('.cart__items');
+  const cartElement = document.querySelector('ol.cart__items');
   cartElement.appendChild(cartItem);
 
   SHOPPING_CART_ARRAY.push(formattedItem);
@@ -133,6 +137,23 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
+async function loadItems() {
+  const items = await fetchAPI(searchProduct('computador'));
+  // const data = await fetched.json();
+
+  const formattedItems = items.results.map(item => ({
+    sku: item.id,
+    name: item.title,
+    image: item.thumbnail,
+  }));
+
+  const sectionItems = document.getElementsByClassName('items')[0];
+  formattedItems.forEach((formattedItem) => {
+    const sectionItem = createProductItemElement(formattedItem);
+    sectionItems.appendChild(sectionItem);
+  });
+}
+
 async function clearCart() {
   const cartElement = document.querySelector('.cart__items');
   cartElement.innerHTML = '';
@@ -142,19 +163,6 @@ async function clearCart() {
   await updateTotalPrice();
 }
 
-async function loadItems() {
-  const fetched = await fetch(searchProduct('computador'));
-  const data = await fetched.json();
-  // const itemsList =
-  await data.results.forEach((product) => {
-    document.querySelector('.items').appendChild(
-      createProductItemElement({
-        sku: product.id,
-        name: product.title,
-        image: product.thumbnail,
-      }));
-  });
-}
 
 window.onload = function onload() {
   loadItems();
