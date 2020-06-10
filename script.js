@@ -1,5 +1,3 @@
-let contadorStore = 0;
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -32,7 +30,7 @@ async function SomaPrice() {
 
 const save = () => {
   const cart = document.querySelector('.cart__items');
-  contadorStore = 0;
+  let contadorStore = 0;
 
   cart.childNodes.forEach((element) => {
     localStorage.setItem(`id ${contadorStore}`, `${element.innerHTML}`);
