@@ -57,23 +57,24 @@ const addElementToCart = async ({ sku }) => {
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
-
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
-  const btnAddCart = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
-  btnAddCart.addEventListener('click', () => addElementToCart({ sku }));
-  section.appendChild(btnAddCart);
+  const selectBtn = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
+  selectBtn.addEventListener('click', () => {
+    selectCartItemElement({ sku });
+  });
+  section.appendChild(selectBtn);
   return section;
 }
 
-async function apiCreateItem() {
-  await fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador', myObject)
-  .then(response => response.json())
+window.onload = async () => {
+  setLoading(true);
+  await fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
+  .then(r => r.json())
   .then((data) => {
-    const items = document.querySelector('.items');
     data.results.map(function (res) {
-      return items.appendChild(createProductItemElement(
+      return document.querySelector('.items').appendChild(createProductItemElement(
         {
           sku: res.id,
           name: res.title,
@@ -81,19 +82,13 @@ async function apiCreateItem() {
         },
         ));
     });
+    setLoading(false);
   });
-  document.getElementsByClassName('loading')[0].remove();
-}
-
-window.onload = async function onload() {
-  await apiCreateItem();
-  document.getElementsByClassName('empty-cart')[0].addEventListener('click', () => {
-    localStorage.setItem('itemCart', '');
-    localStorage.setItem('cartTotalPrice', 0);
+  document.getElementsByClassName('empty-cart')[0].addEventListener('click', async () => {
     document.getElementsByClassName('cart__items')[0].innerHTML = '';
-    document.getElementsByClassName('total-price')[0].innerHTML = 0;
+    await updateCart();
   });
-  document.getElementsByClassName('cart__items')[0].innerHTML = localStorage.getItem('itemCart');
+  document.getElementsByClassName('cart__items')[0].innerHTML = localStorage.getItem('Cart_items');
   document.querySelectorAll('li').forEach(li => li.addEventListener('click', cartItemClickListener));
-  await sumPrices();
+  await updateCart();
 };
