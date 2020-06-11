@@ -42,77 +42,70 @@ function cartItemClickListener(event) {
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
+  const ol = document.getElementsByClassName('cart__items')[0];
   const li = document.createElement('li');
-  li.className = 'cart__item'; // apensa no ol
+  li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
+  li.addEventListener('click', event => cartItemClickListener(event));
+  ol.appendChild(li);
   return li;
 }
-
-// 2 - Adicione o produto ao carrinho de compras
-function adiconarProdutoById(itemId) {
-  const iditem = itemId.target.parentNode.firstChild.innerText;
-  fetch(`https://api.mercadolibre.com/items/${iditem}`) // assincrona
-  .then(responseJ => responseJ.json())
-  .then((dadosJ) => {
-    document.querySelector('.cart__items').appendChild(createCartItemElement({
-      sku: dadosJ.id, name: dadosJ.title, salePrice: dadosJ.price }));
-  })
-  .then(() => armazenando());
-  // se o armazenamento tiver fora do .then ele
-  // chama o armazenamento antes do 1º .then
-  // então tem que garantir a ordem de execução
-}
-
-
-// 1 - Listagem de produtos;
-
-function doRequisition() {
-  // Fazendo a requisição com Fetch ( Fetch API segue o padrão de Promise):
-  const query = 'computador'; // parametro para a busca na API;
-  fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${query}`)
-
-  // .then((response) => console.log(response))//objeto response;
-  // o json() converte o conteudo do body da response e retorna outra promise.
-  .then(response => response.json())
-  /* retorna o array results da promise(deve-se iteragir com results e retornar os parâmetros da
-  funçao  `createProdutItemElement` num objeto e apensá-los no html)*/
-  // .then ((dadosEmJson) => console.log(dadosEmJson.results))
-  .then((dadosEmJson) => {
-    dadosEmJson.results.forEach((elementos) => {
-      const itemProduto = {
-        sku: elementos.id,
-        name: elementos.title,
-        image: elementos.thumbnail,
+function getProductForCarItem(event) {
+  const eventPai = event.target.parentNode;
+  const numeroSku = eventPai.children[0].innerText;
+  fetch(`https://api.mercadolibre.com/items/${numeroSku}`)
+    .then(resolve => resolve.json())
+    .then((data) => {
+      const parameter = {
+        sku: data.id,
+        name: data.title,
+        salePrice: data.price,
       };
-      document.querySelector('.items').appendChild(createProductItemElement(itemProduto));
-    });
-    // depois da criaçao de todos os botoes adiciona o evento
-    document.querySelectorAll('.item__add').forEach((elementos) => {
-      elementos.addEventListener('click', (even) => {
-        // chamando a funçao que trata dos dados q o evento me retorna
-        adiconarProdutoById(even);
-      });
-    });
-  })
-  .then(setTimeout(() => (document.querySelector('.loading').remove()), 500))
-  .catch(err => console.error('Failed retrieving information', err));
+      createCartItemElement(parameter);
+      saveProductsCart(parameter);
+    })
+    .catch(console.error);
 }
-
-function esvaziarCarrinho() {
-  document.querySelector('.cart__items').innerHTML = ' ';
-  armazenando();
+// criando a chamada do função que busca o elemento.
+function buscarElemento(result) {
+  const product = { sku: '', name: '', image: '' };
+  const produtos = result;
+  produtos.map((elem) => {
+    product.sku = elem.id;
+    product.name = elem.title;
+    product.image = elem.thumbnail;
+    document
+      .getElementById('items')
+      .appendChild(createProductItemElement(product));
+    return product;
+  });
+  const clickCart = document.querySelectorAll('.item__add');
+  clickCart.forEach(index =>
+    index.addEventListener('click', event => getProductForCarItem(event)),
+  );
+  const limparCarrinho = document.getElementsByClassName('empty-cart')[0];
+  limparCarrinho.addEventListener('click', () => {
+    const carroDeCompras = document.getElementsByClassName('cart__items')[0];
+    while (carroDeCompras.firstChild) {
+      carroDeCompras.removeChild(carroDeCompras.firstChild);
+    }
+    localStorage.clear();
+    somaProdutos({ salePrice: '0' });
+  });
 }
-
 window.onload = function onload() {
-  initial('computador');
-  const query = document.getElementById('entrada');
-  query.addEventListener('change', () => initial(query.value));
+  fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
+    .then(response => response.json())
+    .then(data => buscarElemento(data.results))
+    .catch(console.error);
   setTimeout(() => {
     document.getElementsByClassName('loading')[0].remove();
   }, 500);
   if (localStorage.carrinho) {
-    getItensLocalStorage();
+    const ItensCarrinho = getItensLocalStorage();
+    ItensCarrinho.forEach(item => createCartItemElement(item));
     somaProdutos({ salePrice: '0' });
+  } else {
+    localStorage.setItem('carrinho', '');
   }
 };
