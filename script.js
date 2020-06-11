@@ -105,7 +105,14 @@ function esvaziarCarrinho() {
 }
 
 window.onload = function onload() {
-  doRequisition();
-  document.querySelector('.empty-cart').addEventListener('click', esvaziarCarrinho);
-  document.querySelector('.cart__items').innerHTML = localStorage.getItem('produto_carrinho');
+  initial('computador');
+  const query = document.getElementById('entrada');
+  query.addEventListener('change', () => initial(query.value));
+  setTimeout(() => {
+    document.getElementsByClassName('loading')[0].remove();
+  }, 500);
+  if (localStorage.carrinho) {
+    getItensLocalStorage();
+    somaProdutos({ salePrice: '0' });
+  }
 };
