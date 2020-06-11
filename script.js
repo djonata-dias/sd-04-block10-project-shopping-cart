@@ -101,4 +101,3 @@ window.onload = async () => {
   document.querySelectorAll('li').forEach(li => li.addEventListener('click', cartItemClickListener));
   await updateCart();
 };
-
