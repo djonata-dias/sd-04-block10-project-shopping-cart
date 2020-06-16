@@ -29,7 +29,7 @@ function setarLocal() {
   document.querySelector('.cart__items').innerHTML);
 }
 
-function sub(event) {
+async function sub(event) {
   const totalSub = document.getElementsByClassName('total')[0];
   totalSub.innerHTML = parseFloat(totalSub.innerHTML) -
   parseFloat(event.target.innerHTML.substring(event.target.innerHTML.indexOf('$') + 1));
@@ -42,7 +42,7 @@ function cartItemClickListener(event) {
   sub(event);
 }
 
-function soma(a) {
+async function soma(a) {
   const totall = document.getElementsByClassName('total')[0];
   totall.innerHTML = parseFloat(totall.innerHTML) + parseFloat(a);
   return totall.innerHTML;
