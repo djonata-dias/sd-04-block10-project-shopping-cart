@@ -24,10 +24,24 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
+function setarTotal() {
+  localStorage.setItem('totalsoma',
+  document.querySelector('.total').innerHTML)
+}
+
 function setarLocal() {
   localStorage.setItem('cart_item',
   document.querySelector('.cart__items').innerHTML);
 }
+
+function supersoma(event) {
+  const totalSuper = document.getElementsByClassName('total')[0];
+  const listinha = document.querySelector('li');
+  // const listona = listinha.map((x, i) => x[i].innerHTML)
+  console.log(listinha)
+}
+
+supersoma()
 
 async function sub(event) {
   const totalSub = document.getElementsByClassName('total')[0];
@@ -38,8 +52,9 @@ async function sub(event) {
 
 function cartItemClickListener(event) {
   event.target.remove();
-  setarLocal();
   sub(event);
+  setarLocal();
+  setarTotal();
 }
 
 async function soma(a) {
@@ -78,6 +93,7 @@ function tratarClick(event) {
     document.querySelector('.cart__items').appendChild(produtoCart);
     setarLocal();
     soma(listaSegunda.salePrice);
+    setarTotal();
   });
 }
 
@@ -97,7 +113,9 @@ function novoEvento() {
   const novoRemov = document.querySelectorAll('li');
   novoRemov.forEach(x => x.addEventListener('click', (event) => {
     event.target.remove();
+    sub(event);
     setarLocal();
+    setarTotal();
   }));
 }
 
@@ -107,11 +125,22 @@ const getLocal = () => {
   novoEvento();
 };
 
+const getTotal = () => {
+  const totalS = document.getElementsByClassName('total')[0];
+  totalS.innerHTML = localStorage.getItem('totalsoma');
+}
+
 window.onload = function onload() {
+  setTimeout(() => {
+    const span = document.getElementsByClassName('container')[0]
+    span.appendChild(createCustomElement('span', 'loading', 'loading...'))
+  }, 2700)
   fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
     .then(response => response.json())
     .then(data => receberDados(data.results))
     .catch(console.error);
   getLocal();
   eventBotao();
+  getTotal();
+  this.supersoma()
 };
