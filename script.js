@@ -131,14 +131,15 @@ const getTotal = () => {
 };
 
 window.onload = function onload() {
+  const span = document.getElementsByClassName('container')[0];
+  span.appendChild(createCustomElement('span', 'loading', 'loading...'));
   setTimeout(() => {
-    const span = document.getElementsByClassName('container')[0];
-    span.appendChild(createCustomElement('span', 'loading', 'loading...'));
-  }, 2700);
-  fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
+    fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
     .then(response => response.json())
     .then(data => receberDados(data.results))
     .catch(console.error);
+    document.getElementsByClassName('loading')[0].remove()
+  }, 2700);
   getLocal();
   eventBotao();
   getTotal();
