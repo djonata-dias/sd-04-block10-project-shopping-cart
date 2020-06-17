@@ -138,7 +138,7 @@ window.onload = function onload() {
     .then(response => response.json())
     .then(data => receberDados(data.results))
     .catch(console.error);
-    document.getElementsByClassName('loading')[0].remove()
+    document.getElementsByClassName('loading')[0].remove();
   }, 2700);
   getLocal();
   eventBotao();
