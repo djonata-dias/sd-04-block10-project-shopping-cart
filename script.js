@@ -26,7 +26,7 @@ function createProductItemElement({ sku, name, image }) {
 
 function setarTotal() {
   localStorage.setItem('totalsoma',
-  document.querySelector('.total').innerHTML)
+  document.querySelector('.total').innerHTML);
 }
 
 function setarLocal() {
@@ -34,14 +34,14 @@ function setarLocal() {
   document.querySelector('.cart__items').innerHTML);
 }
 
-function supersoma(event) {
-  const totalSuper = document.getElementsByClassName('total')[0];
-  const listinha = document.querySelector('li');
-  // const listona = listinha.map((x, i) => x[i].innerHTML)
-  console.log(listinha)
-}
+// function supersoma(event) {
+//   const totalSuper = document.getElementsByClassName('total')[0];
+//   const listinha = document.querySelector('li');
+//   // const listona = listinha.map((x, i) => x[i].innerHTML)
+//   console.log(listinha)
+// }
 
-supersoma()
+// supersoma()
 
 async function sub(event) {
   const totalSub = document.getElementsByClassName('total')[0];
@@ -128,13 +128,13 @@ const getLocal = () => {
 const getTotal = () => {
   const totalS = document.getElementsByClassName('total')[0];
   totalS.innerHTML = localStorage.getItem('totalsoma');
-}
+};
 
 window.onload = function onload() {
   setTimeout(() => {
-    const span = document.getElementsByClassName('container')[0]
-    span.appendChild(createCustomElement('span', 'loading', 'loading...'))
-  }, 2700)
+    const span = document.getElementsByClassName('container')[0];
+    span.appendChild(createCustomElement('span', 'loading', 'loading...'));
+  }, 2700);
   fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
     .then(response => response.json())
     .then(data => receberDados(data.results))
@@ -142,5 +142,4 @@ window.onload = function onload() {
   getLocal();
   eventBotao();
   getTotal();
-  this.supersoma()
 };
