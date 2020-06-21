@@ -50,7 +50,7 @@ function cartItemClickListener(event) {
 
 async function soma(a) {
   const totall = document.getElementsByClassName('total-price')[0];
-  totall.innerHTML = (parseFloat(totall.innerHTML) + parseFloat(a)).toFixed(2);
+  totall.innerHTML = parseFloat(totall.innerHTML) + parseFloat(a);
   return totall.innerHTML;
 }
 
