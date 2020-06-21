@@ -38,7 +38,7 @@ async function sub(event) {
   const totalSub = document.getElementsByClassName('total-price')[0];
   totalSub.innerHTML = parseFloat(totalSub.innerHTML -
   event.target.innerHTML.substring(event.target.innerHTML.indexOf('$') + 1));
-  return totalSub.innerHTML;
+  return toString(totalSub.innerHTML);
 }
 
 function cartItemClickListener(event) {
@@ -51,7 +51,7 @@ function cartItemClickListener(event) {
 async function soma(a) {
   const totall = document.getElementsByClassName('total-price')[0];
   totall.innerHTML = parseFloat(Number(totall.innerHTML) + Number(a));
-  return totall.innerHTML;
+  return toString(totall.innerHTML);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
