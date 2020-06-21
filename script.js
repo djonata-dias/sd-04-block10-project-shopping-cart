@@ -36,8 +36,8 @@ function setarLocal() {
 
 async function sub(event) {
   const totalSub = document.getElementsByClassName('total-price')[0];
-  totalSub.innerHTML = Math.round(parseFloat(totalSub.innerHTML) -
-  parseFloat(event.target.innerHTML.substring(event.target.innerHTML.indexOf('$') + 1)));
+  totalSub.innerHTML = parseFloat(totalSub.innerHTML) -
+  parseFloat(event.target.innerHTML.substring(event.target.innerHTML.indexOf('$') + 1));
   return totalSub.innerHTML;
 }
 
@@ -50,7 +50,7 @@ function cartItemClickListener(event) {
 
 async function soma(a) {
   const totall = document.getElementsByClassName('total-price')[0];
-  totall.innerHTML = Math.round(parseFloat(totall.innerHTML) + parseFloat(a));
+  totall.innerHTML = parseFloat(totall.innerHTML) + parseFloat(a);
   return totall.innerHTML;
 }
 
