@@ -34,15 +34,6 @@ function setarLocal() {
   document.querySelector('.cart__items').innerHTML);
 }
 
-// function supersoma(event) {
-//   const totalSuper = document.getElementsByClassName('total')[0];
-//   const listinha = document.querySelector('li');
-//   // const listona = listinha.map((x, i) => x[i].innerHTML)
-//   console.log(listinha)
-// }
-
-// supersoma()
-
 async function sub(event) {
   const totalSub = document.getElementsByClassName('total-price')[0];
   totalSub.innerHTML = parseFloat(totalSub.innerHTML) -
