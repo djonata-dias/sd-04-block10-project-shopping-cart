@@ -26,7 +26,7 @@ function createProductItemElement({ sku, name, image }) {
 
 function setarTotal() {
   localStorage.setItem('totalsoma',
-  document.querySelector('.total').innerHTML);
+  document.querySelector('.total-price').innerHTML);
 }
 
 function setarLocal() {
@@ -44,9 +44,11 @@ function setarLocal() {
 // supersoma()
 
 async function sub(event) {
-  const totalSub = document.getElementsByClassName('total')[0];
+  const totalSub = document.getElementsByClassName('total-price')[0];
   totalSub.innerHTML = parseFloat(totalSub.innerHTML) -
   parseFloat(event.target.innerHTML.substring(event.target.innerHTML.indexOf('$') + 1));
+  console.log(typeof totalSub.innerHTML)
+  console.log(totalSub.innerHTML)
   return totalSub.innerHTML;
 }
 
@@ -58,8 +60,9 @@ function cartItemClickListener(event) {
 }
 
 async function soma(a) {
-  const totall = document.getElementsByClassName('total')[0];
+  const totall = document.getElementsByClassName('total-price')[0];
   totall.innerHTML = parseFloat(totall.innerHTML) + parseFloat(a);
+  console.log(typeof totall.innerHTML)
   return totall.innerHTML;
 }
 
@@ -76,7 +79,7 @@ function eventBotao() {
   b.addEventListener('click', () => {
     document.getElementsByClassName('cart__items')[0].innerHTML = ' ';
     localStorage.clear();
-    document.getElementsByClassName('total')[0].innerHTML = 0;
+    document.getElementsByClassName('total-price')[0].innerHTML = 0;
   });
 }
 
@@ -126,7 +129,7 @@ const getLocal = () => {
 };
 
 const getTotal = () => {
-  const totalS = document.getElementsByClassName('total')[0];
+  const totalS = document.getElementsByClassName('total-price')[0];
   totalS.innerHTML = localStorage.getItem('totalsoma');
 };
 
