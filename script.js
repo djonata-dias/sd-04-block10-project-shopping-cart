@@ -4,7 +4,6 @@ function createProductImageElement(imageSource) {
   img.src = imageSource;
   return img;
 }
-
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
   e.className = className;
@@ -17,7 +16,7 @@ function setLoading(enable) {
     document.getElementsByClassName('items')[0]
       .appendChild(createCustomElement('p', 'loading', 'Loading...'));
   } else {
-    document.getElementsByClassName('loading')[0].remove();
+    document.querySelectorAll('.loading')[0].remove();
   }
 }
 const priceCart = () => {
