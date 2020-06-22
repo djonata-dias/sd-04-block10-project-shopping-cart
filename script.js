@@ -16,7 +16,7 @@ function setLoading(enable) {
     document.getElementsByClassName('items')[0]
       .appendChild(createCustomElement('p', 'loading', 'Loading...'));
   } else {
-    document.querySelectorAll('.loading')[0].remove();
+    document.getElementsByClassName('loading')[0].remove();
   }
 }
 const priceCart = () => {
