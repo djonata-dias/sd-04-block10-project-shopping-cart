@@ -9,8 +9,16 @@ function createCustomElement(element, className, innerText) {
   e.className = className;
   e.innerText = innerText;
   return e;
-}
+};
 
+function setLoading(enable) {
+  if (enable) {
+    document.getElementsByClassName('items')[0]
+      .appendChild(createCustomElement('p', 'loading', 'Loading...'));
+  } else {
+    document.getElementsByClassName('loading')[0].remove();
+  }
+}
 const priceCart = () => {
   const cartItem = document.querySelectorAll('.cart__item');
   const cartPrice = document.querySelector('.total-price');
@@ -34,10 +42,6 @@ function cartItemClickListener(event) {
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
-  document.querySelector('.loading').remove();
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
