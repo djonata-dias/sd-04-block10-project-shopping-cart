@@ -80,6 +80,7 @@ window.onload = async () => {
         },
         ));
     });
+    document.querySelector('.loading').remove();
   });
   document.getElementsByClassName('empty-cart')[0].addEventListener('click', async () => {
     document.getElementsByClassName('cart__items')[0].innerHTML = '';
@@ -88,5 +89,5 @@ window.onload = async () => {
   document.getElementsByClassName('cart__items')[0].innerHTML = localStorage.getItem('Cart_items');
   document.querySelectorAll('li').forEach(li => li.addEventListener('click', cartItemClickListener));
   await updateCart();
-  document.querySelector('.loading').remove();
+
 };
