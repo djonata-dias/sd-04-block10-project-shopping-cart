@@ -48,6 +48,7 @@ function createCartItemElement(sku, name, salePrice) {
 }
 window.onload = async function onload() {
   const items = (await api()).results;
+  document.getElementsByClassName('loading')[0].remove()
   items.forEach((item) => createProductItemElement(item));
   console.log(items);
 
