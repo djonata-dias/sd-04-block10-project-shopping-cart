@@ -1,24 +1,20 @@
 import requestAPI from './helpers/requestAPI.js';
 
-const api = async () => await requestAPI('https://api.mercadolibre.com/sites/MLB/search?q=$computador');
+const api = async () => {
+  document.getElementsByClassName('loading')[0].remove();
+  return (
+    await requestAPI('https://api.mercadolibre.com/sites/MLB/search?q=$computador')
+  )
+};
 const cart = document.getElementsByClassName('cart__items')[0];
 const totalPrice = document.getElementsByClassName('total-price')[0];
-const storageCart = localStorage.getItem('shoppingCart');
-const updateCart = () => {
-  if (!storageCart) {
-    localStorage.setItem('shoppingCart', '[]')
-  }
-  console.log(storageCart);
-  const newCart = [...cart.childNodes].map(item => (item.innerHTML))
-
-  console.log(newCart);
-  console.log(([JSON.stringify(...cart.childNodes)]));
-  [...cart.childNodes].forEach(item => console.log(item.innerHTML))
-
-  // localStorage.setItem('shoppingCart', [...cart.childNodes])
-  console.log(storageCart);
-
+const storageCart = JSON.parse(localStorage.getItem('shoppingCart'));
+const cartArray = storageCart ? storageCart : [];
+const updateCart = (array) => {
+  if (!cartArray.length) localStorage.setItem('shoppingCart', JSON.stringify([]));
+  localStorage.setItem('shoppingCart', JSON.stringify([...array]));
 }
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -50,13 +46,15 @@ function getSkuFromProductItem(item) {
 }
 
 async function cartItemClickListener(event, salePrice) {
-  console.log(cart);
   totalPrice.innerText = +totalPrice.innerText - salePrice
+  console.log(event.target.innerHTML);
+  cartArray.forEach((item, index) => {
+    if (item === event.target.innerHTML) {
+      cartArray.splice(index, 1)
+    }
+  })
   await event.target.remove()
-
-  updateCart()
-  console.log(event.target);
-  // coloque seu código aqui
+  updateCart(cartArray)
 }
 
 function createCartItemElement(sku, name, salePrice) {
@@ -64,15 +62,26 @@ function createCartItemElement(sku, name, salePrice) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', (e) => cartItemClickListener(e, salePrice));
-  cart.appendChild(li);
+  cart.appendChild(li)
+  cartArray.push(li.innerHTML)
+  updateCart(cartArray)
   totalPrice.innerText = +totalPrice.innerText + salePrice
-  updateCart()
-
+}
+const setInitialItens = () => {
+  cartArray.forEach(item => {
+    const li = document.createElement('li');
+    const salePrice = +item.split('| PRICE: $')[1]
+    li.className = 'cart__item';
+    li.innerText = item;
+    li.addEventListener('click', (e) => cartItemClickListener(e, salePrice));
+    cart.appendChild(li)
+    totalPrice.innerText = +totalPrice.innerText + salePrice
+  })
 }
 window.onload = async function onload() {
   const items = (await api()).results;
-  document.getElementsByClassName('loading')[0].remove()
   items.forEach((item) => createProductItemElement(item));
   console.log(items);
-  console.log('mount');
+  updateCart(cartArray)
+  await setInitialItens()
 };
