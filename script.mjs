@@ -1,8 +1,10 @@
 import requestAPI from './helpers/requestAPI.js';
 
 const api = async () => {
-  await requestAPI('https://api.mercadolibre.com/sites/MLB/search?q=$computador')
-  await document.getElementsByClassName('loading')[0].remove();
+  return (
+    document.getElementsByClassName('loading')[0].remove(),
+    await requestAPI('https://api.mercadolibre.com/sites/MLB/search?q=$computador')
+  )
 };
 const cart = document.getElementsByClassName('cart__items')[0];
 const totalPrice = document.getElementsByClassName('total-price')[0];
