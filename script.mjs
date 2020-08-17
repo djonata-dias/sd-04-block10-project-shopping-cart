@@ -1,10 +1,8 @@
 import requestAPI from './helpers/requestAPI.js';
 
 const api = async () => {
-  document.getElementsByClassName('loading')[0].remove();
-  return (
-    await requestAPI('https://api.mercadolibre.com/sites/MLB/search?q=$computador')
-  )
+  await requestAPI('https://api.mercadolibre.com/sites/MLB/search?q=$computador')
+  await document.getElementsByClassName('loading')[0].remove();
 };
 const cart = document.getElementsByClassName('cart__items')[0];
 const totalPrice = document.getElementsByClassName('total-price')[0];
@@ -57,7 +55,7 @@ async function cartItemClickListener(event, salePrice) {
   updateCart(cartArray)
 }
 
-function createCartItemElement(sku, name, salePrice) {
+async function createCartItemElement(sku, name, salePrice) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
@@ -67,7 +65,7 @@ function createCartItemElement(sku, name, salePrice) {
   updateCart(cartArray)
   totalPrice.innerText = +totalPrice.innerText + salePrice
 }
-const setInitialItens = () => {
+const setInitialItens = async () => {
   cartArray.forEach(item => {
     const li = document.createElement('li');
     const salePrice = +item.split('| PRICE: $')[1]
@@ -78,10 +76,11 @@ const setInitialItens = () => {
     totalPrice.innerText = +totalPrice.innerText + salePrice
   })
 }
+
 window.onload = async function onload() {
   const items = (await api()).results;
   items.forEach((item) => createProductItemElement(item));
   console.log(items);
   updateCart(cartArray)
-  await setInitialItens()
+  setInitialItens()
 };
