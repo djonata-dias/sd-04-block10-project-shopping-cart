@@ -1,7 +1,24 @@
 import requestAPI from './helpers/requestAPI.js';
 
 const api = async () => await requestAPI('https://api.mercadolibre.com/sites/MLB/search?q=$computador');
+const cart = document.getElementsByClassName('cart__items')[0];
+const totalPrice = document.getElementsByClassName('total-price')[0];
+const storageCart = localStorage.getItem('shoppingCart');
+const updateCart = () => {
+  if (!storageCart) {
+    localStorage.setItem('shoppingCart', '[]')
+  }
+  console.log(storageCart);
+  const newCart = [...cart.childNodes].map(item => (item.innerHTML))
 
+  console.log(newCart);
+  console.log(([JSON.stringify(...cart.childNodes)]));
+  [...cart.childNodes].forEach(item => console.log(item.innerHTML))
+
+  // localStorage.setItem('shoppingCart', [...cart.childNodes])
+  console.log(storageCart);
+
+}
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -25,7 +42,6 @@ function createProductItemElement({ id, title, thumbnail, price }) {
   section.appendChild(createProductImageElement(thumbnail));
   const addCart = section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
   addCart.addEventListener('click', () => createCartItemElement(id, title, price))
-  console.log(addCart);
   return list.appendChild(section);
 }
 
@@ -33,17 +49,24 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-function cartItemClickListener(event) {
+async function cartItemClickListener(event, salePrice) {
+  console.log(cart);
+  totalPrice.innerText = +totalPrice.innerText - salePrice
+  await event.target.remove()
+
+  updateCart()
+  console.log(event.target);
   // coloque seu código aqui
 }
 
 function createCartItemElement(sku, name, salePrice) {
-  const cart = document.getElementsByClassName('cart__items')[0];
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
-  return cart.appendChild(li);
+  li.addEventListener('click', (e) => cartItemClickListener(e, salePrice));
+  cart.appendChild(li);
+  totalPrice.innerText = +totalPrice.innerText + salePrice
+  updateCart()
 
 }
 window.onload = async function onload() {
@@ -51,5 +74,5 @@ window.onload = async function onload() {
   document.getElementsByClassName('loading')[0].remove()
   items.forEach((item) => createProductItemElement(item));
   console.log(items);
-
+  console.log('mount');
 };
