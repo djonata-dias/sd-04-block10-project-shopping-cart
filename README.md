@@ -93,7 +93,7 @@ Você deve criar uma listagem de produtos que devem ser consultados através da 
 
 Você deve utilizar o _endpoint_:
 ```javascript
-"https://api.mercadolibre.com/sites/MLB/search?q=$QUERY"
+"https://api.mercadolibre.com/sites/MLB/search?q=$computador"
 ```
 onde `$QUERY` deve ser o valor da sua busca. Para este trabalho, a busca deve ser o termo `computador`.
 
