@@ -66,7 +66,7 @@ async function createCartItemElement(sku, name, salePrice) {
   cart.appendChild(li);
   cartArray.push(li.innerHTML);
   updateCart(cartArray);
-  totalPrice.innerText = (+totalPrice.innerText + salePrice);
+  totalPrice.innerText = (+totalPrice.innerText + +(salePrice).toFixed(2));
 }
 const setInitialItens = () => {
   cartArray.forEach(async item => {
@@ -76,18 +76,19 @@ const setInitialItens = () => {
     li.innerText = item;
     li.addEventListener('click', (e) => cartItemClickListener(e, salePrice));
     await cart.appendChild(li);
-    totalPrice.innerText = (+totalPrice.innerText + salePrice);
+    totalPrice.innerText = (+totalPrice.innerText + +(salePrice).toFixed(2));
   })
 }
 const cleanCart = () => {
   cartArray = []
   cart.innerHTML = cartArray;
   updateCart([])
+  totalPrice.innerText = +0;
 }
 cleanButton.addEventListener('click', () => cleanCart());
 window.onload = async function onload() {
   const items = (await api()).results;
-  loading.remove();
+  setTimeout(() => { loading.remove(); }, 500)
   setInitialItens();
   items.forEach((item) => createProductItemElement(item));
 };
